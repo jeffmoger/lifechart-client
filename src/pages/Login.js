@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { useAuth } from "../context/auth";
 
 
-const LoginForm = (props) => {
+const Login = (props) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
@@ -62,8 +62,7 @@ const LoginForm = (props) => {
 
   async function fetchAuthentication(email, password) {
     try {
-      const r = await window
-        .fetch('/api/users/login', {
+      const r = await fetch('/api/users/login', {
           method: 'POST',
           headers: {
             'content-type': 'application/json',
@@ -83,4 +82,4 @@ const LoginForm = (props) => {
     }
   }
 
-export default LoginForm
+export default Login

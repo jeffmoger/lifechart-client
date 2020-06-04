@@ -17,6 +17,29 @@ function Settings(props) {
     )
 }
 
+
+async function refreshDataWithGoogle(email, password) {
+  try {
+    const r = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          "user": {
+            "email": email,
+            "password": password
+          }
+        }),
+      });
+    const response = await r.json();
+    return response;
+  }
+  catch (err) {
+    return console.log(err);
+  }
+}
+
 export default Settings;
 
 

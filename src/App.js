@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import PrivateRoute from './components/PrivateRoute';
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
-import LoginForm from './pages/LoginForm'
+import Login from './pages/Login'
 import { AuthContext } from "./context/auth";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
       <div className="container">
         <div className="row">
           <Route exact path="/" component={Home} />
-          <Route path="/login" component={LoginForm} />
+          <Route path="/login" component={Login} />
           <PrivateRoute path="/settings" component={Settings} />
         </div>
       </div>
