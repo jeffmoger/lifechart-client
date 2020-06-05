@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState } from 'react';
 import { Redirect } from "react-router-dom";
 import { useAuth } from "../context/auth";
 
@@ -28,6 +28,12 @@ const Login = (props) => {
       })
     event.preventDefault();
   }
+
+  function Error() {
+    return (
+      <pre style={{color: 'red'}}>TODO: error handling needed.</pre>
+    )
+  }
   if(!isLoggedIn) {
     return (
       <div id="form-container" className="eleven columns" style={{marginTop: '5%'}}>
@@ -52,6 +58,7 @@ const Login = (props) => {
         <br />
         <button type="submit" className="button-primary">Submit</button>
       </form>
+      {isError ? <Error /> : null }
     </div>
     )
   } else {
