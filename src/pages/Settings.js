@@ -2,12 +2,12 @@ import React from "react";
 import Nav from '../components/Nav'
 
 function Settings(props) {
-  const { token } = JSON.parse(localStorage.getItem("tokens"));
+  const { id, token } = JSON.parse(localStorage.getItem("tokens"));
 
   function handleClick() {
-    refreshDataWithGoogle(token)
+    refreshDataWithGoogle(id, token)
     .then(response => {
-      localStorage.setItem('changes', JSON.stringify(response));
+      localStorage.setItem('data', JSON.stringify(response));
     })
   }
   
@@ -23,13 +23,14 @@ function Settings(props) {
 }
 
 
-async function refreshDataWithGoogle(token) {
+async function refreshDataWithGoogle(id, token) {
   try {
-    const r = await fetch('/api/data', {
+    const r = await fetch('/api/get_token', {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
-          'authorization': 'Token ' + token
+          'authorization': 'Token ' + token,
+          'id': id
         },
       });
     const response = await r.json();
