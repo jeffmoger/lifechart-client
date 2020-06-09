@@ -1,15 +1,52 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import Nav from '../components/Nav'
+import Switch from '../components/Switch'
+
+
 
 function Settings(props) {
-  const { id, token } = JSON.parse(localStorage.getItem("tokens"));
 
-  function handleClick() {
-    refreshDataWithGoogle(id, token)
-    .then(response => {
-      localStorage.setItem('data', JSON.stringify(response));
-    })
+  //const { id, token, googleFit } = JSON.parse(localStorage.getItem("tokens"));
+  const [tokens, setTokens] = useState(JSON.parse(localStorage.getItem("tokens")))
+  const [checkedA, setCheckedA] = useState(false);
+  const [googleUrl, setGoogleUrl] = useState('');
+
+  useEffect(() => {
+    if (!tokens.googleFit && tokens.googleSwitch) {
+      console.log('ready to call google code button')
+      if(!googleUrl) {
+        refreshDataWithGoogle(tokens.id, tokens.token)
+        .then(response => setGoogleUrl(response))
+      }
+    }
+    if(tokens.googleFit || tokens.googleSwitch) {
+      setCheckedA(true)
+    }
+  }, [
+    tokens.googleSwitch,
+    tokens.googleFit,
+    googleUrl,
+    tokens.id,
+    tokens.token 
+  ])
+
+  
+  function handleSwitchChange(checkedA) {
+    setCheckedA(checkedA.checkedA)
+    setTokens({...tokens, googleSwitch: checkedA.checkedA, updated: new Date().getTime()})
+    localStorage.setItem("tokens", JSON.stringify(
+      {...tokens, googleSwitch: checkedA.checkedA, updated: new Date().getTime()}
+      ))
   }
+
+  const GoogleCodeButton = (url) => {
+    return (
+      <a href={url}>Google Auth</a>
+    )
+  }
+
+
+
   
   
   return (
@@ -17,7 +54,9 @@ function Settings(props) {
       <Nav />
       <h3>Settings</h3>
       <p>Manage data sync with Google here.</p>
-      <button onClick={handleClick}>Refresh Data</button>
+      <Switch label='Connect to Google Fit' color='primary' name='checkedA' checkedA={checkedA} onSwitchChange={handleSwitchChange} />
+      {googleUrl && tokens.googleSwitch ? <a href={googleUrl}>link</a>:null}
+      <div id="response"></div>
     </div>
     )
 }
@@ -25,7 +64,7 @@ function Settings(props) {
 
 async function refreshDataWithGoogle(id, token) {
   try {
-    const r = await fetch('/api/get_token', {
+    const r = await fetch('api/get_google_token', {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
