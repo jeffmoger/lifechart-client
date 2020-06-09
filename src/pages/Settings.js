@@ -1,18 +1,21 @@
 import React, {useState, useEffect } from "react";
 import Nav from '../components/Nav'
 import Switch from '../components/Switch'
+import queryString from 'query-string'
 
 
 
 function Settings(props) {
 
   //const { id, token, googleFit } = JSON.parse(localStorage.getItem("tokens"));
+  const stringValues = queryString.parse(props.location.search)
   const [tokens, setTokens] = useState(JSON.parse(localStorage.getItem("tokens")))
   const [checkedA, setCheckedA] = useState(false);
   const [googleUrl, setGoogleUrl] = useState('');
+  const [googleCode, setGoogleCode] = useState('');
 
   useEffect(() => {
-    if (!tokens.googleFit && tokens.googleSwitch) {
+    if (!tokens.googleFit && !googleCode && tokens.googleSwitch) {
       console.log('ready to call google code button')
       if(!googleUrl) {
         refreshDataWithGoogle(tokens.id, tokens.token)
@@ -27,8 +30,14 @@ function Settings(props) {
     tokens.googleFit,
     googleUrl,
     tokens.id,
-    tokens.token 
+    tokens.token,
+    googleCode
   ])
+
+  useEffect(() => {
+    stringValues.code && setGoogleCode(stringValues.code)
+  },[stringValues.code])
+
 
   
   function handleSwitchChange(checkedA) {
@@ -39,9 +48,9 @@ function Settings(props) {
       ))
   }
 
-  const GoogleCodeButton = (url) => {
+  const GoogleCodeButton = (props) => {
     return (
-      <a href={url}>Google Auth</a>
+      <a href={props.url} className='button button-primary'>Authenticate with Google</a>
     )
   }
 
@@ -55,7 +64,7 @@ function Settings(props) {
       <h3>Settings</h3>
       <p>Manage data sync with Google here.</p>
       <Switch label='Connect to Google Fit' color='primary' name='checkedA' checkedA={checkedA} onSwitchChange={handleSwitchChange} />
-      {googleUrl && tokens.googleSwitch ? <a href={googleUrl}>link</a>:null}
+      {googleUrl && tokens.googleSwitch && !googleCode ? <GoogleCodeButton url={googleUrl} />:null}
       <div id="response"></div>
     </div>
     )
