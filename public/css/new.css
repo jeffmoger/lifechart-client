@@ -1,0 +1,187 @@
+* {
+    box-sizing:border-box;
+    padding:0;
+    margin:0;
+}
+
+body {
+    background-color:#FFF;
+}
+
+nav {
+    background-color: #333333;
+}
+ul {
+    list-style-type: none;
+}
+
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin: 0;
+  font-size: 90%; }
+li {
+  margin-bottom: 0; }
+
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.menu li {
+    font-size: 100%;
+    padding: 3px 5px;
+}
+
+.menu li a {
+    color: #FFF;
+    display: block;
+}
+
+.logo a {
+    font-size: 120%;
+    width: auto;
+}
+
+.button.secondary {
+    border-bottom: 1px #444 solid;
+}
+
+/* Mobile Menu*/
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.toggle {
+    order: 1;
+}
+.item.button {
+    order:2;
+}
+.item {
+    width: 100%;
+    text-align: center;
+    order: 3;
+    display: none
+}
+.item.active{
+    display:block;
+}
+
+
+
+.toggle {
+    cursor: pointer;
+}
+.bars {
+    background-color: #999;
+    display: inline-block;
+    height: 2px;
+    position:relative;
+    width: 18px;
+}
+.bars::before,
+.bars::after{
+    background-color: #999;
+    content:"";
+    display: inline-block;
+    height: 2px;
+    position:absolute;
+    width: 18px;
+}
+.bars::before {
+    top:5px;
+}
+.bars::after {
+    top:-5px;
+}
+
+/* tablet menu */
+
+@media all and (min-width: 468px) {
+    .menu{
+        justify-content: center;
+    }
+    .logo {
+        flex: 1;
+    }
+    .item.button{
+        width: auto;
+        order: 1;
+        display:block;
+    }
+    .toggle{
+        order: 2;
+    }
+    .button.secondary{
+        border: 0;
+    }
+    .button a {
+        text-decoration: none;
+        padding: 7px 15px;
+        background-color: teal;
+        border: 1px solid #006d6d;
+        border-radius:50em;
+    }
+    .button.secondary a {
+        background: transparent
+    }
+    .button a:hover { 
+        transition:all .25s;
+    }
+    .button:not(.secondary) a:hover{
+        background:#006d6d;
+        border-color:#005959;
+    }
+    .button.secondary a:hover {
+        color:#ddd;
+    }
+}
+
+@media all and (min-width:768px) {
+    .item{
+        display:block;
+        width:auto;
+    }
+    .toggle{
+        display:none;
+    }
+    .logo {
+        order:0;
+    }
+    .item {
+        order:1;
+    }
+    .button {
+        order: 2;
+    }
+
+    .menu li {
+        padding: 2px 10px;
+    }
+    .menu li.button{
+        padding-right: 0;
+    }
+}
+
+
+footer {
+    text-align:center;
+    background-color: #000000;
+    padding: .5em
+}
+footer a {
+    text-decoration: none;
+    color: #9bacb6;
+    font-size: 90%;
+}
+
+.hide {
+    display: none;
+}

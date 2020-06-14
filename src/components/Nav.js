@@ -6,29 +6,38 @@ function Nav() {
   const { setAuthTokens } = useAuth();
   const isAuthenticated = useAuth();
   
-  function logOut() {
+  function logOut(event) {
     setAuthTokens();
     window.localStorage.removeItem('tokens');
+    event.preventDefault();
   }
 
-  const isAuthMenu = (
+  const isAuth = (
     <>
-      <Link to="/">home</Link> | <Link to="/settings">settings</Link> | <button className='logout' onClick={logOut}>logout</button>
+      <Link to="/login" onClick={logOut}>Logout</Link>
     </>
   )
 
-  const notAuthMenu = (
+  const notAuth = (
     <>
-      <Link to="/">home</Link> | <Link to="/login">login</Link>
+      <Link to="/login">Login</Link>
     </>
   )
     
   return (
-    <div className="row">
+      
       <nav>
-        {isAuthenticated.authTokens? isAuthMenu : notAuthMenu}
+        <ul className="menu">
+          <li class="logo"><Link to="/">Health Tracker</Link></li>
+          <li class="item hide"><Link to="/">Home</Link></li>
+          <li class="item hide"><a href="/about">About</a></li>
+          <li class="item"><Link to="/settings">Settings</Link></li>
+          <li class="item">{isAuthenticated.authTokens? isAuth : notAuth}</li>
+          <li class="item hide"><a href="/signup">Signup</a></li>
+          <li class="toggle"><span class="bars"></span></li>
+          
+        </ul>
       </nav>
-    </div>
   )
 }
 
