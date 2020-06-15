@@ -38,12 +38,11 @@ a:hover {
 
 .menu li a {
     color: #FFF;
-    display: block;
+    
 }
 
 .logo a {
     font-size: 120%;
-    width: auto;
 }
 
 .button.secondary {
@@ -57,6 +56,9 @@ a:hover {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+}
+.logo {
+    text-align:center;
 }
 .toggle {
     order: 1;
@@ -73,8 +75,6 @@ a:hover {
 .item.active{
     display:block;
 }
-
-
 
 .toggle {
     cursor: pointer;
@@ -110,6 +110,10 @@ a:hover {
     }
     .logo {
         flex: 1;
+        text-align:center;
+    }
+    .logo a {
+        width: auto;
     }
     .item.button{
         width: auto;
@@ -154,6 +158,10 @@ a:hover {
     }
     .logo {
         order:0;
+        text-align:left;
+    }
+    .logo a {
+        width: auto;
     }
     .item {
         order:1;
