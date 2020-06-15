@@ -5,9 +5,9 @@ export default function Data(props) {
     console.log('Rendering Data')
     console.log(props)
     return (
-        <div id="main-container" className="eleven columns" style={{marginTop: '5%'}}>
+        <main>
       <Nav />
       <h3>Data</h3>
-    </div>
+    </main>
     )
 }

@@ -99,7 +99,7 @@ function Settings(props) {
 
   
   return (
-    <div id="main-container" className="eleven columns" style={{marginTop: '5%'}}>
+    <main>
       <h3>Settings</h3>
       <p>Manage data sync with Google here.</p>
       <Switch label='Connect to Google Fit' color='primary' name='googleSwitch' googleSwitch={googleSwitch} onSwitchChange={handleSwitchChange} />
@@ -108,7 +108,7 @@ function Settings(props) {
       {!googleFit && !googleCode && googleUrl && googleSwitch ? <GoogleCodeButton url={googleUrl} />:null}
       {googleCode && !googleAuth ? <Redirect to='/settings' />:null}
       <div id="response"></div>
-    </div>
+    </main>
     )
 }
 

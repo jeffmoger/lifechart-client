@@ -8,6 +8,10 @@ body {
     background-color:#FFF;
 }
 
+main {
+    padding-top: 25px;
+}
+
 nav {
     background-color: #333333;
 }

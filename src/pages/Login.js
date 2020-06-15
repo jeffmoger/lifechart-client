@@ -36,7 +36,7 @@ const Login = (props) => {
   }
   if(!isLoggedIn) {
     return (
-      <div id="form-container" className="eleven columns" style={{marginTop: '5%'}}>
+      <main>
       <h3>login</h3>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">email: </label>
@@ -59,7 +59,7 @@ const Login = (props) => {
         <button type="submit" className="button-primary">Submit</button>
       </form>
       {isError ? <Error /> : null }
-    </div>
+    </main>
     )
   } else {
     return <Redirect to={'/settings'} />

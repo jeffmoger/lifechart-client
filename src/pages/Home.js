@@ -11,11 +11,11 @@ function Home(props) {
     </>
   )
   return (
-    <div id="main-container" className="eleven columns" style={{marginTop: '5%'}}>
+    <main>
       <h3>Home</h3>
       {isAuthenticated.authTokens? <HomeCharts /> : notAuthMessage }
       <div id="data"></div>
-    </div>
+    </main>
     )
 }
 

@@ -11,10 +11,10 @@ function Admin(props) {
   //console.log(props)
 
   return (
-    <div id="main-container" className="eleven columns" style={{marginTop: '5%'}}>
+    <main>
       <h3>Admin</h3>
       <button onClick={logOut}>Log out</button>
-    </div>
+    </main>
     )
 }
 
