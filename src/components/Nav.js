@@ -28,14 +28,13 @@ function Nav() {
       
       <nav>
         <ul className="menu">
-          <li class="logo"><Link to="/">Health Tracker</Link></li>
-          <li class="item hide"><Link to="/">Home</Link></li>
-          <li class="item hide"><a href="/about">About</a></li>
-          <li class="item"><Link to="/settings">Settings</Link></li>
-          <li class="item">{isAuthenticated.authTokens? isAuth : notAuth}</li>
-          <li class="item hide"><a href="/signup">Signup</a></li>
-          <li class="toggle"><span class="bars"></span></li>
-          
+          <li className="logo"><Link to="/">Health Tracker</Link></li>
+          <li className="item hide"><Link to="/">Home</Link></li>
+          <li className="item hide"><a href="/about">About</a></li>
+          <li className="item"><Link to="/settings">Settings</Link></li>
+          <li className="item">{isAuthenticated.authTokens? isAuth : notAuth}</li>
+          <li className="item hide"><a href="/signup">Signup</a></li>
+          <li className="toggle"><span className="bars"></span></li>
         </ul>
       </nav>
   )
