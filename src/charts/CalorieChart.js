@@ -12,7 +12,6 @@ const wrapperStyle = {
 
 
 export default class CalorieChart extends PureComponent {
-  
 
   render() {
     const { calorieChart } = this.props.data.chartData

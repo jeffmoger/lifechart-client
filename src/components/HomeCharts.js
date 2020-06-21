@@ -53,8 +53,12 @@ const HomeCharts = (props) => {
     return (
       <div>
         <div className="card">
-          <AverageCaloriesBurned />
-          {chartData ? <CalorieChart data={chartData} />: null}
+          
+          {chartData ? 
+            <>
+              <AverageCaloriesBurned data = {chartData}/>
+              <CalorieChart data={chartData} />
+            </>: null}
         </div>
       </div>
     )
