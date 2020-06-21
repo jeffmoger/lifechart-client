@@ -20,16 +20,16 @@ function App() {
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
-      <Nav />
-      <div className="container">
-        <div className="row">
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <PrivateRoute path="/settings" component={Settings} />
+        <Nav />
+        <div className="container">
+          <div className="row">
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <PrivateRoute path="/settings" component={Settings} />
+          </div>
         </div>
-      </div>
-      <Footer />
-    </Router>
+        <Footer />
+      </Router>
     </AuthContext.Provider>
   );
 }

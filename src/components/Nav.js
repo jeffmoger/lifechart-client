@@ -25,9 +25,8 @@ function Nav() {
   )
     
   return (
-      
       <nav>
-        <ul className="menu">
+        <ul className="menu container">
           <li className="logo"><Link to="/">Health Tracker</Link></li>
           <li className="item hide"><Link to="/">Home</Link></li>
           <li className="item hide"><a href="/about">About</a></li>

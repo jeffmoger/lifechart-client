@@ -1,12 +1,15 @@
 import React, {useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import Switch from '../components/Switch'
-import queryString from 'query-string'
+import Switch from '../components/Switch';
+import queryString from 'query-string';
+import DisplaySyncReport from '../components/DisplaySyncReport';
 
+import moveDataFromGoogle from '../functions/moveDataFromGoogle'
+import getData from '../functions/getData';
+import loadChartData from '../functions/loadChartData'
 
 
 function Settings(props) {
-
   const { id, token, googleFit } = JSON.parse(localStorage.getItem("tokens"));
   const stringValues = queryString.parse(props.location.search)
   
@@ -49,12 +52,26 @@ function Settings(props) {
   },[googleCode, googleAuth, id, token])
 
   function handleSync(){
-    move_data_from_google(id, token)
+    moveDataFromGoogle(id, token)
     .then(response => {
-      localStorage.setItem("sync", JSON.stringify(response));
-      setDisplayResponse(response)
+      var dataObject = {};
+      dataObject.syncReport = response
+      return dataObject
     })
-    
+    .then(async dataObject => {
+      dataObject.data = await getData(id, token)
+      return dataObject
+    })
+    .then(dataObject => {
+      dataObject.chartData = loadChartData(dataObject.data);
+      dataObject.fetched = new Date().getTime()
+      return dataObject
+    })
+    .then(dataObject => {
+      setDisplayResponse(dataObject.syncReport);
+      localStorage.setItem("sync", JSON.stringify(dataObject))
+    })
+    .catch(err => console.log(err))
   }
 
   const GoogleSyncButton = props => {
@@ -62,30 +79,6 @@ function Settings(props) {
       <button type='button' onClick={handleSync}>Sync Data</button>
     )
   }
-
-  const DisplaySyncReport = props => {
-    const { data } = props
-    return (
-      <table>
-        <thead>
-          <tr>
-            <td>Data Source</td>
-            <td>Modified</td>
-            <td>New</td>
-          </tr>
-        </thead>
-        <tbody>
-        {data.map((dat, index) => (
-          <tr key={index}>
-            <td>{dat[0].replace('com.google.','')}</td>
-            <td>{dat[1]}</td>
-            <td>{dat[2]}</td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
-    );
-  };
 
   function handleSwitchChange(googleSwitch) {
     setGoogleSwitch(googleSwitch.googleSwitch)
@@ -96,7 +89,6 @@ function Settings(props) {
       <a href={props.url} className='button button-primary'>Authenticate with Google</a>
     )
   }
-
   
   return (
     <main>
@@ -104,7 +96,7 @@ function Settings(props) {
       <p>Manage data sync with Google here.</p>
       <Switch label='Connect to Google Fit' color='primary' name='googleSwitch' googleSwitch={googleSwitch} onSwitchChange={handleSwitchChange} />
       {googleFit ? <GoogleSyncButton />:null}
-      {displayResponse ? <DisplaySyncReport data={displayResponse} />:null}
+      {Array.isArray(displayResponse) ? <DisplaySyncReport data={displayResponse} />:null}
       {!googleFit && !googleCode && googleUrl && googleSwitch ? <GoogleCodeButton url={googleUrl} />:null}
       {googleCode && !googleAuth ? <Redirect to='/settings' />:null}
       <div id="response"></div>
@@ -130,27 +122,6 @@ async function getGoogleCode(id, token) {
     return console.log(err);
   }
 }
-
-async function move_data_from_google(id, token) {
-  try {
-    const r = await fetch('https://localhost/api/move_data_from_google', {
-        method: 'GET',
-        headers: {
-          'content-type': 'application/json',
-          'authorization': 'Token ' + token,
-          'id': id
-        },
-      });
-    const response = await r.json();
-    return response;
-  }
-  catch (err) {
-    return console.log(err);
-  }
-}
-
-
-
 
 async function getGoogleAuth(id, token, code, setGoogleSwitch, setGoogleCode) {
   try {
