@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import PrivateRoute from './components/PrivateRoute';
-import Nav from './components/Nav'
+//import Nav from './components/Nav'
 import Footer from './components/Footer'
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Login from './pages/Login'
 import { AuthContext } from "./context/auth";
+import AppBar from "./components/AppBar"
 
 function App() {
   const existingTokens = JSON.parse(localStorage.getItem("tokens"));
@@ -20,7 +21,7 @@ function App() {
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
-        <Nav />
+        <AppBar />
         <div className="container">
           <div className="row">
             <Route exact path="/" component={Home} />

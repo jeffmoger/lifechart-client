@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import { useAuth } from "../context/auth";
+import Drawer from './SideDrawer'
+
 
 function Nav() {
   const { setAuthTokens } = useAuth();
@@ -33,9 +35,11 @@ function Nav() {
           <li className="item"><Link to="/settings">Settings</Link></li>
           <li className="item">{isAuthenticated.authTokens? isAuth : notAuth}</li>
           <li className="item hide"><a href="/signup">Signup</a></li>
-          <li className="toggle"><span className="bars"></span></li>
+          <li className="toggle"><Drawer /></li>
         </ul>
+        
       </nav>
+      
   )
 }
 

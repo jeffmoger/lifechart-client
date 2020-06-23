@@ -107,6 +107,12 @@ p.calorieScore {
     border: 0px solid #444;
     padding-bottom: 50px;
 }
+a.MuiButtonBase-root {
+    color:#FFFFFF;
+}
+.MuiTypography-body1 {
+    font-size: 130%;
+}
 
 /* Mobile Menu*/
 
@@ -240,8 +246,9 @@ p.calorieScore {
 
 footer {
     text-align:center;
-    background-color: #000000;
-    padding: .5em
+    background-color: #232225;
+    padding: .5em;
+    border-top: 1px solid #444444;
 }
 footer a {
     text-decoration: none;
