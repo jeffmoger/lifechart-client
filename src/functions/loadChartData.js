@@ -2,12 +2,8 @@ import moment from 'moment';
 import setDateRange from './setDateRange'
 import returnDateArray from './returnDateArray'
 
-export default function loadChartData(){
-    if (localStorage.getItem("sync")===null) {
-      return false
-    }
-    const sync = JSON.parse(localStorage.getItem("sync"))
-    const { data } = sync
+export default function loadChartData(dataObject){
+    const { data } = dataObject
     const caloriesBurned = data["exercise"].arrays.CaloriesBurned
     //const activeMinutes = data["exercise"].arrays.ActiveMinutes
     //const stepCount = data["exercise"].arrays.StepCount

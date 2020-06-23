@@ -37,7 +37,7 @@ const HomeCharts = (props) => {
           return dataObject
         })
         .then(dataObject => {
-          dataObject.chartData = loadChartData(dataObject.data);
+          dataObject.chartData = loadChartData(dataObject);
           const timestamp = new Date().getTime()
           dataObject.fetched = timestamp
           localStorage.setItem("sync", JSON.stringify(dataObject));
