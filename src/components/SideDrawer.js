@@ -1,12 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import clsx from 'clsx';
-import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { useAuth } from "../context/auth";
 
 
 const useStyles = makeStyles({
@@ -42,8 +42,7 @@ export default function SideDrawer(props) {
       <List>
         {[
           ['Home','/'],
-          ['Settings','/settings'],
-          ['Logout','/logout']
+          ['Settings','/settings']
           ].map((text, index) => (
           <ListItem 
             button 
@@ -54,9 +53,29 @@ export default function SideDrawer(props) {
             <ListItemText primary={text[0]} />
           </ListItem>
         ))}
+        <ListItem 
+          button 
+          color='inherit'
+          component={Link}
+          to='/login'
+          onClick = {isAuthenticated.authTokens? logOut : null}
+          >
+          <ListItemText primary={isAuthenticated.authTokens? 'Logout' : 'Login'} />
+        
+        </ListItem>
       </List>
     </div>
   );
+
+  const { setAuthTokens } = useAuth();
+  const isAuthenticated = useAuth();
+  
+  function logOut(event) {
+    setAuthTokens();
+    window.localStorage.removeItem('tokens');
+    event.preventDefault();
+  }
+
 
   return (
     <div>
@@ -69,6 +88,7 @@ export default function SideDrawer(props) {
             onOpen={toggleDrawer(anchor, true)}
           >
             {list(anchor)}
+            
           </SwipeableDrawer>
         </React.Fragment>
       }
