@@ -3,10 +3,11 @@ import setDateRange from './setDateRange'
 import returnDateArray from './returnDateArray'
 
 export default function loadChartData(dataObject){
-    const { data } = dataObject
+  
+  const { data } = dataObject
     const caloriesBurned = data["exercise"].arrays.CaloriesBurned
-    //const activeMinutes = data["exercise"].arrays.ActiveMinutes
-    //const stepCount = data["exercise"].arrays.StepCount
+    const activeMinutes = data["exercise"].arrays.ActiveMinutes
+    const stepCount = data["exercise"].arrays.StepCount
     const nutrition = data["nutrition"].arrays.Nutrition
     const nutritionCalories = nutrition.filter(item => item.key==='calories')
     const caloriesBurnedTotal = caloriesBurned.map(amount).reduce(sum);
@@ -36,6 +37,8 @@ export default function loadChartData(dataObject){
       }
     })
     chartValues.calorieChart = chartDataArray
+    chartValues.stepCount = (getLatestValue(stepCount,startToday()))
+    chartValues.activeMinutes = (getLatestValue(activeMinutes,startToday()))
     return chartValues
   }
 
@@ -47,6 +50,17 @@ export default function loadChartData(dataObject){
   }
   function avg(total,array) {
     return Math.round(total/array.length)
+  }
+
+  function startToday(){
+    const date = new Date()
+    const start = moment(date).startOf('day')
+    return moment(start).format('x')
+  }
+
+  function getLatestValue(arr,date){
+    const value = arr.find(value => value.date===parseInt(date))
+    return value.value
   }
 
 

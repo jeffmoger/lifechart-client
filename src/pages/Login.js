@@ -1,9 +1,29 @@
 import React, {useState } from 'react';
 import { Redirect } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
 import { useAuth } from "../context/auth";
 
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '35ch',
+    },
+  },
+  grid: {
+    flexGrow: 1,
+  }
+}));
+
+
 const Login = (props) => {
+  const classes = useStyles();
+  
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
@@ -36,29 +56,49 @@ const Login = (props) => {
   }
   if(!isLoggedIn) {
     return (
+
       <main>
-      <h3>login</h3>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">email: </label>
-        <input name="email" 
-          id="email" 
-          type="text" 
-          value={email}
-          onChange={e => {
-            setEmail(e.target.value);
-          }} />
-        <label htmlFor="password">password: </label>
-        <input name="password" 
-          id="password" 
-          type="password"
-          value={password}
-          onChange={e => {
-            setPassword(e.target.value);
-          }} />
-        <br />
-        <button type="submit" className="button-primary">Submit</button>
-      </form>
-      {isError ? <Error /> : null }
+      <div className={classes.grid}>
+      <Grid container 
+        justify="center"
+        alignItems="center"
+        spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
+            <TextField 
+              id="email" 
+              label="Email"
+              type="text" 
+              value={email}
+              onChange={e => {
+                setEmail(e.target.value);
+              }}
+              />
+              <br />
+            <TextField
+              id="password"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value);
+              }}
+            />
+            <br />
+            <br />
+            <Button 
+              variant="contained" 
+              color="primary"
+              type="submit">
+              Login
+            </Button>
+
+          </form>
+          {isError ? <Error /> : null }
+        </Grid>
+      </Grid>
+    </div>
     </main>
     )
   } else {

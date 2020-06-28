@@ -1,5 +1,10 @@
 import React, {useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
 import Switch from '../components/Switch';
 import queryString from 'query-string';
 import DisplaySyncReport from '../components/DisplaySyncReport';
@@ -8,8 +13,15 @@ import moveDataFromGoogle from '../functions/moveDataFromGoogle'
 import getData from '../functions/getData';
 import loadChartData from '../functions/loadChartData'
 
+const useStyles = makeStyles((theme) => ({
+  grid: {
+    flexGrow: 1,
+  }
+}));
+
 
 function Settings(props) {
+  const classes = useStyles();
   const { id, token, googleFit } = JSON.parse(localStorage.getItem("tokens"));
   const stringValues = queryString.parse(props.location.search)
   
@@ -63,7 +75,7 @@ function Settings(props) {
       return dataObject
     })
     .then(dataObject => {
-      dataObject.chartData = loadChartData(dataObject.data);
+      dataObject.chartData = loadChartData(dataObject);
       dataObject.fetched = new Date().getTime()
       return dataObject
     })
@@ -76,7 +88,12 @@ function Settings(props) {
 
   const GoogleSyncButton = props => {
     return (
-      <button type='button' onClick={handleSync}>Sync Data</button>
+      <Button 
+              variant="contained"
+              type="button"
+              onClick={handleSync}>
+              Sync Data
+            </Button>
     )
   }
 
@@ -92,7 +109,10 @@ function Settings(props) {
   
   return (
     <main>
-      <h3>Settings</h3>
+    <div className={classes.grid}>
+      <Grid container 
+        spacing={3}>
+        <Grid item xs={12}>
       <p>Manage data sync with Google here.</p>
       <Switch label='Connect to Google Fit' color='primary' name='googleSwitch' googleSwitch={googleSwitch} onSwitchChange={handleSwitchChange} />
       {googleFit ? <GoogleSyncButton />:null}
@@ -100,6 +120,9 @@ function Settings(props) {
       {!googleFit && !googleCode && googleUrl && googleSwitch ? <GoogleCodeButton url={googleUrl} />:null}
       {googleCode && !googleAuth ? <Redirect to='/settings' />:null}
       <div id="response"></div>
+        </Grid>
+      </Grid>
+    </div>
     </main>
     )
 }
