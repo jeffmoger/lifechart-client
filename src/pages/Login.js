@@ -60,10 +60,10 @@ const Login = (props) => {
       <main>
       <div className={classes.grid}>
       <Grid container 
-        justify="center"
+        justify="left"
         alignItems="center"
         spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6}>
           <form onSubmit={handleSubmit} className={classes.root} noValidate autoComplete="off">
             <TextField 
               id="email" 
