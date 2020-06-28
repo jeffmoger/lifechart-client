@@ -60,7 +60,7 @@ const Login = (props) => {
       <main>
       <div className={classes.grid}>
       <Grid container 
-        justify="left"
+        justify="flex-start"
         alignItems="center"
         spacing={3}>
         <Grid item xs={6}>
