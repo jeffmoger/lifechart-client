@@ -1,0 +1,51 @@
+main {
+  margin-top: 40px;
+}
+
+.chart {
+  height:50vh;
+  width:100%;
+  background: white;
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+     transition: 0.3s;
+    
+ }
+ 
+.chart:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.chartContainer tspan {
+  font-size: 0.75em;
+  color: #EEEEEE;
+  text-shadow: 1px 1px black;
+}
+
+.chartContainer h4 {
+  color: #BBBBBB;
+  text-shadow: 1px 1px black;
+  display:block;
+  text-align: center;
+  margin: 0px 15px -5px -15px;
+  padding: 0;
+  font-size: 140%;
+}
+p.calorieScore {
+  display: block;
+  margin: 0px 27px -32px -15px;
+  color: #8884d8;
+  font-size: 150%;
+  text-shadow: 1px 1px black;
+  text-align:right;
+
+}
+
+
+.recharts-default-tooltip {
+  background-color: #000000;
+  opacity:0.8;
+  text-shadow: 1px 1px black;
+}
+.recharts-legend-item-text {
+  text-shadow: 1px 1px black;
+}
