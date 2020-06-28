@@ -7,8 +7,8 @@ import loadChartData from '../functions/loadChartData'
 import AverageCaloriesBurned from '../components/AverageCaloriesBurned'
 
 
-const HomeCharts = (props) => {
 
+const HomeCharts = (props) => {
     const { id, token } = JSON.parse(localStorage.getItem("tokens"));
     const [staleData, setStaleData] = useState(false);
     const [lastFetch, setLastFetch] = useState('');
@@ -49,17 +49,36 @@ const HomeCharts = (props) => {
       }
     },[id, token, staleData])
   
-  
-    return (
-      <div>
-        <div className="card">
-          
-          {chartData ? 
-            <>
-              <AverageCaloriesBurned data = {chartData}/>
-              <CalorieChart data={chartData} />
-            </>: null}
+    const StepCount = (props) => {
+      const { stepCount } = props.data.chartData
+      return (
+        <div>
+          <h4>Step Count</h4>
+          <p>{stepCount}</p>
         </div>
+      )
+    }
+
+    const ActiveMinutes = (props) => {
+      const { activeMinutes } = props.data.chartData
+      return (
+        <div>
+          <h4>Active Minutes</h4>
+          <p>{activeMinutes}</p>
+        </div>
+      )
+    }
+
+
+    return (
+      <div className='calories card'>
+        {chartData ? 
+          <>
+            <AverageCaloriesBurned data = {chartData}/>
+            <CalorieChart data={chartData} />
+            <StepCount data={chartData} />
+            <ActiveMinutes data={chartData} />
+          </>: null}
       </div>
     )
   }
