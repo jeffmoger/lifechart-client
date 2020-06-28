@@ -10,14 +10,8 @@ import { useAuth } from "../context/auth";
 
 
 const useStyles = makeStyles({
-  root: {
-    color: '#FFFFFF',
-  },
   list: {
-    paddingTop: 50,
     width: 250,
-    height: '100%',
-    backgroundColor: '#333333',
   },
   fullList: {
     width: 'auto',
