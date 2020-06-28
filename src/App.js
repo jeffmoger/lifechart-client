@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
+
+import './App.css'
+
+
 import PrivateRoute from './components/PrivateRoute';
 //import Nav from './components/Nav'
-import Footer from './components/Footer'
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Login from './pages/Login'
@@ -17,20 +23,39 @@ function App() {
     localStorage.setItem("tokens", JSON.stringify(data));
     setAuthTokens(data);
   }
+
+  const darkTheme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#5D4E8C',
+      },
+      type: 'dark',
+    },
+    typography: {
+      "fontFamily": [
+        'Raleway',
+        'HelveticaNeue',
+        '"Helvetica Neue"',
+        'Helvetica',
+        'Arial', 
+        'sans-serif'
+      ].join(','),
+    }
+  });
   
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+      <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <Router>
-        <AppBar />
-        <div className="container">
-          <div className="row">
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <PrivateRoute path="/settings" component={Settings} />
-          </div>
-        </div>
-        <Footer />
+      <AppBar />
+        <Container fixed>
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Login} />
+          <PrivateRoute path="/settings" component={Settings} />
+        </Container>
       </Router>
+      </ThemeProvider>
     </AuthContext.Provider>
   );
 }
