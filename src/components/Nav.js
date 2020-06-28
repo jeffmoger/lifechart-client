@@ -35,7 +35,7 @@ function Nav() {
           <li className="item"><Link to="/settings">Settings</Link></li>
           <li className="item">{isAuthenticated.authTokens? isAuth : notAuth}</li>
           <li className="item hide"><a href="/signup">Signup</a></li>
-          <li className="toggle"><Drawer /></li>
+          <li className="toggle"></li>
         </ul>
         
       </nav>
