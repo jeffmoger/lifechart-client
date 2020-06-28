@@ -5,7 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import SideDrawer from './SideDrawer'
+import SideDrawer from './SideDrawer';
+import Container from '@material-ui/core/Container';
 
 
 
@@ -13,14 +14,12 @@ import SideDrawer from './SideDrawer'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#454276",
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
-    fontSize: '110%',
   },
 }));
 
@@ -46,14 +45,16 @@ export default function ButtonAppBar() {
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.root}>
+      <Container fixed>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(anchor, true)} >
-            <MenuIcon fontSize="large" />
+            <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             LifeChart
           </Typography>
         </Toolbar>
+        </Container>
       </AppBar>
       <SideDrawer anchor={anchor} toggleState={toggleState} toggleDrawer={toggleDrawer} />
     </div>
