@@ -1,6 +1,6 @@
 async function moveDataFromGoogle(id, token) {
     try {
-        const r = await fetch('https://localhost/api/move_data_from_google', {
+        const r = await fetch(process.env.API_URL+'/api/move_data_from_google', {
             method: 'GET',
             headers: {
             'content-type': 'application/json',

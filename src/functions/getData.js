@@ -1,6 +1,6 @@
 export default async function getData(id, token) {
     try {
-      const r = await fetch('https://localhost/api/get_range_data', {
+      const r = await fetch(process.env.API_URL+'/api/get_range_data', {
           method: 'GET',
           headers: {
             'content-type': 'application/json',
