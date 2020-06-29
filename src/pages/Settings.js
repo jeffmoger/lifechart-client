@@ -130,7 +130,7 @@ function Settings(props) {
 
 async function getGoogleCode(id, token) {
   try {
-    const r = await fetch(process.env.API_URL+'/api/get_google_code', {
+    const r = await fetch('https://api.lifechart.ca/api/get_google_code', {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
@@ -148,7 +148,7 @@ async function getGoogleCode(id, token) {
 
 async function getGoogleAuth(id, token, code, setGoogleSwitch, setGoogleCode) {
   try {
-    const r = await fetch(process.env.API_URL+'/api/get_google_auth', {
+    const r = await fetch('https://api.lifechart.ca/api/get_google_auth', {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
