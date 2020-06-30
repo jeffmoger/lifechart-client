@@ -1,6 +1,6 @@
 export default async function getData(id, token) {
     try {
-      const r = await fetch('https://api.lifechart.ca/api/get_range_data', {
+      const r = await fetch(`${process.env.REACT_APP_API}/api/get_range_data`, {
           method: 'GET',
           headers: {
             'content-type': 'application/json',

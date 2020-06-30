@@ -110,7 +110,7 @@ const Login = (props) => {
 
   async function fetchAuthentication(email, password) {
     try {
-      const r = await fetch('https://api.lifechart.ca/api/users/login', {
+      const r = await fetch(`${process.env.REACT_APP_API}/api/users/login`, {
           method: 'POST',
           headers: {
             'content-type': 'application/json',

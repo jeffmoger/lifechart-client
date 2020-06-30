@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
+
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   }
 }));
-
 
 function Settings(props) {
   const classes = useStyles();
@@ -130,7 +130,7 @@ function Settings(props) {
 
 async function getGoogleCode(id, token) {
   try {
-    const r = await fetch('https://api.lifechart.ca/api/get_google_code', {
+    const r = await fetch(`${process.env.REACT_APP_API}/api/get_google_code`, {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
@@ -148,7 +148,7 @@ async function getGoogleCode(id, token) {
 
 async function getGoogleAuth(id, token, code, setGoogleSwitch, setGoogleCode) {
   try {
-    const r = await fetch('https://api.lifechart.ca/api/get_google_auth', {
+    const r = await fetch(`${process.env.REACT_APP_API}/api/get_google_auth`, {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
