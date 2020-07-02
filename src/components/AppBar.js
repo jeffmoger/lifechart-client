@@ -21,10 +21,6 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  },
-  logo: {
-    width: 100,
-    height: 50,
   }
 }));
 
@@ -50,7 +46,7 @@ export default function ButtonAppBar() {
     lifeFill: '#FFFFFF',
     chartFill: '#82CA9D',
     width: 130,
-    height: 50
+    height: 40
   }
 
   return (
