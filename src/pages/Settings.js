@@ -103,7 +103,13 @@ function Settings(props) {
 
   const GoogleCodeButton = (props) => {
     return (
-      <a href={props.url} className='button button-primary'>Authenticate with Google</a>
+      <Button
+        variant="contained"
+        type="button"
+        href={props.url}
+        >
+        Authenticate with Google
+      </Button>
     )
   }
   
