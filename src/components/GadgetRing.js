@@ -34,7 +34,7 @@ const scoreColor = score => {
 export default function GadgetRing(props) {
   
   const { score, goal, label } = props.gadgetProps;
-  const size = 150;
+  const size = 140;
   const stroke = scoreColor(getPercent(score, goal));
   const labelSize = 12;
   const fontSize = 30;

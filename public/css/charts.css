@@ -58,7 +58,7 @@ p.calorieScore {
 .gadgets .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 30px;
+  grid-gap: 20px;
   text-align: center;
 }
 .gadgets .gadget {
@@ -72,7 +72,7 @@ p.calorieScore {
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 350px) {
   .gadgets .container {
     grid-template-columns: repeat(1, 1fr);
   }
