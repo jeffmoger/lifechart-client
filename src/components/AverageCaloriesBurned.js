@@ -1,25 +1,23 @@
-import React from 'react'
-
+import React from 'react';
+import GadgetRing from './GadgetRing';
 
 const AverageCaloriesBurned = props => {
-    function isPositive(num){
-      if (num > 0) return true
-    }
-    const { 
-      caloriesBurnedAvg,
-      //caloriesBurnedTotal, 
-      caloriesConsumedAvg, 
-      //caloriesConsumedTotal 
-    } = props.data.chartData;
-    const avgDifference = caloriesBurnedAvg - caloriesConsumedAvg
-    //const totalDifference = caloriesBurnedTotal - caloriesConsumedTotal
     
+    const { caloriesBurnedAvg, caloriesConsumedAvg } = props.data.chartData;
+    const avgDifference = caloriesBurnedAvg - caloriesConsumedAvg  
+
+    const gadgetProps = {
+      score: avgDifference,
+      goal: 500,
+      label: 'Calorie Score'
+    }
+
     return (
       <div>
-        <p className="calorieScore">{isPositive(avgDifference) ? `+${avgDifference}` : `${avgDifference}`}</p>
+        <GadgetRing gadgetProps={gadgetProps} />
       </div>
     ) 
   }
-  
 
-  export default AverageCaloriesBurned
+
+export default AverageCaloriesBurned

@@ -1,10 +1,12 @@
 import React, {useState, useEffect } from "react";
 
-import CalorieChart from '../charts/CalorieChart'
-import moveDataFromGoogle from '../functions/moveDataFromGoogle'
-import getData from '../functions/getData'
-import loadChartData from '../functions/loadChartData'
-import AverageCaloriesBurned from '../components/AverageCaloriesBurned'
+import CalorieChart from '../charts/CalorieChart';
+import moveDataFromGoogle from '../functions/moveDataFromGoogle';
+import getData from '../functions/getData';
+import loadChartData from '../functions/loadChartData';
+import AverageCaloriesBurned from '../components/AverageCaloriesBurned';
+import StepCount from '../components/StepCount';
+import ActiveMinutes from '../components/ActiveMinutes';
 
 
 
@@ -49,35 +51,26 @@ const HomeCharts = (props) => {
       }
     },[id, token, staleData])
   
-    const StepCount = (props) => {
-      const { stepCount } = props.data.chartData
-      return (
-        <div>
-          <h4>Step Count</h4>
-          <p>{stepCount}</p>
-        </div>
-      )
-    }
-
-    const ActiveMinutes = (props) => {
-      const { activeMinutes } = props.data.chartData
-      return (
-        <div>
-          <h4>Active Minutes</h4>
-          <p>{activeMinutes}</p>
-        </div>
-      )
-    }
-
-
+    
     return (
       <div className='calories card'>
         {chartData ? 
           <>
-            <AverageCaloriesBurned data = {chartData}/>
             <CalorieChart data={chartData} />
-            <StepCount data={chartData} />
-            <ActiveMinutes data={chartData} />
+            <br />
+            <section class="gadgets">
+              <div class="container">
+                <div>
+                  <AverageCaloriesBurned data = {chartData}/>
+                </div>
+                <div>
+                  <StepCount data={chartData} />
+                </div>
+                <div>
+                  <ActiveMinutes data={chartData} />
+                </div>
+              </div>
+            </section>
           </>: null}
       </div>
     )
