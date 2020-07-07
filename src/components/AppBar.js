@@ -3,14 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Logo from './Logo.js';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SideDrawer from './SideDrawer';
 import Container from '@material-ui/core/Container';
-
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  }
+  },
 }));
 
 const anchor = 'left';
@@ -36,7 +32,11 @@ export default function ButtonAppBar() {
   });
 
   const toggleDrawer = (anchor, open) => (event) => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
 
@@ -46,24 +46,32 @@ export default function ButtonAppBar() {
     lifeFill: '#FFFFFF',
     chartFill: '#82CA9D',
     width: 130,
-    height: 40
-  }
+    height: 40,
+  };
 
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.root}>
-      <Container fixed>
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(anchor, true)} >
-            <MenuIcon />
-          </IconButton>
-          <Logo logoProps={logoProps} className={classes.logo} />
-        </Toolbar>
+        <Container fixed>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer(anchor, true)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Logo logoProps={logoProps} className={classes.logo} />
+          </Toolbar>
         </Container>
       </AppBar>
-      <SideDrawer anchor={anchor} toggleState={toggleState} toggleDrawer={toggleDrawer} />
+      <SideDrawer
+        anchor={anchor}
+        toggleState={toggleState}
+        toggleDrawer={toggleDrawer}
+      />
     </div>
   );
 }
-
-
