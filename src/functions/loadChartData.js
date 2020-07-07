@@ -36,8 +36,16 @@ export default function loadChartData(dataObject) {
     }
   });
   chartValues.calorieChart = chartDataArray;
-  chartValues.stepCount = getLatestValue(stepCount, startToday());
-  chartValues.activeMinutes = getLatestValue(activeMinutes, startToday());
+  if (getLatestValue(stepCount, startToday())) {
+    chartValues.stepCount = getLatestValue(stepCount, startToday());
+  } else {
+    chartValues.stepCount = data.stepCount;
+  }
+  if (getLatestValue(activeMinutes, startToday())) {
+    chartValues.activeMinutes = getLatestValue(activeMinutes, startToday());
+  } else {
+    chartValues.activeMinutes = data.activeMinutes;
+  }
   return chartValues;
 }
 
