@@ -11,11 +11,31 @@ export default function loadChartData(dataObject) {
   const nutritionCalories = nutrition.filter((item) => item.key === 'calories');
   const caloriesBurnedTotal = caloriesBurned.map(amount).reduce(sum);
   const nutritionCaloriesTotal = nutritionCalories.map(amount).reduce(sum);
+
+  function calculateCalorieScore() {
+    const start = startOfDay(moment().subtract(3, 'days'));
+    const end = startOfDay(moment().subtract(1, 'days'));
+    const nutritionCalorieScore = nutritionCalories.filter((item) => {
+      return item.date >= start && item.date <= end;
+    });
+    const exerciseCalorieScore = caloriesBurned.filter((item) => {
+      return item.date >= start && item.date <= end;
+    });
+    const nutritionCalorieScoreTotal = nutritionCalorieScore
+      .map(amount)
+      .reduce(sum);
+    const exerciseCalorieScoreTotal = exerciseCalorieScore
+      .map(amount)
+      .reduce(sum);
+    return (exerciseCalorieScoreTotal - nutritionCalorieScoreTotal) / 3;
+  }
+
   const chartValues = {
     caloriesBurnedAvg: avg(caloriesBurnedTotal, caloriesBurned),
     caloriesBurnedTotal: caloriesBurnedTotal,
     caloriesConsumedAvg: avg(nutritionCaloriesTotal, nutritionCalories),
     caloriesConsumedTotal: nutritionCaloriesTotal,
+    calorieScore: calculateCalorieScore(),
   };
   const dateArray = returnDateArray(setDateRange(14));
   const chartDataArray = [];
@@ -61,6 +81,11 @@ function avg(total, array) {
 
 function startToday() {
   const date = new Date();
+  const start = moment(date).startOf('day');
+  return moment(start).format('x');
+}
+
+function startOfDay(date) {
   const start = moment(date).startOf('day');
   return moment(start).format('x');
 }
