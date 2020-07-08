@@ -7,6 +7,7 @@ import loadChartData from '../functions/loadChartData';
 import AverageCaloriesBurned from './AverageCaloriesBurned';
 import StepCount from './StepCount';
 import ActiveMinutes from './ActiveMinutes';
+import NetCalorieBurn from './NetCalorieBurn';
 
 const HomeCharts = (props) => {
   const { id, token } = JSON.parse(localStorage.getItem('tokens'));
@@ -59,6 +60,9 @@ const HomeCharts = (props) => {
             <div className="container">
               <div>
                 <AverageCaloriesBurned data={chartData} />
+              </div>
+              <div>
+                <NetCalorieBurn data={chartData} />
               </div>
               <div>
                 <StepCount data={chartData} />

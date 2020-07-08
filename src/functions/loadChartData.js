@@ -27,7 +27,7 @@ export default function loadChartData(dataObject) {
     const exerciseCalorieScoreTotal = exerciseCalorieScore
       .map(amount)
       .reduce(sum);
-    return (exerciseCalorieScoreTotal - nutritionCalorieScoreTotal) / 3;
+    return subtract(exerciseCalorieScoreTotal, nutritionCalorieScoreTotal) / 3;
   }
 
   const chartValues = {
@@ -36,6 +36,7 @@ export default function loadChartData(dataObject) {
     caloriesConsumedAvg: avg(nutritionCaloriesTotal, nutritionCalories),
     caloriesConsumedTotal: nutritionCaloriesTotal,
     calorieScore: calculateCalorieScore(),
+    netCalorieBurn: subtract(caloriesBurnedTotal, nutritionCaloriesTotal),
   };
   const dateArray = returnDateArray(setDateRange(14));
   const chartDataArray = [];
@@ -72,9 +73,15 @@ export default function loadChartData(dataObject) {
 function amount(item) {
   return item.value;
 }
+
 function sum(prev, next) {
   return prev + next;
 }
+
+function subtract(num1, num2) {
+  return num1 - num2;
+}
+
 function avg(total, array) {
   return Math.round(total / array.length);
 }
