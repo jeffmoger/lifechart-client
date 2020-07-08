@@ -7,7 +7,7 @@ const AverageCaloriesBurned = (props) => {
   const gadgetProps = {
     score: calorieScore,
     goal: 500,
-    label: 'Calorie Score',
+    label: 'Daily Average',
   };
 
   return (
