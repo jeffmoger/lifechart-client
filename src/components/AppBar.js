@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Logo from './Logo.js';
@@ -17,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  logo: {
+    marginTop: 50,
   },
 }));
 
@@ -63,7 +67,9 @@ export default function ButtonAppBar() {
             >
               <MenuIcon />
             </IconButton>
-            <Logo logoProps={logoProps} className={classes.logo} />
+            <Link to="/">
+              <Logo logoProps={logoProps} className={classes.logo} />
+            </Link>
           </Toolbar>
         </Container>
       </AppBar>
