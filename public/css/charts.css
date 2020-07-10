@@ -47,6 +47,13 @@ p.calorieScore {
   text-shadow: 1px 1px black;
 }
 
+.demoIntro {
+  margin: 0px 5px 60px 5px;
+  padding: 10px 30px;
+  border: 1px solid #111;
+  background-color: #232323;
+}
+
 .gadgets {
   max-width: 960px;
   margin-top: 20px;
