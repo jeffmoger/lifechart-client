@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import CalorieChart from '../charts/CalorieChart';
+import NutritionChart from '../charts/NutritionChart';
 import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import getData from '../functions/getData';
 import loadChartData from '../functions/loadChartData';
@@ -11,15 +12,9 @@ import NetCalorieBurn from './NetCalorieBurn';
 
 const HomeCharts = (props) => {
   const { id, token } = JSON.parse(localStorage.getItem('tokens'));
+  const [sync, setSync] = useState(JSON.parse(localStorage.getItem('sync')));
   const [staleData, setStaleData] = useState(false);
   const [lastFetch, setLastFetch] = useState('');
-  const [chartData, setChartData] = useState('');
-
-  useEffect(() => {
-    if (localStorage.getItem('sync') !== null) {
-      setChartData(JSON.parse(localStorage.getItem('sync')));
-    }
-  }, []);
 
   useEffect(() => {
     setStaleData(checkLastFetched(1));
@@ -44,7 +39,7 @@ const HomeCharts = (props) => {
           localStorage.setItem('sync', JSON.stringify(dataObject));
           setStaleData(false);
           setLastFetch(timestamp);
-          setChartData(dataObject);
+          setSync(dataObject);
         })
         .catch((err) => console.log(err));
     }
@@ -52,23 +47,25 @@ const HomeCharts = (props) => {
 
   return (
     <div className="calories card">
-      {chartData ? (
+      {sync ? (
         <>
-          <CalorieChart data={chartData} />
+          <CalorieChart data={sync} />
+          <br />
+          <NutritionChart data={sync} />
           <br />
           <section className="gadgets">
             <div className="container">
               <div>
-                <AverageCaloriesBurned data={chartData} />
+                <AverageCaloriesBurned data={sync} />
               </div>
               <div>
-                <NetCalorieBurn data={chartData} />
+                <NetCalorieBurn data={sync} />
               </div>
               <div>
-                <StepCount data={chartData} />
+                <StepCount data={sync} />
               </div>
               <div>
-                <ActiveMinutes data={chartData} />
+                <ActiveMinutes data={sync} />
               </div>
             </div>
           </section>
