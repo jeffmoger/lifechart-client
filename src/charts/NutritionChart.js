@@ -55,9 +55,15 @@ export default class NutritionChart extends PureComponent {
               cursor={{ fill: '#232323', stroke: '#222', strokeWidth: 0 }}
             />
             <Legend verticalAlign="top" iconType="circle" height={36} />
-            <Bar dataKey="Protein" stackId="a" fill="#8884d8" fillOpacity={1} />
-            <Bar dataKey="Fat" stackId="a" fill="#CCC" fillOpacity={0.9} />
-            <Bar dataKey="Carbs" stackId="a" fill="#666" fillOpacity={0.6} />
+            <Bar
+              dataKey="Protein"
+              stackId="a"
+              fill="#367d51"
+              fillOpacity={0.6}
+              barSize={15}
+            />
+            <Bar dataKey="Fat" stackId="a" fill="#4db374" fillOpacity={0.6} />
+            <Bar dataKey="Carbs" stackId="a" fill="#82ca9d" fillOpacity={0.6} />
           </BarChart>
         </ResponsiveContainer>
       </div>
