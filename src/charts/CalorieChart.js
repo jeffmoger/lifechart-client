@@ -32,7 +32,7 @@ export default class CalorieChart extends PureComponent {
     return (
       <div
         className="chartContainer"
-        style={{ maxWidth: 960, height: 300, color: '#CCC' }}
+        style={{ maxWidth: 960, height: 350, color: '#CCC' }}
       >
         <h4>Calories</h4>
         <ResponsiveContainer>
@@ -40,6 +40,7 @@ export default class CalorieChart extends PureComponent {
             width={730}
             height={350}
             data={calorieChart}
+            syncId="anyId"
             margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
           >
             <defs>
@@ -61,7 +62,7 @@ export default class CalorieChart extends PureComponent {
               stroke="#CCC"
               axisLine={false}
               tickLine={false}
-              mirror={true}
+              mirror={false}
             />
             <YAxis
               stroke="#CCC"
@@ -69,7 +70,7 @@ export default class CalorieChart extends PureComponent {
               tickLine={false}
               orientation="left"
               width={35}
-              mirror={true}
+              mirror={false}
               interval="preserveEnd"
             />
 
