@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
 
 import CalorieChart from '../charts/CalorieChart';
+import NutritionChart from '../charts/NutritionChart';
 import AverageCaloriesBurned from './AverageCaloriesBurned';
 import StepCount from './StepCount';
 import ActiveMinutes from './ActiveMinutes';
 import NetCalorieBurn from './NetCalorieBurn';
-
-const Intro = () => {
-  return (
-    <>
-      <p>
-        Bring all your personal life, fitness and nutrition data into one place.
-      </p>
-    </>
-  );
-};
 
 export default function HomeDemo() {
   const [chartData] = useState(require('../data'));
@@ -22,6 +13,7 @@ export default function HomeDemo() {
     <div>
       <section className="calorieChart">
         <CalorieChart data={chartData} />
+        <NutritionChart data={chartData} />
       </section>
       <section className="gadgets">
         <div className="container">
