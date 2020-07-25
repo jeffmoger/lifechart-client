@@ -9,7 +9,7 @@ export default function loadChartData(dataObject) {
   const stepCount = data['exercise'].arrays.StepCount;
   const nutrition = data['nutrition'].arrays.Nutrition;
   const nutritionCalories = nutrition.filter((item) => item.key === 'calories');
-  const nutritionSugar = nutrition.filter((item) => item.key === 'sugar');
+  //const nutritionSugar = nutrition.filter((item) => item.key === 'sugar');
   const nutritionProtein = nutrition.filter((item) => item.key === 'protein');
   const nutritionCarbs = nutrition.filter((item) => item.key === 'carbs_total');
   const nutritionFat = nutrition.filter((item) => item.key === 'fat_total');
@@ -28,6 +28,8 @@ export default function loadChartData(dataObject) {
     netCalorieBurn,
   };
   const dateArray = returnDateArray(setDateRange(14));
+  console.log(dateArray);
+  console.log(startToday());
   const chartDataArray = [];
   const chartNutritionArray = [];
 
@@ -38,20 +40,19 @@ export default function loadChartData(dataObject) {
     let nc = nutritionCarbs.find((item) => item.date === date);
     let nf = nutritionFat.find((item) => item.date === date);
 
-    if (cb) cb = cb.value;
-    if (cc) cc = cc.value;
-    if (np) np = np.value * 4;
-    if (nc) nc = nc.value * 4;
-    if (nf) nf = nf.value * 9;
+    cb ? (cb = cb.value) : (cb = 0);
+    cc ? (cc = cc.value) : (cc = 0);
+    np ? (np = np.value * 4) : (np = 0);
+    nc ? (nc = nc.value * 4) : (nc = 0);
+    nf ? (nf = nf.value * 9) : (nf = 0);
 
-    if (cc || cb) {
+    if (date <= startToday()) {
       chartDataArray.push({
         date: moment(date).format('ddd D'),
         Consumed: cc,
         Burned: cb,
       });
-    }
-    if (np || nc || nf) {
+
       chartNutritionArray.push({
         date: moment(date).format('ddd D'),
         Protein: np,
