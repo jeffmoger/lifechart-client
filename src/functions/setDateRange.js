@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export default function setDateRange(days) {
   let end = moment().startOf('day');
-  end.add(1, 'days');
+  end.add(0, 'days'); //Set to 0 when realized it wasn't necessary to add a day. 07-25-20
   let start = moment().startOf('day');
   start.subtract(days, 'days');
   const rangeString = start.format('lll') + ' until ' + end.format('lll');
