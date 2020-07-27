@@ -17,24 +17,8 @@ const HomeCharts = (props) => {
   const [staleData, setStaleData] = useState(false);
   const [lastFetch, setLastFetch] = useState('');
   const [newDateRange] = useState(dateRange(14));
-  const [newCalorieChart, setNewCalorieChart] = useState([]);
-  const [newNutritionChart, setNewNutritionChart] = useState([]);
-
-  useEffect(() => {
-    //const { calorieChart } = sync.chartData;
-    const calorieChart = selectChartDataByRange(
-      sync.chartData.calorieChart,
-      newDateRange[0],
-      newDateRange[1]
-    );
-    setNewCalorieChart(calorieChart);
-    const nutritionChart = selectChartDataByRange(
-      sync.chartData.nutritionChart,
-      newDateRange[0],
-      newDateRange[1]
-    );
-    setNewNutritionChart(nutritionChart);
-  }, [newDateRange, sync]);
+  const [calorieChart, setCalorieChart] = useState([]);
+  const [nutritionChart, setNutritionChart] = useState([]);
 
   useEffect(() => {
     setStaleData(checkLastFetched(1));
@@ -65,13 +49,20 @@ const HomeCharts = (props) => {
     }
   }, [id, token, staleData]);
 
+  useEffect(() => {
+    const { calorieChart, nutritionChart } = sync.chartData;
+    const [start, end] = newDateRange;
+    setCalorieChart(selectChartDataByRange(calorieChart, start, end));
+    setNutritionChart(selectChartDataByRange(nutritionChart, start, end));
+  }, [newDateRange, sync]);
+
   return (
     <div className="calories card">
       {sync ? (
         <>
-          <CalorieChart data={newCalorieChart} />
+          <CalorieChart data={calorieChart} />
           <br />
-          <NutritionChart data={newNutritionChart} />
+          <NutritionChart data={nutritionChart} />
           <br />
           <section className="gadgets">
             <div className="container">
