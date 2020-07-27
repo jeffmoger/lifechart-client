@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import CalorieChart from '../charts/CalorieChart';
 import NutritionChart from '../charts/NutritionChart';
 import moveDataFromGoogle from '../functions/moveDataFromGoogle';
+import dateRange from '../functions/dateRange';
 import getData from '../functions/getData';
 import loadChartData from '../functions/loadChartData';
 import AverageCaloriesBurned from './AverageCaloriesBurned';
@@ -15,6 +16,25 @@ const HomeCharts = (props) => {
   const [sync, setSync] = useState(JSON.parse(localStorage.getItem('sync')));
   const [staleData, setStaleData] = useState(false);
   const [lastFetch, setLastFetch] = useState('');
+  const [newDateRange, setNewDateRange] = useState(dateRange(14));
+  const [newCalorieChart, setNewCalorieChart] = useState([]);
+  const [newNutritionChart, setNewNutritionChart] = useState([]);
+
+  useEffect(() => {
+    //const { calorieChart } = sync.chartData;
+    const calorieChart = selectChartDataByRange(
+      sync.chartData.calorieChart,
+      newDateRange[0],
+      newDateRange[1]
+    );
+    setNewCalorieChart(calorieChart);
+    const nutritionChart = selectChartDataByRange(
+      sync.chartData.nutritionChart,
+      newDateRange[0],
+      newDateRange[1]
+    );
+    setNewNutritionChart(nutritionChart);
+  }, [newDateRange, sync]);
 
   useEffect(() => {
     setStaleData(checkLastFetched(1));
@@ -49,9 +69,9 @@ const HomeCharts = (props) => {
     <div className="calories card">
       {sync ? (
         <>
-          <CalorieChart data={sync} />
+          <CalorieChart data={newCalorieChart} />
           <br />
-          <NutritionChart data={sync} />
+          <NutritionChart data={newNutritionChart} />
           <br />
           <section className="gadgets">
             <div className="container">
@@ -81,6 +101,13 @@ function checkLastFetched(wait) {
   const t = new Date().getTime();
   const w = wait * 60000;
   return fetched + w > t ? false : true;
+}
+
+function selectChartDataByRange(arr, start, end) {
+  const newArray = arr.filter((item) => {
+    return item.date >= start;
+  });
+  return newArray;
 }
 
 export default HomeCharts;
