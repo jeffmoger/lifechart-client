@@ -1,9 +1,10 @@
 import moment from 'moment';
-import setDateRange from './setDateRange';
+import dateRange from './dateRange';
 import returnDateArray from './returnDateArray';
 
 export default function loadChartData(dataObject) {
   const { data } = dataObject;
+  const endDate = '';
   const caloriesBurned = data['exercise'].arrays.CaloriesBurned;
   const activeMinutes = data['exercise'].arrays.ActiveMinutes;
   const stepCount = data['exercise'].arrays.StepCount;
@@ -27,9 +28,7 @@ export default function loadChartData(dataObject) {
     calorieScore,
     netCalorieBurn,
   };
-  const dateArray = returnDateArray(setDateRange(14));
-  console.log(dateArray);
-  console.log(startToday());
+  const dateArray = returnDateArray(dateRange(60, endDate));
   const chartDataArray = [];
   const chartNutritionArray = [];
 
@@ -48,13 +47,15 @@ export default function loadChartData(dataObject) {
 
     if (date <= startToday()) {
       chartDataArray.push({
-        date: moment(date).format('ddd D'),
+        //date: moment(date).format('ddd D'),
+        date,
         Consumed: cc,
         Burned: cb,
       });
 
       chartNutritionArray.push({
-        date: moment(date).format('ddd D'),
+        //date: moment(date).format('ddd D'),
+        date,
         Protein: np,
         Fat: nf,
         Carbs: nc,
