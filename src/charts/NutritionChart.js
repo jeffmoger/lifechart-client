@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import moment from 'moment';
 import {
   ResponsiveContainer,
   BarChart,
@@ -17,9 +18,16 @@ const wrapperStyle = {
   textShadow: '1px 1px black',
 };
 
+const formatXAxis = (tickItem) => {
+  return moment(tickItem).format('ddd, MMM D');
+};
+const formatToolTipLabel = (label) => {
+  return moment(label).format('MMMM Do YYYY');
+};
+
 export default class NutritionChart extends PureComponent {
   render() {
-    const { nutritionChart } = this.props.data.chartData;
+    const nutritionChart = this.props.data;
     return (
       <div
         className="chartContainer"
@@ -40,6 +48,7 @@ export default class NutritionChart extends PureComponent {
               axisLine={false}
               tickLine={false}
               mirror={false}
+              tickFormatter={formatXAxis}
             />
             <YAxis
               stroke="#CCC"
@@ -53,6 +62,7 @@ export default class NutritionChart extends PureComponent {
             <Tooltip
               contentStyle={wrapperStyle}
               cursor={{ fill: '#232323', stroke: '#222', strokeWidth: 0 }}
+              labelFormatter={formatToolTipLabel}
             />
             <Legend verticalAlign="top" iconType="circle" height={36} />
             <Bar

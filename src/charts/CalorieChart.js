@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import moment from 'moment';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -24,11 +25,18 @@ const palette = {
   },
 };
 
+const formatXAxis = (tickItem) => {
+  return moment(tickItem).format('ddd, MMM D');
+};
+const formatToolTipLabel = (label) => {
+  return moment(label).format('MMMM Do YYYY');
+};
+
 const theme = palette.purple;
 
 export default class CalorieChart extends PureComponent {
   render() {
-    const { calorieChart } = this.props.data.chartData;
+    const calorieChart = this.props.data;
     return (
       <div
         className="chartContainer"
@@ -63,6 +71,7 @@ export default class CalorieChart extends PureComponent {
               axisLine={false}
               tickLine={false}
               mirror={false}
+              tickFormatter={formatXAxis}
             />
             <YAxis
               stroke="#CCC"
@@ -75,7 +84,10 @@ export default class CalorieChart extends PureComponent {
             />
 
             <CartesianGrid strokeDasharray="1 3" stroke="#202020" />
-            <Tooltip contentStyle={wrapperStyle} />
+            <Tooltip
+              contentStyle={wrapperStyle}
+              labelFormatter={formatToolTipLabel}
+            />
             <Legend verticalAlign="top" iconType="circle" height={36} />
             <Area
               type="monotone"
