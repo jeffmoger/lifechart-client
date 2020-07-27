@@ -16,7 +16,7 @@ const HomeCharts = (props) => {
   const [sync, setSync] = useState(JSON.parse(localStorage.getItem('sync')));
   const [staleData, setStaleData] = useState(false);
   const [lastFetch, setLastFetch] = useState('');
-  const [newDateRange, setNewDateRange] = useState(dateRange(14));
+  const [newDateRange] = useState(dateRange(14));
   const [newCalorieChart, setNewCalorieChart] = useState([]);
   const [newNutritionChart, setNewNutritionChart] = useState([]);
 
