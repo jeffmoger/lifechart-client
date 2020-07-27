@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export default function returnDateArray(dateRangeArray) {
   const [start, end, dateRange] = dateRangeArray;
-  console.log(dateRange);
+  //console.log(dateRange);
   for (
     var arr = [], dt = new Date(start);
     dt <= end;
