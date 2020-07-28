@@ -11,9 +11,14 @@ import StepCount from './StepCount';
 import ActiveMinutes from './ActiveMinutes';
 import NetCalorieBurn from './NetCalorieBurn';
 
+function localStorageDefault(key, defaultValue) {
+  const stickyData = localStorage.getItem(key);
+  return stickyData !== null ? JSON.parse(stickyData) : defaultValue;
+}
+
 const HomeCharts = (props) => {
   const { id, token } = JSON.parse(localStorage.getItem('tokens'));
-  const [sync, setSync] = useState(JSON.parse(localStorage.getItem('sync')));
+  const [sync, setSync] = useState(localStorageDefault('sync', ''));
   const [staleData, setStaleData] = useState(false);
   const [lastFetch, setLastFetch] = useState('');
   const [newDateRange] = useState(dateRange(14));
@@ -50,10 +55,12 @@ const HomeCharts = (props) => {
   }, [id, token, staleData]);
 
   useEffect(() => {
-    const { calorieChart, nutritionChart } = sync.chartData;
-    const [start, end] = newDateRange;
-    setCalorieChart(selectChartDataByRange(calorieChart, start, end));
-    setNutritionChart(selectChartDataByRange(nutritionChart, start, end));
+    if (sync) {
+      const { calorieChart, nutritionChart } = sync.chartData;
+      const [start, end] = newDateRange;
+      setCalorieChart(selectChartDataByRange(calorieChart, start, end));
+      setNutritionChart(selectChartDataByRange(nutritionChart, start, end));
+    }
   }, [newDateRange, sync]);
 
   return (
