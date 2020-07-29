@@ -1,15 +1,44 @@
 import moment from 'moment';
 
-export default function setDateRange(days, endDate) {
-  let end = moment(endDate).startOf('day');
-  if (!endDate) {
-    end = moment().startOf('day');
+export default function dateRange(days, dateRange, forward) {
+  let dateRangeArray;
+  if (!dateRange) {
+    dateRangeArray = noDateRange(days);
   }
-  //end.add(0, 'days'); //Set to 0 when realized it wasn't necessary to add a day. 07-25-20
+  if (dateRange) {
+    const [lastStart, lastEnd] = dateRange;
+    let start = moment(lastStart).startOf('day');
+    let end = moment(lastEnd).startOf('day');
+    if (forward) {
+      start.add(days, 'days');
+      end.add(days, 'days');
+    } else {
+      start.subtract(days, 'days');
+      end.subtract(days, 'days');
+    }
+    const [newStart, newEnd] = returnAsInt(start, end);
+    const rangeString = returnRangeAsString(start, end);
+    dateRangeArray = [newStart, newEnd, rangeString];
+  }
+  return dateRangeArray;
+}
+
+function noDateRange(days) {
+  let end = moment().startOf('day');
   let start = moment(end).startOf('day');
   start.subtract(days - 1, 'days');
+  const [newStart, newEnd] = returnAsInt(start, end);
+  const rangeString = returnRangeAsString(start, end);
+  return [newStart, newEnd, rangeString];
+}
+
+function returnAsInt(start, end) {
+  const newStart = parseInt(start.format('x'), 10);
+  const newEnd = parseInt(end.format('x'), 10);
+  return [newStart, newEnd];
+}
+
+function returnRangeAsString(start, end) {
   const rangeString = start.format('ll') + ' until ' + end.format('ll');
-  const intStart = parseInt(start.format('x'), 10);
-  const intEnd = parseInt(end.format('x'), 10);
-  return [intStart, intEnd, rangeString];
+  return rangeString;
 }
