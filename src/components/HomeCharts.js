@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import CalorieChart from '../charts/CalorieChart';
 import NutritionChart from '../charts/NutritionChart';
 import moveDataFromGoogle from '../functions/moveDataFromGoogle';
-import dateRange from '../functions/dateRange';
+import newDateRange from '../functions/dateRange';
 import getData from '../functions/getData';
 import loadChartData from '../functions/loadChartData';
 import AverageCaloriesBurned from './AverageCaloriesBurned';
@@ -11,9 +14,18 @@ import StepCount from './StepCount';
 import ActiveMinutes from './ActiveMinutes';
 import NetCalorieBurn from './NetCalorieBurn';
 
+const dateRangeLength = 15;
+
 function localStorageDefault(key, defaultValue) {
   const stickyData = localStorage.getItem(key);
   return stickyData !== null ? JSON.parse(stickyData) : defaultValue;
+}
+
+function selectChartDataByRange(arr, start, end) {
+  const newArray = arr.filter((item) => {
+    return item.date >= start && item.date <= end;
+  });
+  return newArray;
 }
 
 const HomeCharts = (props) => {
@@ -21,9 +33,16 @@ const HomeCharts = (props) => {
   const [sync, setSync] = useState(localStorageDefault('sync', ''));
   const [staleData, setStaleData] = useState(false);
   const [lastFetch, setLastFetch] = useState('');
-  const [newDateRange] = useState(dateRange(14));
+  const [dateRange, setDateRange] = useState(newDateRange(dateRangeLength));
   const [calorieChart, setCalorieChart] = useState([]);
   const [nutritionChart, setNutritionChart] = useState([]);
+
+  function previousDateRange() {
+    setDateRange(newDateRange(dateRangeLength, dateRange));
+  }
+  function nextDateRange() {
+    setDateRange(newDateRange(dateRangeLength, dateRange, true));
+  }
 
   useEffect(() => {
     setStaleData(checkLastFetched(1));
@@ -57,20 +76,38 @@ const HomeCharts = (props) => {
   useEffect(() => {
     if (sync) {
       const { calorieChart, nutritionChart } = sync.chartData;
-      const [start, end] = newDateRange;
+      const [start, end] = dateRange;
+      const newCalorieChart = selectChartDataByRange(
+        sync.chartData.calorieChart,
+        start,
+        end
+      );
+      console.log([start, end]);
+      console.log(newCalorieChart);
       setCalorieChart(selectChartDataByRange(calorieChart, start, end));
       setNutritionChart(selectChartDataByRange(nutritionChart, start, end));
     }
-  }, [newDateRange, sync]);
+  }, [dateRange, sync]);
 
   return (
     <div className="calories card">
       {sync ? (
         <>
+          <IconButton
+            color="inherit"
+            aria-label="previous"
+            onClick={previousDateRange}
+          >
+            <ArrowBackIosIcon />
+          </IconButton>
+          <IconButton color="inherit" aria-label="next" onClick={nextDateRange}>
+            <ArrowForwardIosIcon />
+          </IconButton>
           <CalorieChart data={calorieChart} />
           <br />
           <NutritionChart data={nutritionChart} />
           <br />
+
           <section className="gadgets">
             <div className="container">
               <div>
@@ -99,13 +136,6 @@ function checkLastFetched(wait) {
   const t = new Date().getTime();
   const w = wait * 60000;
   return fetched + w > t ? false : true;
-}
-
-function selectChartDataByRange(arr, start, end) {
-  const newArray = arr.filter((item) => {
-    return item.date >= start;
-  });
-  return newArray;
 }
 
 export default HomeCharts;
