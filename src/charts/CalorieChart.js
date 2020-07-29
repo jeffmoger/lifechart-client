@@ -26,10 +26,10 @@ const palette = {
 };
 
 const formatXAxis = (tickItem) => {
-  return moment(tickItem).format('ddd, MMM D');
+  return moment(tickItem).format('ddd D');
 };
 const formatToolTipLabel = (label) => {
-  return moment(label).format('MMMM Do YYYY');
+  return moment(label).format('MMMM D, YYYY');
 };
 
 const theme = palette.purple;
