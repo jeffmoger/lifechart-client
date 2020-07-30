@@ -39,6 +39,6 @@ function returnAsInt(start, end) {
 }
 
 function returnRangeAsString(start, end) {
-  const rangeString = start.format('ll') + ' until ' + end.format('ll');
+  const rangeString = start.format('MMM D') + ' - ' + end.format('MMM D');
   return rangeString;
 }
