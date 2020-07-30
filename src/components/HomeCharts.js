@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import CalorieChart from '../charts/CalorieChart';
 import NutritionChart from '../charts/NutritionChart';
@@ -13,6 +10,7 @@ import AverageCaloriesBurned from './AverageCaloriesBurned';
 import StepCount from './StepCount';
 import ActiveMinutes from './ActiveMinutes';
 import NetCalorieBurn from './NetCalorieBurn';
+import DisplayDateRange from './DisplayDateRange';
 
 const dateRangeLength = 15;
 
@@ -77,13 +75,6 @@ const HomeCharts = (props) => {
     if (sync) {
       const { calorieChart, nutritionChart } = sync.chartData;
       const [start, end] = dateRange;
-      const newCalorieChart = selectChartDataByRange(
-        sync.chartData.calorieChart,
-        start,
-        end
-      );
-      console.log([start, end]);
-      console.log(newCalorieChart);
       setCalorieChart(selectChartDataByRange(calorieChart, start, end));
       setNutritionChart(selectChartDataByRange(nutritionChart, start, end));
     }
@@ -93,16 +84,11 @@ const HomeCharts = (props) => {
     <div className="calories card">
       {sync ? (
         <>
-          <IconButton
-            color="inherit"
-            aria-label="previous"
-            onClick={previousDateRange}
-          >
-            <ArrowBackIosIcon />
-          </IconButton>
-          <IconButton color="inherit" aria-label="next" onClick={nextDateRange}>
-            <ArrowForwardIosIcon />
-          </IconButton>
+          <DisplayDateRange
+            dateRange={dateRange}
+            previousDateRange={previousDateRange}
+            nextDateRange={nextDateRange}
+          />
           <CalorieChart data={calorieChart} />
           <br />
           <NutritionChart data={nutritionChart} />
