@@ -5,7 +5,7 @@ import Switch from '@material-ui/core/Switch';
 
 export default function SwitchLabels(props) {
   const handleChange = (event) => {
-    props.onSwitchChange({[event.target.name]: event.target.checked });
+    props.onSwitchChange({ [event.target.name]: event.target.checked });
   };
 
   return (
