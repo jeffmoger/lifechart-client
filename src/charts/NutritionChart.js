@@ -58,6 +58,7 @@ export default class NutritionChart extends PureComponent {
               width={35}
               mirror={false}
               interval="preserveEnd"
+              domain={[0, 2800]}
             />
             <Tooltip
               contentStyle={wrapperStyle}
