@@ -81,6 +81,7 @@ export default class CalorieChart extends PureComponent {
               width={35}
               mirror={false}
               interval="preserveEnd"
+              domain={[0, 2800]}
             />
 
             <CartesianGrid strokeDasharray="1 3" stroke="#202020" />
