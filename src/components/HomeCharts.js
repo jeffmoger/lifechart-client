@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import CalorieChart from '../charts/CalorieChart';
+import { startToday } from '../functions/dateFunctions';
 import NutritionChart from '../charts/NutritionChart';
 import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import newDateRange from '../functions/dateRange';
@@ -88,6 +89,8 @@ const HomeCharts = (props) => {
             dateRange={dateRange}
             previousDateRange={previousDateRange}
             nextDateRange={nextDateRange}
+            nextDisabled={checkNextDisabled(dateRange)}
+            previousDisabled={checkPreviousDisabled(sync, dateRange)}
           />
           <CalorieChart data={calorieChart} />
           <br />
@@ -122,6 +125,24 @@ function checkLastFetched(wait) {
   const t = new Date().getTime();
   const w = wait * 60000;
   return fetched + w > t ? false : true;
+}
+
+function checkNextDisabled(dateRangeArray) {
+  const { 1: end } = dateRangeArray;
+  const today = startToday();
+  if (today === end) {
+    return true;
+  }
+}
+
+function checkPreviousDisabled(sync, dateRangeArray) {
+  if (sync) {
+    const [start] = dateRangeArray;
+    const { 0: firstDay } = sync.chartData.calorieChart;
+    if (firstDay.date >= start) {
+      return true;
+    }
+  }
 }
 
 export default HomeCharts;
