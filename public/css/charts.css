@@ -25,7 +25,7 @@ main {
   text-shadow: 1px 1px black;
   display: block;
   text-align: center;
-  margin: 0px 15px -5px -15px;
+  margin: 0px 15px -5px 15px;
   padding: 0;
   font-size: 140%;
 }
