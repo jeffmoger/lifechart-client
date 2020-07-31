@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { startToday, startOfDay } from './dateFunctions';
 import dateRange from './dateRange';
 import returnDateArray from './returnDateArray';
 
@@ -88,17 +89,6 @@ function sum(prev, next) {
 
 function subtract(num1, num2) {
   return num1 - num2;
-}
-
-function startToday() {
-  const date = new Date();
-  const start = moment(date).startOf('day');
-  return moment(start).format('x');
-}
-
-function startOfDay(date) {
-  const start = moment(date).startOf('day');
-  return moment(start).format('x');
 }
 
 function getLatestValue(arr, date) {
