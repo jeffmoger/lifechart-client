@@ -7,21 +7,23 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
+    justifyContent: 'center',
+    //border: '1px solid #000',
+    maxWidth: '960px',
   },
   item: {
-    margin: 'auto',
+    //
   },
   icon: {
-    width: '200px',
     textAlign: 'center',
-    //border: '1px solid #CCC',
+    flexGrow: 1,
+    //border: '1px solid #666',
   },
   date: {
-    width: '200px',
     textAlign: 'center',
     color: '#CCC',
     textShadow: '1px 1px black',
-    //border: '1px solid #000',
+    width: '250px',
   },
   back: {
     textAlign: 'right',
