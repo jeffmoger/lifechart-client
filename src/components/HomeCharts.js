@@ -12,6 +12,7 @@ import StepCount from './StepCount';
 import ActiveMinutes from './ActiveMinutes';
 import NetCalorieBurn from './NetCalorieBurn';
 import DisplayDateRange from './DisplayDateRange';
+import SpeedDial from './SpeedDial';
 
 const dateRangeLength = 15;
 
@@ -82,7 +83,8 @@ const HomeCharts = (props) => {
   }, [dateRange, sync]);
 
   return (
-    <div className="calories card">
+    <div className="homeCharts">
+      <SpeedDial />
       {sync ? (
         <>
           <DisplayDateRange
