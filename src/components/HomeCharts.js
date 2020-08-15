@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import Button from '@material-ui/core/Button';
 import CalorieChart from '../charts/CalorieChart';
 import { startToday } from '../functions/dateFunctions';
 import NutritionChart from '../charts/NutritionChart';
@@ -84,7 +84,6 @@ const HomeCharts = (props) => {
 
   return (
     <div className="homeCharts">
-      <SpeedDial />
       {sync ? (
         <>
           <DisplayDateRange
@@ -117,6 +116,7 @@ const HomeCharts = (props) => {
           </section>
         </>
       ) : null}
+      <SpeedDial />
     </div>
   );
 };
