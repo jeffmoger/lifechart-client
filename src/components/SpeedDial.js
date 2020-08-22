@@ -5,9 +5,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import medicineBottleFill from '@iconify/icons-ri/medicine-bottle-fill';
 import dramaMasks from '@iconify/icons-mdi/drama-masks';
 import scaleBathroom from '@iconify/icons-mdi/scale-bathroom';
+import bellSleep from '@iconify/icons-mdi/bell-sleep';
 import DataEntry from './DataEntry';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,12 +35,12 @@ const useStylesTooltip = makeStyles((theme) => ({
 }));
 
 const actions = [
-  { icon: <Icon icon={medicineBottleFill} height={20} />, name: 'Medicine' },
+  { icon: <Icon icon={bellSleep} height={20} />, name: 'Sleep' },
   { icon: <Icon icon={scaleBathroom} height={20} />, name: 'Weight' },
   { icon: <Icon icon={dramaMasks} height={20} />, name: 'Mood' },
 ];
 
-export default function SpeedDialTooltipOpen() {
+export default function SpeedDialTooltipOpen({ refreshAfterSubmit }) {
   const classes = useStyles();
   const classesTooltip = useStylesTooltip();
   const [open, setOpen] = useState(false);
@@ -72,7 +72,9 @@ export default function SpeedDialTooltipOpen() {
           className={classes.dialog}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
+          closeSpeedDial={handleClose}
           category={dialogCategory}
+          refreshAfterSubmit={refreshAfterSubmit}
         />
       </Backdrop>
       <SpeedDial
