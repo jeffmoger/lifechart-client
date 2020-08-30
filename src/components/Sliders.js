@@ -7,50 +7,13 @@ const useStyles = makeStyles({
   vertical: {
     height: 300,
     flexGrow: 1,
-    //textAlign: 'center',
-    marginLeft: 20,
+    textAlign: 'center',
   },
-  horizontal: {
-    width: 300,
-    margin: '0 auto',
+  groupName: {
+    marginTop: 25,
+    fontSize: '80%',
   },
 });
-
-const marks = [
-  {
-    value: 0,
-  },
-  {
-    value: 1,
-  },
-  {
-    value: 2,
-  },
-  {
-    value: 3,
-  },
-  {
-    value: 4,
-  },
-  {
-    value: 5,
-  },
-  {
-    value: 6,
-  },
-  {
-    value: 7,
-  },
-  {
-    value: 8,
-  },
-  {
-    value: 9,
-  },
-  {
-    value: 10,
-  },
-];
 
 const CustomSlider = withStyles({
   root: {
@@ -76,12 +39,15 @@ const CustomSlider = withStyles({
   },
   active: {},
   valueLabel: {
-    left: -40,
+    left: -45,
     top: 1,
     '& *': {
       background: 'transparent',
       color: '#b6add1',
     },
+  },
+  markLabel: {
+    marginLeft: 30,
   },
   track: {
     height: 8,
@@ -95,7 +61,7 @@ const CustomSlider = withStyles({
     backgroundColor: '#111',
     height: 1,
     width: 8,
-    marginTop: -3,
+    marginLeft: -4,
   },
   markActive: {
     opacity: 1,
@@ -115,7 +81,15 @@ const CustomSlider = withStyles({
   },
 })(Slider);
 
-export default function Sliders({ handleSliderChange, defaultValue, name }) {
+export default function Sliders({
+  handleSliderChange,
+  defaultValue,
+  name,
+  marks,
+  min,
+  max,
+  step,
+}) {
   const classes = useStyles();
   return (
     <div className={classes.vertical}>
@@ -124,13 +98,13 @@ export default function Sliders({ handleSliderChange, defaultValue, name }) {
         aria-label={name}
         defaultValue={defaultValue}
         marks={marks}
-        step={1}
-        min={0}
-        max={10}
+        min={min}
+        max={max}
+        step={step}
         valueLabelDisplay="auto"
         onChangeCommitted={(event, value) => handleSliderChange(name, value)}
       />
-      <Typography id={name} variant="caption">
+      <Typography id={name} className={classes.groupName}>
         {name}
       </Typography>
     </div>

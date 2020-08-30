@@ -12,6 +12,42 @@ const useStyles = makeStyles({
   },
 });
 
+const marks = [
+  {
+    value: 0,
+  },
+  {
+    value: 1,
+  },
+  {
+    value: 2,
+  },
+  {
+    value: 3,
+  },
+  {
+    value: 4,
+  },
+  {
+    value: 5,
+  },
+  {
+    value: 6,
+  },
+  {
+    value: 7,
+  },
+  {
+    value: 8,
+  },
+  {
+    value: 9,
+  },
+  {
+    value: 10,
+  },
+];
+
 export default function DataEntryMood({ handleSliderChange, sliders }) {
   const classes = useStyles();
 
@@ -25,6 +61,10 @@ export default function DataEntryMood({ handleSliderChange, sliders }) {
           <Sliders
             key={slider.name}
             name={slider.name}
+            marks={marks}
+            min={0}
+            max={10}
+            step={1}
             handleSliderChange={handleSliderChange}
             defaultValue={slider.value}
           />

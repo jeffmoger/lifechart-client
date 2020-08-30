@@ -8,6 +8,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import DataEntryMood from './DataEntryMood';
+import DataEntryWeight from './DataEntryWeight';
+import DataEntrySleep from './DataEntrySleep';
+import { nowMillis } from '../functions/dateFunctions';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -19,7 +22,7 @@ const getStateDefault = (category) => {
         value: 0,
       },
       {
-        name: 'Irritable',
+        name: 'Irritability',
         value: 0,
       },
       {
@@ -27,15 +30,31 @@ const getStateDefault = (category) => {
         value: 0,
       },
     ];
-  } else {
-    return [];
+  }
+  if (category === 'Weight') {
+    return [
+      {
+        name: 'Weight',
+        value: 0,
+      },
+    ];
+  }
+  if (category === 'Sleep') {
+    return [
+      {
+        name: 'Sleep',
+      },
+      {
+        name: 'Wake',
+      },
+    ];
   }
 };
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
-    minHeight: '70vh',
-    maxHeight: '70vh',
+    minHeight: 600,
+    maxHeight: '80vh',
     minWidth: 400,
     backgroundColor: '#111111',
   },
@@ -46,9 +65,15 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     position: 'relative',
   },
-  button: {
+  buttonDiv: {
+    marginRight: 30,
     marginBottom: 40,
-    marginRight: 40,
+  },
+  buttonSave: {
+    marginLeft: 20,
+  },
+  buttonClose: {
+    color: '#999',
   },
 }));
 
@@ -99,7 +124,7 @@ export default function DataEntry({
   function handleSubmit(event, values) {
     event.preventDefault();
     setStatus(2);
-    submitRecord(values, token).then((response) => {
+    submitRecord(values, token, category).then((response) => {
       if (response.id) {
         setStatus(3);
         console.log(response);
@@ -119,7 +144,7 @@ export default function DataEntry({
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
-          disableScrollLock={false}
+          disableScrollLock={true}
           classes={paperClass}
         >
           <DialogTitle id="alert-dialog-title"></DialogTitle>
@@ -130,19 +155,39 @@ export default function DataEntry({
                 sliders={getStateDefault(category)}
               />
             ) : null}
+            {category === 'Weight' && status <= 1 ? (
+              <DataEntryWeight
+                handleSliderChange={handleSliderChange}
+                sliders={getStateDefault(category)}
+              />
+            ) : null}
+            {category === 'Sleep' && status <= 1 ? (
+              <DataEntrySleep
+                handleSliderChange={handleSliderChange}
+                sliders={getStateDefault(category)}
+              />
+            ) : null}
             {status === 2 ? <CircularProgress /> : null}
           </DialogContent>
           <DialogActions>
-            <Button
-              variant="contained"
-              onClick={(event) => handleSubmit(event, values)}
-              color="primary"
-              autoFocus
-              disabled={disabled}
-              className={classes.button}
-            >
-              Save
-            </Button>
+            <div className={classes.buttonDiv}>
+              <Button
+                onClick={handleDialogClose}
+                className={classes.buttonClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={(event) => handleSubmit(event, values)}
+                color="primary"
+                autoFocus
+                disabled={disabled}
+                className={classes.buttonSave}
+              >
+                Save
+              </Button>
+            </div>
           </DialogActions>
         </Dialog>
       </form>
@@ -150,7 +195,8 @@ export default function DataEntry({
   );
 }
 
-async function submitRecord(state, token) {
+async function submitRecord(state, token, category) {
+  const dataTypeName = `lifechart.${category.toLowerCase()}.item`;
   try {
     const r = await fetch(`${process.env.REACT_APP_API}/api/items/create`, {
       method: 'POST',
@@ -160,7 +206,9 @@ async function submitRecord(state, token) {
       },
       body: JSON.stringify({
         item: {
-          dataTypeName: 'lifechart.mood.item',
+          dataTypeName: dataTypeName,
+          startTimeMillis: nowMillis(),
+          endTimeMillis: nowMillis(),
           value: structureJSON(state),
         },
       }),
