@@ -41,6 +41,7 @@ const CustomSlider = withStyles({
   valueLabel: {
     left: -60,
     top: 1,
+    fontSize: 16,
     '& *': {
       background: 'transparent',
       color: '#b6add1',
