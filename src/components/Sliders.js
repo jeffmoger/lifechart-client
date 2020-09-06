@@ -39,7 +39,7 @@ const CustomSlider = withStyles({
   },
   active: {},
   valueLabel: {
-    left: -45,
+    left: -60,
     top: 1,
     '& *': {
       background: 'transparent',
@@ -89,6 +89,8 @@ export default function Sliders({
   min,
   max,
   step,
+  valueLabelDisplay,
+  valueLabelFormat,
 }) {
   const classes = useStyles();
   return (
@@ -101,7 +103,8 @@ export default function Sliders({
         min={min}
         max={max}
         step={step}
-        valueLabelDisplay="auto"
+        valueLabelDisplay={valueLabelDisplay}
+        valueLabelFormat={valueLabelFormat}
         onChangeCommitted={(event, value) => handleSliderChange(name, value)}
       />
       <Typography id={name} className={classes.groupName}>

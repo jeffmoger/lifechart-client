@@ -29,3 +29,7 @@ export const startTodaySeconds = () => {
 export const labelHour = (date) => {
   return moment(date * 1000).format('h a');
 };
+
+export const labelFormat = (date) => {
+  return moment(date * 1000).format('h:mm');
+};

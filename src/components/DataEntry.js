@@ -159,6 +159,7 @@ export default function DataEntry({
               <DataEntryWeight
                 handleSliderChange={handleSliderChange}
                 sliders={getStateDefault(category)}
+                stateValues={values}
               />
             ) : null}
             {category === 'Sleep' && status <= 1 ? (

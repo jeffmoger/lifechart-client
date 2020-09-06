@@ -67,6 +67,7 @@ export default function DataEntryMood({ handleSliderChange, sliders }) {
             step={1}
             handleSliderChange={handleSliderChange}
             defaultValue={slider.value}
+            valueLabelDisplay="auto"
           />
         ))}
       </div>

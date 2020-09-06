@@ -18,6 +18,10 @@ function currentWeight() {
   return weight;
 }
 
+function valueLabelFormat(value) {
+  return value + 'kg';
+}
+
 function range(weight) {
   let start = weight * 10 - 20;
   let stop = weight * 10 + 20;
@@ -57,6 +61,8 @@ export default function DataEntryWeight({ handleSliderChange, sliders }) {
             step={0.1}
             handleSliderChange={handleSliderChange}
             defaultValue={Number(weight)}
+            valueLabelDisplay="on"
+            valueLabelFormat={valueLabelFormat}
           />
         ))}
       </div>

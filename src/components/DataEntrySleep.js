@@ -2,7 +2,11 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Sliders from './Sliders';
-import { startTodaySeconds, labelHour } from '../functions/dateFunctions';
+import {
+  startTodaySeconds,
+  labelHour,
+  labelFormat,
+} from '../functions/dateFunctions';
 
 const useStyles = makeStyles({
   container: {
@@ -59,6 +63,10 @@ function rangeWake(start) {
   return [start, stop, step, arr];
 }
 
+function valueLabelFormat(value) {
+  return labelFormat(value);
+}
+
 export default function DataEntryWeight({ handleSliderChange, sliders }) {
   const classes = useStyles();
   const [start, stop, step, marks] = rangeSleep(startSleep());
@@ -78,6 +86,8 @@ export default function DataEntryWeight({ handleSliderChange, sliders }) {
           marks={marks}
           defaultValue={start + 3600 * 3}
           handleSliderChange={handleSliderChange}
+          valueLabelDisplay="auto"
+          valueLabelFormat={valueLabelFormat}
         />
         <Sliders
           name="Wake"
@@ -88,6 +98,8 @@ export default function DataEntryWeight({ handleSliderChange, sliders }) {
           marks={wakeMarks}
           defaultValue={wakeStart + 3600 * 1.5}
           handleSliderChange={handleSliderChange}
+          valueLabelDisplay="auto"
+          valueLabelFormat={valueLabelFormat}
         />
       </div>
     </div>
