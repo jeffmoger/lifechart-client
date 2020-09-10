@@ -12,38 +12,46 @@ const useStyles = makeStyles({
   },
 });
 
-function currentWeight() {
-  //TODO: Lookup weight from profile
-  const weight = '76.3';
-  return weight;
-}
-
-function valueLabelFormat(value) {
-  return value + 'kg';
-}
-
-function range(weight) {
-  let start = weight * 10 - 20;
-  let stop = weight * 10 + 20;
-  let step = 1;
-  var arr = [],
-    b = start;
-  while (b < stop) {
-    let nextVal = (b += step) / 10;
-    let obj;
-    if (Number(nextVal) === Number(weight)) {
-      obj = { value: nextVal, label: nextVal.toString().concat(' kg') };
-    } else {
-      obj = { value: nextVal };
-    }
-    arr.push(obj);
-  }
-  return [weight, start / 10, stop / 10, arr];
-}
-
-export default function DataEntryWeight({ handleSliderChange, sliders }) {
+export default function DataEntryWeight({
+  handleSliderChange,
+  sliders,
+  authTokens,
+  profile,
+}) {
   const classes = useStyles();
+  const { weight: savedWeight } = profile;
   const [weight, start, stop, marks] = range(currentWeight());
+
+  function currentWeight() {
+    if (savedWeight) {
+      return savedWeight;
+    } else {
+      return 76.3;
+    }
+  }
+
+  function valueLabelFormat(value) {
+    return value + 'kg';
+  }
+
+  function range(weight) {
+    let start = weight * 10 - 20;
+    let stop = weight * 10 + 20;
+    let step = 1;
+    var arr = [],
+      b = start;
+    while (b < stop) {
+      let nextVal = (b += step) / 10;
+      let obj;
+      if (Number(nextVal) === Number(weight)) {
+        obj = { value: nextVal, label: nextVal.toString().concat(' kg') };
+      } else {
+        obj = { value: nextVal };
+      }
+      arr.push(obj);
+    }
+    return [weight, start / 10, stop / 10, arr];
+  }
 
   return (
     <div>
