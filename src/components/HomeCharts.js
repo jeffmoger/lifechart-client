@@ -28,7 +28,7 @@ function selectChartDataByRange(arr, start, end) {
 }
 
 const HomeCharts = (props) => {
-  const { id, token } = JSON.parse(localStorage.getItem('tokens'));
+  const { id, token } = props.authTokens;
   const [sync, setSync] = useState(localStorageDefault('sync', ''));
   const [staleData, setStaleData] = useState(false);
   const [lastFetch, setLastFetch] = useState('');
@@ -120,7 +120,11 @@ const HomeCharts = (props) => {
           </section>
         </>
       ) : null}
-      <SpeedDial refreshAfterSubmit={refreshAfterSubmit} />
+      <SpeedDial
+        refreshAfterSubmit={refreshAfterSubmit}
+        profile={props.profile}
+        authTokens={props.authTokens}
+      />
     </div>
   );
 };

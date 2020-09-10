@@ -40,7 +40,11 @@ const actions = [
   { icon: <Icon icon={dramaMasks} height={20} />, name: 'Mood' },
 ];
 
-export default function SpeedDialTooltipOpen({ refreshAfterSubmit }) {
+export default function SpeedDialTooltipOpen({
+  refreshAfterSubmit,
+  authTokens,
+  profile,
+}) {
   const classes = useStyles();
   const classesTooltip = useStylesTooltip();
   const [open, setOpen] = useState(false);
@@ -75,6 +79,8 @@ export default function SpeedDialTooltipOpen({ refreshAfterSubmit }) {
           closeSpeedDial={handleClose}
           category={dialogCategory}
           refreshAfterSubmit={refreshAfterSubmit}
+          profile={profile}
+          authTokens={authTokens}
         />
       </Backdrop>
       <SpeedDial

@@ -83,13 +83,15 @@ export default function DataEntry({
   category,
   closeSpeedDial,
   refreshAfterSubmit,
+  profile,
+  authTokens,
 }) {
   const classes = useStyles();
   const [values, setValues] = useState([]);
   const [status, setStatus] = useState(0);
   const [disabled, setDisabled] = useState(true);
+  const { token } = authTokens;
 
-  const { token } = JSON.parse(localStorage.getItem('tokens'));
   const theme = useTheme();
 
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -159,7 +161,7 @@ export default function DataEntry({
               <DataEntryWeight
                 handleSliderChange={handleSliderChange}
                 sliders={getStateDefault(category)}
-                stateValues={values}
+                profile={profile}
               />
             ) : null}
             {category === 'Sleep' && status <= 1 ? (
