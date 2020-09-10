@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
   groupName: {
     marginTop: 25,
-    fontSize: '80%',
+    fontSize: '85%',
   },
 });
 
