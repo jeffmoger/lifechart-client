@@ -7,10 +7,9 @@ import HomeCharts from '../components/HomeCharts';
 export default function Home() {
   const isAuthenticated = useAuth();
   const [profile, setProfile] = useState('');
-  const { id, token } = isAuthenticated.authTokens;
 
   useEffect(() => {
-    async function getProfile() {
+    async function getProfile(id, token) {
       const r = await fetch(`${process.env.REACT_APP_API}/api/users/read`, {
         method: 'GET',
         headers: {
@@ -22,8 +21,11 @@ export default function Home() {
       const response = await r.json();
       return response;
     }
-    getProfile().then((result) => setProfile(result));
-  }, [id, token]);
+    if (isAuthenticated.authTokens) {
+      const { id, token } = isAuthenticated.authTokens;
+      getProfile(id, token).then((result) => setProfile(result));
+    }
+  }, [isAuthenticated.authTokens]);
 
   return (
     <main>
