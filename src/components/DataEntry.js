@@ -90,7 +90,7 @@ export default function DataEntry({
   const [values, setValues] = useState([]);
   const [status, setStatus] = useState(0);
   const [disabled, setDisabled] = useState(true);
-  const { token } = authTokens;
+  const { id, token } = authTokens;
 
   const theme = useTheme();
 
@@ -123,13 +123,29 @@ export default function DataEntry({
     handleDialogClose();
   };
 
+  async function updateProfile(arr) {
+    let weightObj = arr.find((item) => item.name === 'Weight');
+    let newObj = { weight: weightObj.value };
+    await fetch(`${process.env.REACT_APP_API}/api/users/edit`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Token ' + token,
+        id: id,
+      },
+      body: JSON.stringify(newObj),
+    });
+  }
+
   function handleSubmit(event, values) {
     event.preventDefault();
     setStatus(2);
     submitRecord(values, token, category).then((response) => {
       if (response.id) {
         setStatus(3);
-        console.log(response);
+        if (category === 'Weight') {
+          updateProfile(values);
+        }
       } else {
         //REMOVE THIS
         alert(response);
