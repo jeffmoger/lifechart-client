@@ -21,26 +21,39 @@ const useStyles = makeStyles((theme) => ({
 export default function FormSubmitProfile(props) {
   const classes = useStyles();
   const [input, setInput] = useState(() => {
-    let { first_name, family_name, email, weight } = props.profile;
-    return { first_name, family_name, email, weight };
+    let {
+      first_name,
+      family_name,
+      email,
+      weight,
+      weight_goal,
+      daily_calorie_goal,
+    } = props.profile;
+    return {
+      first_name,
+      family_name,
+      email,
+      weight,
+      weight_goal,
+      daily_calorie_goal,
+    };
   });
+
+  useEffect(() => {
+    console.log(props.profile);
+  }, [props.profile]);
+
   const handleInputChange = (e) =>
     setInput({
       ...input,
       [e.currentTarget.id]: e.currentTarget.value,
     });
 
-  useEffect(() => {
-    console.log(input);
-  }, [input]);
-
   function submitSaveProfile(event) {
     event.preventDefault();
     let obj = { ...input };
     obj.weight = Number(input.weight).toFixed(1);
-    saveProfile(props.id, props.token, obj).then((response) =>
-      console.log(response)
-    );
+    saveProfile(props.id, props.token, obj);
   }
   return (
     <form
@@ -75,6 +88,23 @@ export default function FormSubmitProfile(props) {
         value={input.weight}
         type="number"
         step="0.1"
+        onChange={handleInputChange}
+      />
+      <br />
+      <TextField
+        id="weight_goal"
+        label="Weight Goal"
+        value={input.weight_goal}
+        type="number"
+        step="1"
+        onChange={handleInputChange}
+      />
+      <TextField
+        id="daily_calorie_goal"
+        label="Daily Calorie Goal"
+        value={input.daily_calorie_goal}
+        type="number"
+        step="10"
         onChange={handleInputChange}
       />
       <div className={classes.buttonDiv}>
