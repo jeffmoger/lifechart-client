@@ -74,7 +74,7 @@ export default function FormSubmitSymptoms(props) {
   const getList = async (id, token) => {
     try {
       let res = await fetch(`${process.env.REACT_APP_API}/api/symptoms/read`, {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'content-type': 'application/json',
           authorization: 'Token ' + token,
