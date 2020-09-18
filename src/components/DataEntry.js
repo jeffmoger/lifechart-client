@@ -75,6 +75,12 @@ const useStyles = makeStyles((theme) => ({
   buttonClose: {
     color: '#999',
   },
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 400,
+  },
 }));
 
 export default function DataEntry({
@@ -142,10 +148,12 @@ export default function DataEntry({
     setStatus(2);
     submitRecord(values, token, category).then((response) => {
       if (response.id) {
-        setStatus(3);
         if (category === 'Weight') {
           updateProfile(values);
         }
+        setTimeout(function () {
+          setStatus(3);
+        }, 500);
       } else {
         //REMOVE THIS
         alert(response);
@@ -186,7 +194,11 @@ export default function DataEntry({
                 sliders={getStateDefault(category)}
               />
             ) : null}
-            {status === 2 ? <CircularProgress /> : null}
+            {status === 2 ? (
+              <div className={classes.loader}>
+                <CircularProgress />
+              </div>
+            ) : null}
           </DialogContent>
           <DialogActions>
             <div className={classes.buttonDiv}>
