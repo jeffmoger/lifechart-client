@@ -12,6 +12,7 @@ import ActiveMinutes from './ActiveMinutes';
 import NetCalorieBurn from './NetCalorieBurn';
 import DisplayDateRange from './DisplayDateRange';
 import SpeedDial from './SpeedDial';
+import Loader from './Loader';
 
 const dateRangeLength = 15;
 
@@ -44,7 +45,7 @@ const HomeCharts = (props) => {
   }
 
   function refreshAfterSubmit() {
-    window.location.reload(true);
+    window.location.reload();
     //setStaleData(true);
   }
 
@@ -119,7 +120,9 @@ const HomeCharts = (props) => {
             </div>
           </section>
         </>
-      ) : null}
+      ) : (
+        <Loader />
+      )}
       <SpeedDial
         refreshAfterSubmit={refreshAfterSubmit}
         profile={props.profile}
