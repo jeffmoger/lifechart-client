@@ -118,7 +118,7 @@ export default function FormSubmitProfile(props) {
 
 async function saveProfile(id, token, body) {
   await fetch(`${process.env.REACT_APP_API}/api/users/edit`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'content-type': 'application/json',
       authorization: 'Token ' + token,
