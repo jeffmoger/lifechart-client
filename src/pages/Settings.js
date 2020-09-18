@@ -2,16 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Switch from '../components/Switch';
 import queryString from 'query-string';
-import DisplaySyncReport from '../components/DisplaySyncReport';
-
-import moveDataFromGoogle from '../functions/moveDataFromGoogle';
-import getData from '../functions/getData';
-import loadChartData from '../functions/loadChartData';
 
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -20,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import FormSubmitProfile from '../components/FormSubmitProfile';
+import FormSubmitSymptoms from '../components/FormSubmitSymptoms';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -48,7 +43,6 @@ function Settings(props) {
   const [googleCode, setGoogleCode] = useState('');
   const [googleAuth, setGoogleAuth] = useState('');
   const [googleSwitch, setGoogleSwitch] = useState(googleFit);
-  const [displayResponse, setDisplayResponse] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [profile, setProfile] = useState('');
 
@@ -79,37 +73,6 @@ function Settings(props) {
       );
     }
   }, [googleCode, googleAuth, id, token]);
-
-  function handleSync() {
-    moveDataFromGoogle(id, token)
-      .then((response) => {
-        var dataObject = {};
-        dataObject.syncReport = response;
-        return dataObject;
-      })
-      .then(async (dataObject) => {
-        dataObject.data = await getData(id, token);
-        return dataObject;
-      })
-      .then((dataObject) => {
-        dataObject.chartData = loadChartData(dataObject);
-        dataObject.fetched = new Date().getTime();
-        return dataObject;
-      })
-      .then((dataObject) => {
-        setDisplayResponse(dataObject.syncReport);
-        localStorage.setItem('sync', JSON.stringify(dataObject));
-      })
-      .catch((err) => console.log(err));
-  }
-
-  const GoogleSyncButton = (props) => {
-    return (
-      <Button variant="contained" type="button" onClick={handleSync}>
-        Sync Data
-      </Button>
-    );
-  };
 
   function handleSwitchChange(googleSwitch) {
     setGoogleSwitch(googleSwitch.googleSwitch);
@@ -160,29 +123,18 @@ function Settings(props) {
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.grid}>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <p>Manage data sync with Google here.</p>
-                  <Switch
-                    label="Connect to Google Fit"
-                    color="primary"
-                    name="googleSwitch"
-                    googleSwitch={googleSwitch}
-                    onSwitchChange={handleSwitchChange}
-                  />
-                  {googleFit ? <GoogleSyncButton /> : null}
-                  {Array.isArray(displayResponse) ? (
-                    <DisplaySyncReport data={displayResponse} />
-                  ) : null}
-                  {!googleFit && !googleCode && googleUrl && googleSwitch ? (
-                    <GoogleCodeButton url={googleUrl} />
-                  ) : null}
-                  {googleCode && !googleAuth ? (
-                    <Redirect to="/settings" />
-                  ) : null}
-                  <div id="response"></div>
-                </Grid>
-              </Grid>
+              <Switch
+                label="Connect to Google Fit"
+                color="primary"
+                name="googleSwitch"
+                googleSwitch={googleSwitch}
+                onSwitchChange={handleSwitchChange}
+              />
+              {!googleFit && !googleCode && googleUrl && googleSwitch ? (
+                <GoogleCodeButton url={googleUrl} />
+              ) : null}
+              {googleCode && !googleAuth ? <Redirect to="/settings" /> : null}
+              <div id="response"></div>
             </div>
           </AccordionDetails>
         </Accordion>
@@ -195,9 +147,11 @@ function Settings(props) {
             aria-controls="panel4bh-content"
             id="panel4bh-header"
           >
-            <Typography className={classes.heading}>Password</Typography>
+            <Typography className={classes.heading}>Symptoms</Typography>
           </AccordionSummary>
-          <AccordionDetails></AccordionDetails>
+          <AccordionDetails>
+            <FormSubmitSymptoms id={id} token={token} profile={profile} />
+          </AccordionDetails>
         </Accordion>
       </div>
     </main>
