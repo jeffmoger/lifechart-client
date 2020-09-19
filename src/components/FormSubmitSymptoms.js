@@ -138,13 +138,9 @@ export default function FormSubmitSymptoms(props) {
   };
 
   const handleDelete = async (e) => {
-    let updateList = [...displayList];
-    const index = updateList.findIndex((x) => x.id === e.currentTarget.name);
-    await deleteSymptom(e.currentTarget.name, token).then((result) => {
-      if (result.id) {
-        delete updateList[index];
-        setDisplayList(updateList);
-      }
+    await deleteSymptom(e.currentTarget.name, token);
+    await getList(id, token).then((result) => {
+      setDisplayList(result);
     });
   };
 
