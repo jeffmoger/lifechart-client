@@ -1,23 +1,27 @@
 import React from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   table: {
     marginBottom: 30,
   },
+  delete: {
+    padding: theme.spacing(0),
+  },
 }));
 
 export default function DisplaySymptomList(props) {
   const classes = useStyles();
-  const { displayList } = props;
+  const { displayList, handleSwitch, handleDelete } = props;
 
   return (
     <TableContainer component={'div'}>
@@ -41,12 +45,21 @@ export default function DisplaySymptomList(props) {
                     id={row.id}
                     size="small"
                     color="primary"
-                    checked={true}
-                    disabled
+                    checked={row.show}
+                    onClick={handleSwitch}
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <DeleteIcon color="disabled" />
+                  <IconButton
+                    name={row.id}
+                    data-value={row.active}
+                    edge="start"
+                    className={classes.delete}
+                    aria-label="delete"
+                    onClick={handleDelete}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}

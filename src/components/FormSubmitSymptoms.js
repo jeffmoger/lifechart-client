@@ -87,6 +87,67 @@ export default function FormSubmitSymptoms(props) {
     }
   };
 
+  const updateSymptom = async (item, token, body) => {
+    try {
+      let res = await fetch(
+        `${process.env.REACT_APP_API}/api/symptoms/update`,
+        {
+          method: 'PUT',
+          headers: {
+            'content-type': 'application/json',
+            authorization: 'Token ' + token,
+            id: item,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+      return await res.json();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteSymptom = async (item, token) => {
+    try {
+      let res = await fetch(
+        `${process.env.REACT_APP_API}/api/symptoms/delete`,
+        {
+          method: 'DELETE',
+          headers: {
+            'content-type': 'application/json',
+            authorization: 'Token ' + token,
+            id: item,
+          },
+        }
+      );
+      return await res.json();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSwitch = async (e) => {
+    let updateList = [...displayList];
+    const index = updateList.findIndex((x) => x.id === e.target.id);
+    const body = { show: e.target.checked };
+    updateList[index].show = e.target.checked;
+    await updateSymptom(e.target.id, token, body).then((result) => {
+      updateList[index].updatedAt = result.updatedAt;
+      setDisplayList(updateList);
+    });
+  };
+
+  const handleDelete = async (e) => {
+    let updateList = [...displayList];
+    const index = updateList.findIndex((x) => x.id === e.currentTarget.name);
+    await deleteSymptom(e.currentTarget.name, token).then((result) => {
+      if (result.id) {
+        delete updateList[index];
+        setDisplayList(updateList);
+      }
+    });
+  };
+
   useEffect(() => {
     input.length > 2 ? setDisabled(false) : setDisabled(true);
   }, [input]);
@@ -97,10 +158,6 @@ export default function FormSubmitSymptoms(props) {
     });
   }, [id, token]);
 
-  useEffect(() => {
-    console.log(displayList);
-  }, [displayList]);
-
   return (
     <>
       <form
@@ -109,7 +166,11 @@ export default function FormSubmitSymptoms(props) {
         noValidate
         autoComplete="off"
       >
-        <DisplaySymptomList displayList={displayList} />
+        <DisplaySymptomList
+          displayList={displayList}
+          handleSwitch={handleSwitch}
+          handleDelete={handleDelete}
+        />
 
         <div className={classes.enterNewDiv}>
           <TextField
