@@ -39,10 +39,6 @@ export default function FormSubmitProfile(props) {
     };
   });
 
-  useEffect(() => {
-    console.log(props.profile);
-  }, [props.profile]);
-
   const handleInputChange = (e) =>
     setInput({
       ...input,
