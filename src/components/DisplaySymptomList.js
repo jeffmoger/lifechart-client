@@ -22,9 +22,6 @@ const useStyles = makeStyles((theme) => ({
 export default function DisplaySymptomList(props) {
   const classes = useStyles();
   const { displayList, handleSwitch, handleDelete } = props;
-  React.useEffect(() => {
-    console.log(displayList);
-  }, [displayList]);
 
   return (
     <TableContainer component={'div'}>
