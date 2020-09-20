@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Sliders from './Sliders';
@@ -16,6 +16,15 @@ const useStyles = makeStyles({
     marginTop: 50,
   },
 });
+
+const sliders = [
+  {
+    name: 'Sleep',
+  },
+  {
+    name: 'Wake',
+  },
+];
 
 const startSleep = () => {
   return startTodaySeconds() - 3600 * 4;
@@ -67,10 +76,15 @@ function valueLabelFormat(value) {
   return labelFormat(value);
 }
 
-export default function DataEntryWeight({ handleSliderChange, sliders }) {
+export default function DataEntryWeight({ handleSliderChange, setValues }) {
   const classes = useStyles();
   const [start, stop, step, marks] = rangeSleep(startSleep());
   const [wakeStart, wakeStop, wakeStep, wakeMarks] = rangeWake(startWake());
+
+  useEffect(() => {
+    setValues(sliders);
+  }, [setValues]);
+
   return (
     <div>
       <Typography id="sleep-slider" variant="h5" align="center" gutterBottom>
