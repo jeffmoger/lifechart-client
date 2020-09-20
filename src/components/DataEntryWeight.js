@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Sliders from './Sliders';
@@ -12,15 +12,25 @@ const useStyles = makeStyles({
   },
 });
 
+const sliders = [
+  {
+    name: 'Weight',
+    value: 0,
+  },
+];
+
 export default function DataEntryWeight({
   handleSliderChange,
-  sliders,
-  authTokens,
   profile,
+  setValues,
 }) {
   const classes = useStyles();
   const { weight: savedWeight } = profile;
   const [weight, start, stop, marks] = range(currentWeight());
+
+  useEffect(() => {
+    setValues(sliders);
+  }, [setValues]);
 
   function currentWeight() {
     if (savedWeight) {
@@ -59,20 +69,18 @@ export default function DataEntryWeight({
         Adjust your current weight.
       </Typography>
       <div className={classes.container}>
-        {sliders.map((slider) => (
-          <Sliders
-            key={slider.name}
-            name={slider.name}
-            marks={marks}
-            min={start}
-            max={stop}
-            step={0.1}
-            handleSliderChange={handleSliderChange}
-            defaultValue={Number(weight)}
-            valueLabelDisplay="on"
-            valueLabelFormat={valueLabelFormat}
-          />
-        ))}
+        <Sliders
+          key="weight"
+          name="weight"
+          marks={marks}
+          min={start}
+          max={stop}
+          step={0.1}
+          handleSliderChange={handleSliderChange}
+          defaultValue={Number(weight)}
+          valueLabelDisplay="on"
+          valueLabelFormat={valueLabelFormat}
+        />
       </div>
     </div>
   );
