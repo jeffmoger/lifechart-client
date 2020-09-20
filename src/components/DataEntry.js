@@ -10,46 +10,10 @@ import { useTheme } from '@material-ui/core/styles';
 import DataEntryMood from './DataEntryMood';
 import DataEntryWeight from './DataEntryWeight';
 import DataEntrySleep from './DataEntrySleep';
+import DataEntrySymptom from './DataEntrySymptom';
 import { nowMillis } from '../functions/dateFunctions';
 
 import { makeStyles } from '@material-ui/core/styles';
-
-const getStateDefault = (category) => {
-  if (category === 'Mood') {
-    return [
-      {
-        name: 'Energy',
-        value: 0,
-      },
-      {
-        name: 'Irritability',
-        value: 0,
-      },
-      {
-        name: 'Mood',
-        value: 0,
-      },
-    ];
-  }
-  if (category === 'Weight') {
-    return [
-      {
-        name: 'Weight',
-        value: 0,
-      },
-    ];
-  }
-  if (category === 'Sleep') {
-    return [
-      {
-        name: 'Sleep',
-      },
-      {
-        name: 'Wake',
-      },
-    ];
-  }
-};
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
@@ -93,9 +57,10 @@ export default function DataEntry({
   authTokens,
 }) {
   const classes = useStyles();
-  const [values, setValues] = useState([]);
+  const [values, setValues] = useState('');
   const [status, setStatus] = useState(0);
   const [disabled, setDisabled] = useState(true);
+  const [note, setNote] = useState('');
   const { id, token } = authTokens;
 
   const theme = useTheme();
@@ -116,14 +81,14 @@ export default function DataEntry({
   };
 
   useEffect(() => {
-    setValues(getStateDefault(category));
-  }, [category]);
-
-  useEffect(() => {
     if (status === 3) {
       refreshAfterSubmit();
     }
   }, [refreshAfterSubmit, status]);
+
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
 
   const handleClose = () => {
     handleDialogClose();
@@ -146,7 +111,7 @@ export default function DataEntry({
   function handleSubmit(event, values) {
     event.preventDefault();
     setStatus(2);
-    submitRecord(values, token, category).then((response) => {
+    submitRecord(values, token, category, note).then((response) => {
       if (response.id) {
         if (category === 'Weight') {
           updateProfile(values);
@@ -178,20 +143,29 @@ export default function DataEntry({
             {category === 'Mood' && status <= 1 ? (
               <DataEntryMood
                 handleSliderChange={handleSliderChange}
-                sliders={getStateDefault(category)}
+                setValues={setValues}
               />
             ) : null}
             {category === 'Weight' && status <= 1 ? (
               <DataEntryWeight
                 handleSliderChange={handleSliderChange}
-                sliders={getStateDefault(category)}
                 profile={profile}
+                setValues={setValues}
               />
             ) : null}
             {category === 'Sleep' && status <= 1 ? (
               <DataEntrySleep
                 handleSliderChange={handleSliderChange}
-                sliders={getStateDefault(category)}
+                setValues={setValues}
+              />
+            ) : null}
+            {category === 'Symptom' && status <= 1 ? (
+              <DataEntrySymptom
+                handleSliderChange={handleSliderChange}
+                authTokens={authTokens}
+                setValues={setValues}
+                setDisabled={setDisabled}
+                setNote={setNote}
               />
             ) : null}
             {status === 2 ? (
@@ -226,7 +200,7 @@ export default function DataEntry({
   );
 }
 
-async function submitRecord(state, token, category) {
+async function submitRecord(state, token, category, note) {
   const dataTypeName = `lifechart.${category.toLowerCase()}.item`;
   try {
     const r = await fetch(`${process.env.REACT_APP_API}/api/items/create`, {
@@ -241,6 +215,7 @@ async function submitRecord(state, token, category) {
           startTimeMillis: nowMillis(),
           endTimeMillis: nowMillis(),
           value: structureJSON(state),
+          note: note,
         },
       }),
     });
