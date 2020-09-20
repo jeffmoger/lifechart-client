@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Sliders from './Sliders';
@@ -12,44 +12,33 @@ const useStyles = makeStyles({
   },
 });
 
-const marks = [
+const sliders = [
   {
+    name: 'Energy',
     value: 0,
   },
   {
-    value: 1,
+    name: 'Irritability',
+    value: 0,
   },
   {
-    value: 2,
-  },
-  {
-    value: 3,
-  },
-  {
-    value: 4,
-  },
-  {
-    value: 5,
-  },
-  {
-    value: 6,
-  },
-  {
-    value: 7,
-  },
-  {
-    value: 8,
-  },
-  {
-    value: 9,
-  },
-  {
-    value: 10,
+    name: 'Mood',
+    value: 0,
   },
 ];
 
-export default function DataEntryMood({ handleSliderChange, sliders }) {
+const marks = () => {
+  const marks = [0, 1, 2, 3, 4, 5];
+  return marks.map((item) => {
+    return { value: item };
+  });
+};
+
+export default function DataEntryMood({ handleSliderChange, setValues }) {
   const classes = useStyles();
+  useEffect(() => {
+    setValues(sliders);
+  }, [setValues]);
 
   return (
     <div>
@@ -61,9 +50,9 @@ export default function DataEntryMood({ handleSliderChange, sliders }) {
           <Sliders
             key={slider.name}
             name={slider.name}
-            marks={marks}
+            marks={marks()}
             min={0}
-            max={10}
+            max={5}
             step={1}
             handleSliderChange={handleSliderChange}
             defaultValue={slider.value}
