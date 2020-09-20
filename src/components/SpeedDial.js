@@ -8,6 +8,8 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import dramaMasks from '@iconify/icons-mdi/drama-masks';
 import scaleBathroom from '@iconify/icons-mdi/scale-bathroom';
 import bellSleep from '@iconify/icons-mdi/bell-sleep';
+import healthCross from '@iconify/icons-carbon/health-cross';
+
 import DataEntry from './DataEntry';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +37,7 @@ const useStylesTooltip = makeStyles((theme) => ({
 }));
 
 const actions = [
+  { icon: <Icon icon={healthCross} height={20} />, name: 'Symptom' },
   { icon: <Icon icon={bellSleep} height={20} />, name: 'Sleep' },
   { icon: <Icon icon={scaleBathroom} height={20} />, name: 'Weight' },
   { icon: <Icon icon={dramaMasks} height={20} />, name: 'Mood' },
