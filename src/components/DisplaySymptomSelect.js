@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -37,6 +37,44 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(3),
   },
 }));
+
+const CustomSlider = withStyles({
+  root: {
+    color: '#7c5cd6',
+    height: 16,
+  },
+  thumb: {
+    height: 16,
+    width: 16,
+    backgroundColor: '#111',
+    border: '3px solid currentColor',
+    '&:focus, &:hover': {
+      boxShadow: '0px 0px 0px 8px rgba(93, 78, 140, 0.16)',
+    },
+    '&$active': {
+      boxShadow: '0px 0px 0px 12px rgba(93, 78, 140, 0.16)',
+    },
+  },
+  valueLabel: {
+    left: -12,
+  },
+  active: {},
+  track: {
+    height: 3,
+  },
+  rail: {
+    height: 3,
+  },
+  mark: {
+    backgroundColor: '#111',
+    height: 3,
+    width: 1,
+  },
+  markActive: {
+    opacity: 1,
+    backgroundColor: 'currentColor',
+  },
+})(Slider);
 
 const marks = () => {
   const marks = [0, 1, 2, 3, 4, 5];
@@ -107,7 +145,7 @@ export default function DisplaySymptomSelect(props) {
                 >
                   Severity
                 </Typography>
-                <Slider
+                <CustomSlider
                   defaultValue={symptom.value}
                   aria-labelledby="severity"
                   name={symptom.name}
