@@ -111,7 +111,7 @@ export default function DisplaySymptomSelect(props) {
       <Typography id="weight-slider" variant="h5" align="center" gutterBottom>
         {symptom ? symptom.name : 'Select a symptom.'}
       </Typography>
-
+      <div className={classes.margin} />
       <TableContainer component={'div'}>
         {!symptom ? (
           <Table className={classes.table} aria-label="symptom table">
