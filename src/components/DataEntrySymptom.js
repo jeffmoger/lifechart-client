@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 
 export default function DataEntrySymptom({
   authTokens,
+  handleSliderChange,
   setValues,
   setDisabled,
   setNote,
@@ -21,6 +22,7 @@ export default function DataEntrySymptom({
   const classes = useStyles();
   const { id, token } = authTokens;
   const [displayList, setDisplayList] = useState([]);
+  const [symptom, setSymptom] = useState('');
 
   const getList = async (id, token) => {
     try {
@@ -49,6 +51,10 @@ export default function DataEntrySymptom({
     setNote(e.currentTarget.value);
   };
 
+  const handleSlider = (e) => {
+    //
+  };
+
   useEffect(() => {
     getList(id, token).then((result) => {
       const showList = result.filter((item) => item.show === true);
@@ -61,36 +67,35 @@ export default function DataEntrySymptom({
   }, [id, token, setValues]);
 
   useEffect(() => {
-    //setValues(sliders);
-  }, [setValues]);
-
-  useEffect(() => {
     const selected = displayList.filter((item) => item.selected === true);
     if (selected.length > 0) {
-      const newArr = selected.map((item) => {
-        let row = { name: item.symptom };
-        row.value = 1;
-        return row;
-      });
-      setValues(newArr);
+      let row = { name: selected[0].symptom };
+      row.value = 1;
+      setSymptom(row);
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [displayList, setDisabled, setValues]);
+  }, [displayList, setDisabled]);
+
+  useEffect(() => {
+    setValues([symptom]);
+  }, [symptom, setValues]);
+
+  useEffect(() => {
+    console.log(symptom);
+  }, [symptom]);
 
   return (
     <div>
-      <Typography id="weight-slider" variant="h5" align="center" gutterBottom>
-        Select a symptom.
-      </Typography>
-      <div className={classes.container}>
-        <DisplaySymptomSelect
-          displayList={displayList}
-          handleCheckmark={handleCheckmark}
-          handleNotes={handleNotes}
-        />
-      </div>
+      <DisplaySymptomSelect
+        displayList={displayList}
+        handleSliderChange={handleSliderChange}
+        handleCheckmark={handleCheckmark}
+        handleNotes={handleNotes}
+        handleSlider={handleSlider}
+        symptom={symptom}
+      />
     </div>
   );
 }
