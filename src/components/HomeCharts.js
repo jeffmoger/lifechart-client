@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import CalorieChart from '../charts/CalorieChart';
-import { startToday } from '../functions/dateFunctions';
+import { startToday, getDateRangeString } from '../functions/dateFunctions';
 import NutritionChart from '../charts/NutritionChart';
 import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import newDateRange from '../functions/dateRange';
 import getData from '../functions/getData';
+import getItemData from '../functions/getItemData';
 import loadChartData from '../functions/loadChartData';
 import AverageCaloriesBurned from './AverageCaloriesBurned';
 import StepCount from './StepCount';
@@ -62,7 +63,11 @@ const HomeCharts = (props) => {
           return dataObject;
         })
         .then(async (dataObject) => {
-          dataObject.data = await getData(id, token);
+          dataObject.data = await getData(token, getDateRangeString());
+          return dataObject;
+        })
+        .then(async (dataObject) => {
+          dataObject.items = await getItemData(token, getDateRangeString());
           return dataObject;
         })
         .then((dataObject) => {
