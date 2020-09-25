@@ -17,14 +17,20 @@ const useStyles = makeStyles({
   },
 });
 
-const sliders = [
-  {
-    name: 'Sleep',
-  },
-  {
-    name: 'Wake',
-  },
-];
+const makeDefaultValues = (start, wake) => {
+  let sleepTime = start + 3600 * 3;
+  let wakeTime = wake + 3600 * 1.5;
+  return [
+    {
+      name: 'Sleep',
+      value: sleepTime,
+    },
+    {
+      name: 'Wake',
+      value: wakeTime,
+    },
+  ];
+};
 
 const startSleep = () => {
   return startTodaySeconds() - 3600 * 4;
@@ -82,8 +88,8 @@ export default function DataEntryWeight({ handleSliderChange, setValues }) {
   const [wakeStart, wakeStop, wakeStep, wakeMarks] = rangeWake(startWake());
 
   useEffect(() => {
-    setValues(sliders);
-  }, [setValues]);
+    setValues(makeDefaultValues(start, wakeStart));
+  }, [setValues, start, wakeStart]);
 
   return (
     <div>

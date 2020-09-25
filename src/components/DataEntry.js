@@ -202,6 +202,7 @@ export default function DataEntry({
 
 async function submitRecord(state, token, category, note) {
   const dataTypeName = `lifechart.${category.toLowerCase()}.item`;
+  console.log(nowMillis());
   try {
     const r = await fetch(`${process.env.REACT_APP_API}/api/items/create`, {
       method: 'POST',
