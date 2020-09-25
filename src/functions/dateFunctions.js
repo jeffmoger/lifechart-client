@@ -33,3 +33,16 @@ export const labelHour = (date) => {
 export const labelFormat = (date) => {
   return moment(date * 1000).format('h:mm');
 };
+
+export const subtractDaysFromDate = (today, days) => {
+  // Return date in milliseconds
+  return Number(moment(today).subtract(days, 'days').format('x'));
+};
+
+export const getDateRangeString = (date = startToday(), days = 60) => {
+  const startDate = moment(subtractDaysFromDate(date, days)).format(
+    'YYYY-MM-DD'
+  );
+  const endDate = moment(date).format('YYYY-MM-DD');
+  return `${startDate}_${endDate}`;
+};
