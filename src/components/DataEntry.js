@@ -98,11 +98,10 @@ export default function DataEntry({
     let weightObj = arr.find((item) => item.name === 'Weight');
     let newObj = { weight: weightObj.value };
     await fetch(`${process.env.REACT_APP_API}/api/users/edit`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'content-type': 'application/json',
         Authorization: 'Token ' + token,
-        id: id,
       },
       body: JSON.stringify(newObj),
     });
