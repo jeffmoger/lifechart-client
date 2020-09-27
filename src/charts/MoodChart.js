@@ -66,9 +66,20 @@ export default class MoodChart extends PureComponent {
               labelFormatter={formatToolTipLabel}
             />
             <Legend verticalAlign="top" iconType="circle" height={36} />
-            <Line type="monotone" dataKey="Energy" stroke="#367d51" />
-            <Line type="monotone" dataKey="Irritability" stroke="#990000" />
             <Line
+              connectNulls
+              type="monotone"
+              dataKey="Energy"
+              stroke="#367d51"
+            />
+            <Line
+              connectNulls
+              type="monotone"
+              dataKey="Irritability"
+              stroke="#990000"
+            />
+            <Line
+              connectNulls
               type="monotone"
               dataKey="Mood"
               stroke="#8884d8"
