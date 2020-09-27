@@ -15,8 +15,18 @@ export default function loadChartData(dataObject) {
   const nutritionProtein = nutrition.filter((item) => item.key === 'protein');
   const nutritionCarbs = nutrition.filter((item) => item.key === 'carbs_total');
   const nutritionFat = nutrition.filter((item) => item.key === 'fat_total');
+
   const [itemsMood] = items.filter(
     (item) => item.dataTypeName === 'lifechart.mood.item'
+  );
+  const [itemsSymptom] = items.filter(
+    (item) => item.dataTypeName === 'lifechart.symptom.item'
+  );
+  const [itemsWeight] = items.filter(
+    (item) => item.dataTypeName === 'lifechart.weight.item'
+  );
+  const [itemsSleep] = items.filter(
+    (item) => item.dataTypeName === 'lifechart.sleep.item'
   );
 
   const calorieScore =
@@ -69,6 +79,9 @@ export default function loadChartData(dataObject) {
   chartValues.calorieChart = chartDataArray;
   chartValues.nutritionChart = chartNutritionArray;
   chartValues.moodChart = generateItemsChart(itemsMood);
+  chartValues.symptomChart = generateItemsChart(itemsSymptom);
+  chartValues.weightChart = generateItemsChart(itemsWeight);
+  chartValues.sleepChart = generateItemsChart(itemsSleep);
 
   if (getLatestValue(stepCount, startToday())) {
     chartValues.stepCount = getLatestValue(stepCount, startToday());
