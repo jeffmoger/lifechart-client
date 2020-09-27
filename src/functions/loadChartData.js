@@ -4,7 +4,7 @@ import dateRange from './dateRange';
 import returnDateArray from './returnDateArray';
 
 export default function loadChartData(dataObject) {
-  const { data } = dataObject;
+  const { data, items } = dataObject;
   const endDate = '';
   const caloriesBurned = data['exercise'].arrays.CaloriesBurned;
   const activeMinutes = data['exercise'].arrays.ActiveMinutes;
@@ -15,6 +15,9 @@ export default function loadChartData(dataObject) {
   const nutritionProtein = nutrition.filter((item) => item.key === 'protein');
   const nutritionCarbs = nutrition.filter((item) => item.key === 'carbs_total');
   const nutritionFat = nutrition.filter((item) => item.key === 'fat_total');
+  const [itemsMood] = items.filter(
+    (item) => item.dataTypeName === 'lifechart.mood.item'
+  );
 
   const calorieScore =
     subtract(
@@ -65,6 +68,7 @@ export default function loadChartData(dataObject) {
   });
   chartValues.calorieChart = chartDataArray;
   chartValues.nutritionChart = chartNutritionArray;
+  chartValues.moodChart = generateItemsChart(itemsMood);
 
   if (getLatestValue(stepCount, startToday())) {
     chartValues.stepCount = getLatestValue(stepCount, startToday());
@@ -106,3 +110,34 @@ function returnArrayByDate(arr, days, includeToday) {
   });
   return newArr;
 }
+
+const getKeyValue = (key, items) => {
+  let keyArray = items.filter((item) => item.key === key);
+  if (keyArray.length > 0) {
+    var value = keyArray.reduce(function (prev, cur) {
+      return prev + cur.value;
+    }, 0);
+    let number = value / keyArray.length;
+    return Number(number.toFixed(1));
+  } else {
+    return 0;
+  }
+};
+const generateItemsChart = (data) => {
+  const { dataSet } = data;
+  const newArray = [];
+  dataSet.forEach((item) => {
+    const { items } = item;
+    let obj = {
+      date: item.startTimeMillis,
+    };
+    if (items.length > 0) {
+      const keys = [...new Set(items.map((x) => x.key))];
+      keys.forEach((key) => {
+        obj[key] = getKeyValue(key, items);
+      });
+    }
+    newArray.push(obj);
+  });
+  return newArray;
+};
