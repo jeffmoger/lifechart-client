@@ -3,6 +3,7 @@ import CalorieChart from '../charts/CalorieChart';
 import { startToday, getDateRangeString } from '../functions/dateFunctions';
 import NutritionChart from '../charts/NutritionChart';
 import MoodChart from '../charts/MoodChart';
+import WeightChart from '../charts/WeightChart';
 import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import newDateRange from '../functions/dateRange';
 import getData from '../functions/getData';
@@ -39,6 +40,7 @@ const HomeCharts = (props) => {
   const [calorieChart, setCalorieChart] = useState([]);
   const [nutritionChart, setNutritionChart] = useState([]);
   const [moodChart, setMoodChart] = useState([]);
+  const [weightChart, setWeightChart] = useState([]);
 
   function previousDateRange() {
     setDateRange(newDateRange(dateRangeLength, dateRange));
@@ -87,11 +89,17 @@ const HomeCharts = (props) => {
 
   useEffect(() => {
     if (sync) {
-      const { calorieChart, nutritionChart, moodChart } = sync.chartData;
+      const {
+        calorieChart,
+        nutritionChart,
+        moodChart,
+        weightChart,
+      } = sync.chartData;
       const [start, end] = dateRange;
       setCalorieChart(selectChartDataByRange(calorieChart, start, end));
       setNutritionChart(selectChartDataByRange(nutritionChart, start, end));
       setMoodChart(selectChartDataByRange(moodChart, start, end));
+      setWeightChart(selectChartDataByRange(weightChart, start, end));
     }
   }, [dateRange, sync]);
 
@@ -109,6 +117,8 @@ const HomeCharts = (props) => {
           <CalorieChart data={calorieChart} />
           <br />
           <NutritionChart data={nutritionChart} />
+          <br />
+          <WeightChart data={weightChart} />
           <br />
           <MoodChart data={moodChart} />
           <br />
