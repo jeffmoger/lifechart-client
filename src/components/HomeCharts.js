@@ -3,6 +3,7 @@ import CalorieChart from '../charts/CalorieChart';
 import { startToday, getDateRangeString } from '../functions/dateFunctions';
 import NutritionChart from '../charts/NutritionChart';
 import MoodChart from '../charts/MoodChart';
+import SymptomChart from '../charts/SymptomChart';
 import WeightChart from '../charts/WeightChart';
 import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import newDateRange from '../functions/dateRange';
@@ -16,6 +17,7 @@ import NetCalorieBurn from './NetCalorieBurn';
 import DisplayDateRange from './DisplayDateRange';
 import SpeedDial from './SpeedDial';
 import Loader from './Loader';
+import { getSymptomList } from '../functions/apiCalls';
 
 const dateRangeLength = 15;
 
@@ -41,6 +43,8 @@ const HomeCharts = (props) => {
   const [nutritionChart, setNutritionChart] = useState([]);
   const [moodChart, setMoodChart] = useState([]);
   const [weightChart, setWeightChart] = useState([]);
+  const [symptomChart, setSymptomChart] = useState([]);
+  const [symptomList, setSymptomList] = useState([]);
 
   function previousDateRange() {
     setDateRange(newDateRange(dateRangeLength, dateRange));
@@ -57,6 +61,14 @@ const HomeCharts = (props) => {
   useEffect(() => {
     setStaleData(checkLastFetched(1));
   }, [lastFetch]);
+
+  useEffect(() => {
+    const symptoms = async (token) => {
+      let symptoms = await getSymptomList(token);
+      setSymptomList(symptoms);
+    };
+    symptoms(token);
+  }, [token]);
 
   useEffect(() => {
     if (staleData) {
@@ -94,12 +106,14 @@ const HomeCharts = (props) => {
         nutritionChart,
         moodChart,
         weightChart,
+        symptomChart,
       } = sync.chartData;
       const [start, end] = dateRange;
       setCalorieChart(selectChartDataByRange(calorieChart, start, end));
       setNutritionChart(selectChartDataByRange(nutritionChart, start, end));
       setMoodChart(selectChartDataByRange(moodChart, start, end));
       setWeightChart(selectChartDataByRange(weightChart, start, end));
+      setSymptomChart(selectChartDataByRange(symptomChart, start, end));
     }
   }, [dateRange, sync]);
 
@@ -118,9 +132,12 @@ const HomeCharts = (props) => {
           <br />
           <NutritionChart data={nutritionChart} />
           <br />
-          <WeightChart data={weightChart} />
-          <br />
           <MoodChart data={moodChart} />
+          <br />
+          {symptomList.length > 0 && (
+            <SymptomChart data={symptomChart} symptoms={symptomList} />
+          )}
+          <WeightChart data={weightChart} />
           <br />
 
           <section className="gadgets">
