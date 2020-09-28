@@ -71,18 +71,21 @@ export default class MoodChart extends PureComponent {
               type="monotone"
               dataKey="Energy"
               stroke="#367d51"
+              dot={false}
             />
             <Line
               connectNulls
               type="monotone"
               dataKey="Irritability"
               stroke="#990000"
+              dot={false}
             />
             <Line
               connectNulls
               type="monotone"
               dataKey="Mood"
               stroke="#8884d8"
+              dot={{ fill: '#8884d8', strokeWidth: 1 }}
               activeDot={{ r: 8 }}
             />
           </LineChart>
