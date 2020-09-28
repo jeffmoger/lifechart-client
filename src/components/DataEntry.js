@@ -61,7 +61,7 @@ export default function DataEntry({
   const [status, setStatus] = useState(0);
   const [disabled, setDisabled] = useState(true);
   const [note, setNote] = useState('');
-  const { id, token } = authTokens;
+  const { token } = authTokens;
 
   const theme = useTheme();
 
