@@ -18,6 +18,7 @@ const wrapperStyle = {
   textShadow: '1px 1px black',
 };
 
+const colorArray = ['#b6b67c', '#7cb67c', '#7cb6b6', '#8b7cb6', '#b67c8b'];
 const formatXAxis = (tickItem) => {
   return moment(tickItem).format('ddd D');
 };
@@ -27,7 +28,7 @@ const formatToolTipLabel = (label) => {
 
 export default class SymptomChart extends PureComponent {
   render() {
-    const moodChart = this.props.data;
+    const { data, symptoms } = this.props;
     return (
       <div
         className="chartContainer"
@@ -37,7 +38,7 @@ export default class SymptomChart extends PureComponent {
           <LineChart
             width={730}
             height={300}
-            data={moodChart}
+            data={data}
             syncId="anyId"
             margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
           >
@@ -66,25 +67,15 @@ export default class SymptomChart extends PureComponent {
               labelFormatter={formatToolTipLabel}
             />
             <Legend verticalAlign="top" iconType="circle" height={36} />
-            <Line
-              connectNulls
-              type="monotone"
-              dataKey="Energy"
-              stroke="#367d51"
-            />
-            <Line
-              connectNulls
-              type="monotone"
-              dataKey="Irritability"
-              stroke="#990000"
-            />
-            <Line
-              connectNulls
-              type="monotone"
-              dataKey="Mood"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
-            />
+            {symptoms.map((symptom, index) => (
+              <Line
+                key={symptom.symptom}
+                type="monotone"
+                dataKey={symptom.symptom}
+                stroke={colorArray[index]}
+                dot={{ fill: colorArray[index] }}
+              />
+            ))}
           </LineChart>
         </ResponsiveContainer>
       </div>
