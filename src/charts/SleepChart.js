@@ -56,16 +56,17 @@ const formatToolTipLabel = (label) => {
 };
 
 const formatYAxis = (tickItem) => {
-  let timetable = sleepTable();
-  let minutes = tickItem % 60;
-  let hours = tickItem - minutes;
-  let hours2 = hours / 60;
-  let [realHour] = timetable.filter((x) => hours2 === x.id);
-  let showHour = realHour.hour;
-  if (minutes === 0) minutes = '00';
-  if (minutes.length === 1) minutes = '0' + minutes;
-  return `${showHour}:${minutes}`;
-  //return moment(tickItem).format('hh:mm');
+  if (tickItem) {
+    let timetable = sleepTable();
+    let minutes = tickItem % 60;
+    let hours = tickItem - minutes;
+    let hours2 = hours / 60;
+    let [realHour] = timetable.filter((x) => hours2 === x.id);
+    let showHour = realHour.hour;
+    if (minutes === 0) minutes = '00';
+    if (minutes.length === 1) minutes = '0' + minutes;
+    return `${showHour}:${minutes}`;
+  }
 };
 
 const formatSleep = (data) => {
