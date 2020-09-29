@@ -5,6 +5,7 @@ import NutritionChart from '../charts/NutritionChart';
 import MoodChart from '../charts/MoodChart';
 import SymptomChart from '../charts/SymptomChart';
 import WeightChart from '../charts/WeightChart';
+import SleepChart from '../charts/SleepChart';
 import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import newDateRange from '../functions/dateRange';
 import getData from '../functions/getData';
@@ -42,6 +43,7 @@ const HomeCharts = (props) => {
   const [calorieChart, setCalorieChart] = useState([]);
   const [nutritionChart, setNutritionChart] = useState([]);
   const [moodChart, setMoodChart] = useState([]);
+  const [sleepChart, setSleepChart] = useState([]);
   const [weightChart, setWeightChart] = useState([]);
   const [symptomChart, setSymptomChart] = useState([]);
   const [symptomList, setSymptomList] = useState([]);
@@ -107,6 +109,7 @@ const HomeCharts = (props) => {
         moodChart,
         weightChart,
         symptomChart,
+        sleepChart,
       } = sync.chartData;
       const [start, end] = dateRange;
       setCalorieChart(selectChartDataByRange(calorieChart, start, end));
@@ -114,6 +117,7 @@ const HomeCharts = (props) => {
       setMoodChart(selectChartDataByRange(moodChart, start, end));
       setWeightChart(selectChartDataByRange(weightChart, start, end));
       setSymptomChart(selectChartDataByRange(symptomChart, start, end));
+      setSleepChart(selectChartDataByRange(sleepChart, start, end));
     }
   }, [dateRange, sync]);
 
@@ -133,6 +137,8 @@ const HomeCharts = (props) => {
           <NutritionChart data={nutritionChart} />
           <br />
           <MoodChart data={moodChart} />
+          <br />
+          <SleepChart data={sleepChart} />
           <br />
           {symptomList.length > 0 && (
             <SymptomChart data={symptomChart} symptoms={symptomList} />
