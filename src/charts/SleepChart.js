@@ -55,6 +55,14 @@ const formatToolTipLabel = (label) => {
   return moment(label).format('MMMM D, YYYY');
 };
 
+const formatToolTip = (value, name) => {
+  let [start, end] = value;
+  let totalMinutes = end - start;
+  let minutes = totalMinutes % 60;
+  let hours = (totalMinutes - minutes) / 60;
+  return `${hours} hrs, ${minutes} mins`;
+};
+
 const formatYAxis = (tickItem) => {
   if (tickItem) {
     let timetable = sleepTable();
@@ -62,10 +70,12 @@ const formatYAxis = (tickItem) => {
     let hours = tickItem - minutes;
     let hours2 = hours / 60;
     let [realHour] = timetable.filter((x) => hours2 === x.id);
-    let showHour = realHour.hour;
-    if (minutes === 0) minutes = '00';
-    if (minutes.length === 1) minutes = '0' + minutes;
-    return `${showHour}:${minutes}`;
+    if (realHour) {
+      let showHour = realHour.hour;
+      if (minutes === 0) minutes = '00';
+      if (minutes.length === 1) minutes = '0' + minutes;
+      return `${showHour}:${minutes}`;
+    }
   }
 };
 
@@ -119,7 +129,7 @@ export default class SleepChart extends PureComponent {
               tickFormatter={formatXAxis}
             />
             <YAxis
-              //type="number"
+              type="number"
               //scale="time"
               stroke="#CCC"
               axisLine={false}
@@ -128,20 +138,22 @@ export default class SleepChart extends PureComponent {
               width={35}
               mirror={false}
               interval="preserveEnd"
-              domain={['auto', 'auto']}
+              domain={['dataMin - 30', 'dataMax + 30']}
               tickFormatter={formatYAxis}
             />
             <Tooltip
               contentStyle={wrapperStyle}
               cursor={{ fill: '#232323', stroke: '#222', strokeWidth: 0 }}
               labelFormatter={formatToolTipLabel}
+              formatter={formatToolTip}
             />
             <Legend verticalAlign="top" iconType="circle" height={36} />
             <Bar
               dataKey="sleep"
-              fill="#367d51"
+              fill="#8763e9"
               fillOpacity={0.6}
               barSize={15}
+              radius={[10, 10, 10, 10]}
             />
           </BarChart>
         </ResponsiveContainer>
