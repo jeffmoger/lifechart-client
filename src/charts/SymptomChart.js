@@ -63,7 +63,7 @@ export default class SymptomChart extends PureComponent {
             />
             <Tooltip
               contentStyle={wrapperStyle}
-              cursor={{ fill: '#232323', stroke: '#222', strokeWidth: 0 }}
+              cursor={{ stroke: '#222', strokeWidth: 1 }}
               labelFormatter={formatToolTipLabel}
             />
             <Legend verticalAlign="top" iconType="circle" height={36} />

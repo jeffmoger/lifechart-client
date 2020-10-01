@@ -9,6 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ReferenceLine,
 } from 'recharts';
 
 const wrapperStyle = {
@@ -72,8 +73,15 @@ const formatYAxis = (tickItem) => {
     let [realHour] = timetable.filter((x) => hours2 === x.id);
     if (realHour) {
       let showHour = realHour.hour;
+
+      if (minutes < 10) {
+        minutes = '0' + minutes.toString();
+      }
+      if (minutes % 10) {
+        minutes = minutes - (minutes % 10);
+      }
       if (minutes === 0) minutes = '00';
-      if (minutes.length === 1) minutes = '0' + minutes;
+
       return `${showHour}:${minutes}`;
     }
   }
@@ -88,8 +96,8 @@ const formatSleep = (data) => {
     Sleep ? (sm = Number(moment(Sleep * 1000).format('mm'))) : (s = null);
     Wake ? (wm = Number(moment(Wake * 1000).format('mm'))) : (w = null);
 
-    let [ss] = table.filter((x) => s === x.hour);
-    let [ww] = table.filter((x) => w === x.hour);
+    let ss = table.find((x) => s === x.hour);
+    let ww = table.find((x) => w === x.hour);
     let obj = {
       date: item.date,
     };
@@ -138,7 +146,7 @@ export default class SleepChart extends PureComponent {
               width={35}
               mirror={false}
               interval="preserveEnd"
-              domain={['dataMin - 30', 'dataMax + 30']}
+              domain={[120, 'dataMax + 30']}
               tickFormatter={formatYAxis}
             />
             <Tooltip
@@ -148,11 +156,13 @@ export default class SleepChart extends PureComponent {
               formatter={formatToolTip}
             />
             <Legend verticalAlign="top" iconType="circle" height={36} />
+            <ReferenceLine y={240} stroke="#111111" strokeDasharray="3 3" />
+            <ReferenceLine y={720} stroke="#111111" strokeDasharray="3 3" />
             <Bar
               dataKey="sleep"
               fill="#8763e9"
               fillOpacity={0.6}
-              barSize={15}
+              barSize={10}
               radius={[10, 10, 10, 10]}
             />
           </BarChart>
