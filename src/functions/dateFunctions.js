@@ -46,3 +46,10 @@ export const getDateRangeString = (date = startToday(), days = 60) => {
   const endDate = moment(date).format('YYYY-MM-DD');
   return `${startDate}_${endDate}`;
 };
+
+export const startOfTomorrow = () => {
+  return parseInt(
+    moment(new Date()).add(1, 'days').startOf('day').format('x'),
+    10
+  );
+};
