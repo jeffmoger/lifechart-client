@@ -35,6 +35,7 @@ export default function SideDrawer(props) {
         {[
           ['Home', '/'],
           ['About', '/about'],
+          ['Demo', '/demo'],
           ['Settings', '/settings'],
         ].map((text, index) => (
           <ListItem
