@@ -2,17 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HomeDemo from '../components/HomeDemo';
 import { fetchAuthentication, getProfile } from '../functions/apiCalls';
 
-const user = {
-  jeff: {
-    email: 'jeff@moger.com',
-    //password: 'zxcv12',
-    password: 'BJTgeu7AZeqSarD',
-  },
-  demo: {
-    email: 'jeff-lifechart@moger.com',
-    password: 'BJTgeu7AZeqSarD',
-  },
-};
+const user = {};
 export default function Demo() {
   const [profile, setProfile] = useState('');
   const [authTokens, setAuthTokens] = useState('');
