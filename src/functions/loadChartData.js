@@ -137,20 +137,24 @@ const getKeyValue = (key, items) => {
   }
 };
 const generateItemsChart = (data) => {
-  const { dataSet } = data;
-  const newArray = [];
-  dataSet.forEach((item) => {
-    const { items } = item;
-    let obj = {
-      date: item.startTimeMillis,
-    };
-    if (items.length > 0) {
-      const keys = [...new Set(items.map((x) => x.key))];
-      keys.forEach((key) => {
-        obj[key] = getKeyValue(key, items);
-      });
-    }
-    newArray.push(obj);
-  });
-  return newArray;
+  if (data) {
+    const { dataSet } = data;
+    const newArray = [];
+    dataSet.forEach((item) => {
+      const { items } = item;
+      let obj = {
+        date: item.startTimeMillis,
+      };
+      if (items.length > 0) {
+        const keys = [...new Set(items.map((x) => x.key))];
+        keys.forEach((key) => {
+          obj[key] = getKeyValue(key, items);
+        });
+      }
+      newArray.push(obj);
+    });
+    return newArray;
+  } else {
+    return;
+  }
 };

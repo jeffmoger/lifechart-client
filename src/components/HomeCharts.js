@@ -28,10 +28,14 @@ function localStorageDefault(key, defaultValue) {
 }
 
 function selectChartDataByRange(arr, start, end) {
-  const newArray = arr.filter((item) => {
-    return item.date >= start && item.date <= end;
-  });
-  return newArray;
+  if (arr) {
+    const newArray = arr.filter((item) => {
+      return item.date >= start && item.date <= end;
+    });
+    return newArray;
+  } else {
+    return [];
+  }
 }
 
 const HomeCharts = (props) => {
