@@ -5,7 +5,8 @@ import { fetchAuthentication, getProfile } from '../functions/apiCalls';
 const user = {
   jeff: {
     email: 'jeff@moger.com',
-    password: 'zxcv12',
+    //password: 'zxcv12',
+    password: 'BJTgeu7AZeqSarD',
   },
   demo: {
     email: 'jeff-lifechart@moger.com',
