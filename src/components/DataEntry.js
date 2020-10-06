@@ -110,19 +110,27 @@ export default function DataEntry({
   function handleSubmit(event, values) {
     event.preventDefault();
     setStatus(2);
-    submitRecord(values, token, category, note).then((response) => {
-      if (response.id) {
-        if (category === 'Weight') {
-          updateProfile(values);
+    //BAD CODE BELOW
+    //Temporarily to identify if using Demo
+    let pathname = window.location.pathname;
+    if (pathname === '/demo') {
+      setStatus(3);
+    }
+    if (pathname !== '/demo') {
+      submitRecord(values, token, category, note).then((response) => {
+        if (response.id) {
+          if (category === 'Weight') {
+            updateProfile(values);
+          }
+          setTimeout(function () {
+            setStatus(3);
+          }, 500);
+        } else {
+          //REMOVE THIS
+          alert(response);
         }
-        setTimeout(function () {
-          setStatus(3);
-        }, 500);
-      } else {
-        //REMOVE THIS
-        alert(response);
-      }
-    });
+      });
+    }
   }
 
   return (
