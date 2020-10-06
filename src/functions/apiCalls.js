@@ -46,3 +46,14 @@ export async function getProfile(id, token) {
   const response = await r.json();
   return response;
 }
+
+export async function getDemoID() {
+  const r = await fetch(`${process.env.REACT_APP_API}/api/demo/id`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+    },
+  });
+  const response = await r.json();
+  return response;
+}
