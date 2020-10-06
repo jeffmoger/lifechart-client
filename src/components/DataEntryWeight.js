@@ -25,7 +25,7 @@ export default function DataEntryWeight({
   setValues,
 }) {
   const classes = useStyles();
-  const { Weight: savedWeight } = profile;
+  const { weight: savedWeight } = profile;
   const [weight, start, stop, marks] = range(currentWeight());
 
   useEffect(() => {
