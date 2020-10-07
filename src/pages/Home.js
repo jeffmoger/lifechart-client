@@ -32,7 +32,7 @@ export default function Home() {
       {isAuthenticated.authTokens ? (
         <HomeCharts authTokens={isAuthenticated.authTokens} profile={profile} />
       ) : (
-        <Redirect to={'/about'} />
+        <Redirect to={'/demo'} />
       )}
     </main>
   );
