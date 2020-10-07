@@ -71,7 +71,10 @@ const HomeCharts = (props) => {
   useEffect(() => {
     const symptoms = async (token) => {
       let symptoms = await getSymptomList(token);
-      setSymptomList(symptoms);
+      let activeSymptoms = symptoms.filter(
+        (result) => result.active === true && result.show === true
+      );
+      setSymptomList(activeSymptoms);
     };
     symptoms(token);
   }, [token]);
