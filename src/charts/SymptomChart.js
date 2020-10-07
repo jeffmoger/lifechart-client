@@ -73,7 +73,7 @@ export default class SymptomChart extends PureComponent {
                 type="monotone"
                 dataKey={symptom.symptom}
                 stroke={colorArray[index]}
-                dot={{ fill: colorArray[index] }}
+                dot={{ fill: colorArray[index], r: 2 }}
               />
             ))}
           </LineChart>

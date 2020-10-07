@@ -71,7 +71,7 @@ export default class WeightChart extends PureComponent {
               type="monotone"
               dataKey="Weight"
               stroke="#8884d8"
-              dot={{ fill: '#8884d8' }}
+              dot={{ fill: '#8884d8', r: 2 }}
             />
           </LineChart>
         </ResponsiveContainer>
