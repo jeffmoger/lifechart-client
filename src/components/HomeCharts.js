@@ -60,9 +60,12 @@ const HomeCharts = (props) => {
   }
 
   function refreshAfterSubmit() {
-    window.location.reload();
-    //setStaleData(true);
+    setStaleData(true);
   }
+
+  useEffect(() => {
+    //console.log(`updateCount: `);
+  });
 
   useEffect(() => {
     setStaleData(checkLastFetched(1));

@@ -15,15 +15,19 @@ import { nowMillis } from '../functions/dateFunctions';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+const DEBUG = false;
+
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     minHeight: 600,
     maxHeight: '80vh',
     minWidth: 400,
-    backgroundColor: '#111111',
+    //backgroundColor: '#111111',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
   dialogPaper2: {
-    backgroundColor: '#111111',
+    //backgroundColor: '#111111',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
   wrapper: {
     margin: theme.spacing(1),
@@ -51,7 +55,6 @@ export default function DataEntry({
   open,
   handleDialogClose,
   category,
-  closeSpeedDial,
   refreshAfterSubmit,
   profile,
   authTokens,
@@ -83,12 +86,24 @@ export default function DataEntry({
   useEffect(() => {
     if (status === 3) {
       refreshAfterSubmit();
+      handleDialogClose();
+      setStatus(0);
     }
-  }, [refreshAfterSubmit, status]);
+  }, [handleDialogClose, refreshAfterSubmit, status]);
 
   useEffect(() => {
     console.log(values);
   }, [values]);
+
+  useEffect(() => {
+    if (DEBUG) {
+      console.log({
+        component: 'Data Entry',
+        status,
+        disabled,
+      });
+    }
+  });
 
   const handleClose = () => {
     handleDialogClose();
@@ -209,7 +224,6 @@ export default function DataEntry({
 
 async function submitRecord(state, token, category, note) {
   const dataTypeName = `lifechart.${category.toLowerCase()}.item`;
-  console.log(nowMillis());
   try {
     const r = await fetch(`${process.env.REACT_APP_API}/api/items/create`, {
       method: 'POST',

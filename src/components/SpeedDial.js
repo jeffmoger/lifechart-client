@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { makeStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -12,6 +12,8 @@ import healthCross from '@iconify/icons-carbon/health-cross';
 
 import DataEntry from './DataEntry';
 
+const DEBUG = false;
+
 const useStyles = makeStyles((theme) => ({
   speedDial: {
     position: 'fixed',
@@ -20,12 +22,12 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 3,
   },
   backdrop: {
-    zIndex: 2,
+    zIndex: 1,
     color: '#fff',
-    backgroundColor: 'rgba(20, 20, 20, 0.9)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   dialog: {
-    zIndex: 1,
+    zIndex: 2,
   },
 }));
 
@@ -62,6 +64,10 @@ export default function SpeedDialTooltipOpen({
     setOpen(false);
   };
 
+  const toggleOpen = () => {
+    setOpen((prev) => !prev);
+  };
+
   const handleDialogOpen = (e) => {
     setOpenDialog(true);
     setDialogCategory(e.currentTarget.dataset.category);
@@ -71,15 +77,24 @@ export default function SpeedDialTooltipOpen({
     setOpenDialog(false);
   };
 
+  useEffect(() => {
+    if (DEBUG) {
+      console.log({
+        page: 'SpeedDial',
+        open,
+        openDialog,
+        dialogCategory,
+      });
+    }
+  });
+
   return (
     <div className={classes.root}>
-      <Backdrop open={open} className={classes.backdrop} onClick={handleClose}>
+      <Backdrop open={open} className={classes.backdrop}>
         <DataEntry
           open={openDialog}
           className={classes.dialog}
-          handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
-          closeSpeedDial={handleClose}
           category={dialogCategory}
           refreshAfterSubmit={refreshAfterSubmit}
           profile={profile}
@@ -90,8 +105,9 @@ export default function SpeedDialTooltipOpen({
         ariaLabel="Add new activity"
         className={classes.speedDial}
         icon={<SpeedDialIcon />}
-        onClose={handleClose}
-        onOpen={handleOpen}
+        //onClose={handleClose}
+        //onOpen={handleOpen}
+        onClick={toggleOpen}
         open={open}
       >
         {actions.map((action) => (
