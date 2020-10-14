@@ -157,7 +157,7 @@ export default function DataEntry({
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
-          disableScrollLock={true}
+          //disableScrollLock={true}
           classes={paperClass}
         >
           <DialogTitle id="alert-dialog-title"></DialogTitle>
