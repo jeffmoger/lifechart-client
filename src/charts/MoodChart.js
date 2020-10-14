@@ -85,7 +85,7 @@ export default class MoodChart extends PureComponent {
               type="monotone"
               dataKey="Mood"
               stroke="#8884d8"
-              dot={{ fill: '#8884d8', r: 2 }}
+              dot={{ fill: '#8884d8' }}
               activeDot={{ r: 8 }}
             />
           </LineChart>
