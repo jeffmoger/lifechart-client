@@ -56,14 +56,6 @@ export default function SpeedDialTooltipOpen({
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogCategory, setDialogCategory] = useState('');
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const toggleOpen = () => {
     setOpen((prev) => !prev);
   };
