@@ -2,7 +2,7 @@ import React from 'react';
 import GadgetRing from './GadgetRing';
 
 export default function StepCount(props) {
-  const { stepCount } = props.data.chartData;
+  const { stepCount } = props;
 
   const gadgetProps = {
     score: stepCount,

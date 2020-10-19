@@ -2,8 +2,7 @@ import React from 'react';
 import GadgetRing from './GadgetRing';
 
 const AverageCaloriesBurned = (props) => {
-  const { calorieScore } = props.data.chartData;
-
+  const { calorieScore } = props;
   const gadgetProps = {
     score: calorieScore,
     goal: 500,

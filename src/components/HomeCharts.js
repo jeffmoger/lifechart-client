@@ -8,9 +8,9 @@ import WeightChart from '../charts/WeightChart';
 import SleepChart from '../charts/SleepChart';
 import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import newDateRange from '../functions/dateRange';
+import returnDateArray from '../functions/returnDateArray';
 import getData from '../functions/getData';
 import getItemData from '../functions/getItemData';
-import loadChartData from '../functions/loadChartData';
 import AverageCaloriesBurned from './AverageCaloriesBurned';
 import StepCount from './StepCount';
 import ActiveMinutes from './ActiveMinutes';
@@ -18,7 +18,10 @@ import NetCalorieBurn from './NetCalorieBurn';
 import DisplayDateRange from './DisplayDateRange';
 import SpeedDial from './SpeedDial';
 import Loader from './Loader';
-import { getSymptomList } from '../functions/apiCalls';
+import { getSymptomList, getDataSourceId } from '../functions/apiCalls';
+
+import loadChartItemData from '../functions/loadChartItemData';
+import loadChartFitData from '../functions/loadChartFitData';
 
 const dateRangeLength = 15;
 
@@ -38,19 +41,50 @@ function selectChartDataByRange(arr, start, end) {
   }
 }
 
+function generateEmptyData(dateRange, arr) {
+  const dateArray = returnDateArray(dateRange);
+  const newArray = dateArray.map((date) => {
+    let obj = {
+      date,
+    };
+    arr.forEach((item) => {
+      obj[item] = 0;
+    });
+    return obj;
+  });
+  return newArray;
+}
+
 const HomeCharts = (props) => {
-  const { id, token } = props.authTokens;
-  const [sync, setSync] = useState(localStorageDefault('sync', ''));
+  const { token } = props.authTokens;
+  const { demo } = props;
+  const [fitChart, setFitChart] = useState(
+    localStorageDefault('fitChartData', '')
+  );
+  const [itemChart, setItemChart] = useState(
+    localStorageDefault('itemChartData', '')
+  );
   const [staleData, setStaleData] = useState(false);
+  const [staleItems, setStaleItems] = useState(true);
   const [lastFetch, setLastFetch] = useState('');
   const [dateRange, setDateRange] = useState(newDateRange(dateRangeLength));
-  const [calorieChart, setCalorieChart] = useState([]);
-  const [nutritionChart, setNutritionChart] = useState([]);
+  const [calorieChart, setCalorieChart] = useState(() =>
+    generateEmptyData(newDateRange(dateRangeLength), ['Consumed', 'Burned'])
+  );
+  const [nutritionChart, setNutritionChart] = useState(
+    generateEmptyData(newDateRange(dateRangeLength), [
+      'Protein',
+      'Fat',
+      'Carbs',
+    ])
+  );
   const [moodChart, setMoodChart] = useState([]);
   const [sleepChart, setSleepChart] = useState([]);
   const [weightChart, setWeightChart] = useState([]);
   const [symptomChart, setSymptomChart] = useState([]);
   const [symptomList, setSymptomList] = useState([]);
+  const [gadgets, setGadgets] = useState('');
+  const [dataSourceIds, setDataSourceIds] = useState([]);
 
   function previousDateRange() {
     setDateRange(newDateRange(dateRangeLength, dateRange));
@@ -60,15 +94,11 @@ const HomeCharts = (props) => {
   }
 
   function refreshAfterSubmit() {
-    setStaleData(true);
+    setStaleItems(true);
   }
 
   useEffect(() => {
-    //console.log(`updateCount: `);
-  });
-
-  useEffect(() => {
-    setStaleData(checkLastFetched(1));
+    setStaleData(checkLastFetched(1, lastFetch));
   }, [lastFetch]);
 
   useEffect(() => {
@@ -83,95 +113,126 @@ const HomeCharts = (props) => {
   }, [token]);
 
   useEffect(() => {
-    if (staleData) {
-      moveDataFromGoogle(id, token)
+    const dataSource = async () => {
+      await getDataSourceId(token).then((result) => setDataSourceIds(result));
+    };
+    dataSource();
+  }, [token]);
+
+  useEffect(() => {
+    if (staleData && dataSourceIds.length > 0) {
+      moveDataFromGoogle(token, getDataTypeNamesAsString(dataSourceIds))
         .then((response) => {
           var dataObject = {};
           dataObject.syncReport = response;
           return dataObject;
         })
-        .then(async (dataObject) => {
-          dataObject.data = await getData(token, getDateRangeString());
-          return dataObject;
-        })
-        .then(async (dataObject) => {
-          dataObject.items = await getItemData(token, getDateRangeString());
-          return dataObject;
-        })
-        .then((dataObject) => {
-          dataObject.chartData = loadChartData(dataObject);
-          const timestamp = new Date().getTime();
-          dataObject.fetched = timestamp;
-          localStorage.setItem('sync', JSON.stringify(dataObject));
+        .then(async () => {
+          const fitData = await getData(
+            token,
+            getDateRangeString(),
+            getDataTypeNamesAsString(dataSourceIds)
+          );
+          setFitChart(loadChartFitData(fitData));
           setStaleData(false);
-          setLastFetch(timestamp);
-          setSync(dataObject);
+          setLastFetch(new Date().getTime());
         })
         .catch((err) => console.log(err));
     }
-  }, [id, token, staleData]);
+  }, [staleData, token, dataSourceIds]);
 
   useEffect(() => {
-    if (sync) {
+    if (fitChart) {
       const {
         calorieChart,
         nutritionChart,
-        moodChart,
-        weightChart,
-        symptomChart,
-        sleepChart,
-      } = sync.chartData;
+        calorieScore,
+        netCalorieBurn,
+        stepCount,
+        activeMinutes,
+      } = fitChart;
       const [start, end] = dateRange;
       setCalorieChart(selectChartDataByRange(calorieChart, start, end));
       setNutritionChart(selectChartDataByRange(nutritionChart, start, end));
+      setGadgets({ calorieScore, netCalorieBurn, stepCount, activeMinutes });
+    }
+  }, [fitChart, dateRange]);
+
+  useEffect(() => {
+    const getItems = async () => {
+      await getItemData(token, getDateRangeString()).then((result) =>
+        setItemChart(loadChartItemData(result))
+      );
+    };
+    if (staleItems) {
+      getItems().then(() => setStaleItems(false));
+    }
+  }, [staleItems, token]);
+
+  useEffect(() => {
+    if (itemChart) {
+      const { moodChart, weightChart, symptomChart, sleepChart } = itemChart;
+      const [start, end] = dateRange;
       setMoodChart(selectChartDataByRange(moodChart, start, end));
       setWeightChart(selectChartDataByRange(weightChart, start, end));
       setSymptomChart(selectChartDataByRange(symptomChart, start, end));
       setSleepChart(selectChartDataByRange(sleepChart, start, end));
     }
-  }, [dateRange, sync]);
+  }, [itemChart, dateRange]);
+
+  useEffect(() => {
+    if (!demo) {
+      localStorage.setItem('fitChartData', JSON.stringify(fitChart));
+      localStorage.setItem('itemChartData', JSON.stringify(itemChart));
+    }
+  }, [demo, fitChart, itemChart]);
 
   return (
     <div className="homeCharts">
-      {sync ? (
+      {fitChart || itemChart ? (
         <>
           <DisplayDateRange
             dateRange={dateRange}
             previousDateRange={previousDateRange}
             nextDateRange={nextDateRange}
             nextDisabled={checkNextDisabled(dateRange)}
-            previousDisabled={checkPreviousDisabled(sync, dateRange)}
+            previousDisabled={checkPreviousDisabled(fitChart, dateRange)}
           />
-          <CalorieChart data={calorieChart} />
-          <br />
-          <NutritionChart data={nutritionChart} />
-          <br />
-          <MoodChart data={moodChart} />
-          <br />
-          <SleepChart data={sleepChart} />
-          <br />
-          {symptomList.length > 0 && (
+          {calorieChart.length > 0 && <CalorieChart data={calorieChart} />}
+          {nutritionChart.length > 0 && (
+            <NutritionChart data={nutritionChart} />
+          )}
+          {moodChart.length > 0 && <MoodChart data={moodChart} />}
+          {sleepChart.length > 0 && <SleepChart data={sleepChart} />}
+          {symptomList.length > 0 && symptomChart.length > 0 && (
             <SymptomChart data={symptomChart} symptoms={symptomList} />
           )}
-          <WeightChart data={weightChart} />
-          <br />
-
-          <section className="gadgets">
-            <div className="container">
-              <div>
-                <AverageCaloriesBurned data={sync} />
+          {weightChart.length > 0 && <WeightChart data={weightChart} />}
+          <DisplayDateRange
+            dateRange={dateRange}
+            previousDateRange={previousDateRange}
+            nextDateRange={nextDateRange}
+            nextDisabled={checkNextDisabled(dateRange)}
+            previousDisabled={checkPreviousDisabled(fitChart, dateRange)}
+          />
+          {gadgets && (
+            <section className="gadgets">
+              <div className="container">
+                <div>
+                  <AverageCaloriesBurned calorieScore={gadgets.calorieScore} />
+                </div>
+                <div>
+                  <NetCalorieBurn netCalorieBurn={gadgets.netCalorieBurn} />
+                </div>
+                <div>
+                  <StepCount stepCount={gadgets.stepCount} />
+                </div>
+                <div>
+                  <ActiveMinutes activeMinutes={gadgets.activeMinutes} />
+                </div>
               </div>
-              <div>
-                <NetCalorieBurn data={sync} />
-              </div>
-              <div>
-                <StepCount data={sync} />
-              </div>
-              <div>
-                <ActiveMinutes data={sync} />
-              </div>
-            </div>
-          </section>
+            </section>
+          )}
         </>
       ) : (
         <Loader />
@@ -185,12 +246,13 @@ const HomeCharts = (props) => {
   );
 };
 
-function checkLastFetched(wait) {
-  if (localStorage.getItem('sync') === null) return true;
-  const { fetched } = JSON.parse(localStorage.getItem('sync'));
+function checkLastFetched(wait, lastFetch) {
+  //if (localStorage.getItem('sync') === null) return true;
+  //const { fetched } = JSON.parse(localStorage.getItem('sync'));
+  if (!lastFetch) return true;
   const t = new Date().getTime();
   const w = wait * 60000;
-  return fetched + w > t ? false : true;
+  return lastFetch + w > t ? false : true;
 }
 
 function checkNextDisabled(dateRangeArray) {
@@ -201,14 +263,21 @@ function checkNextDisabled(dateRangeArray) {
   }
 }
 
-function checkPreviousDisabled(sync, dateRangeArray) {
-  if (sync) {
+function checkPreviousDisabled(fitChart, dateRangeArray) {
+  if (fitChart) {
     const [start] = dateRangeArray;
-    const { 0: firstDay } = sync.chartData.calorieChart;
+    const { 0: firstDay } = fitChart.calorieChart;
     if (firstDay.date >= start) {
       return true;
     }
   }
+}
+
+function getDataTypeNamesAsString(dataSourceIds) {
+  const newArray = dataSourceIds.map((item) => {
+    return item.dataTypeName;
+  });
+  return newArray.join();
 }
 
 export default HomeCharts;
