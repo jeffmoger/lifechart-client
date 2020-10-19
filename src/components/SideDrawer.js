@@ -17,6 +17,19 @@ const useStyles = makeStyles({
   },
 });
 
+const menuItems = [
+  ['Home', '/', true, true],
+  ['Demo', '/demo', true, false],
+  ['About', '/about', true, false],
+  ['Register', '/register', true, false],
+  ['Settings', '/settings', false, true],
+];
+
+const selectMenuItem = (menuItems, isAuth) => {
+  if (!isAuth) return menuItems.filter((item) => item[2] === true);
+  if (isAuth) return menuItems.filter((item) => item[3] === true);
+};
+
 export default function SideDrawer(props) {
   const classes = useStyles();
 
@@ -32,22 +45,32 @@ export default function SideDrawer(props) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {[
-          ['Home', '/'],
-          ['About', '/about'],
-          ['Demo', '/demo'],
-          ['Settings', '/settings'],
-        ].map((text, index) => (
-          <ListItem
-            button
-            key={text[0]}
-            color="inherit"
-            component={Link}
-            to={text[1]}
-          >
-            <ListItemText primary={text[0]} />
-          </ListItem>
-        ))}
+        {isAuthenticated.authTokens
+          ? selectMenuItem(menuItems, true).map((text, index) => (
+              <ListItem
+                button
+                key={text[0]}
+                color="inherit"
+                component={Link}
+                to={text[1]}
+              >
+                <ListItemText primary={text[0]} />
+              </ListItem>
+            ))
+          : null}
+        {!isAuthenticated.authTokens
+          ? selectMenuItem(menuItems, false).map((text, index) => (
+              <ListItem
+                button
+                key={text[0]}
+                color="inherit"
+                component={Link}
+                to={text[1]}
+              >
+                <ListItemText primary={text[0]} />
+              </ListItem>
+            ))
+          : null}
         <ListItem
           button
           color="inherit"
