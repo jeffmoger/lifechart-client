@@ -1,13 +1,14 @@
-async function moveDataFromGoogle(id, token) {
+async function moveDataFromGoogle(token, dataSourceIds) {
+  let data_type = '';
+  if (dataSourceIds) data_type = `/${dataSourceIds}`;
   try {
     const r = await fetch(
-      `${process.env.REACT_APP_API}/api/move_data_from_google`,
+      `${process.env.REACT_APP_API}/api/move_data_from_google${data_type}`,
       {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
           authorization: 'Token ' + token,
-          id: id,
         },
       }
     );

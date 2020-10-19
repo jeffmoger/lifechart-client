@@ -57,3 +57,18 @@ export async function getDemoID() {
   const response = await r.json();
   return response;
 }
+
+export const getDataSourceId = async (token) => {
+  try {
+    let res = await fetch(`${process.env.REACT_APP_API}/api/data_sources`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        authorization: 'Token ' + token,
+      },
+    });
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
