@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import About from './pages/About';
 import Demo from './pages/Demo';
 import { AuthContext } from './context/auth';
@@ -53,6 +54,7 @@ function App() {
           <Container fixed>
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
             <Route path="/about" component={About} />
             <Route path="/demo" component={Demo} />
             <PrivateRoute path="/settings" component={Settings} />
