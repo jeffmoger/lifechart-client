@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import FormSubmitProfile from '../components/FormSubmitProfile';
 import FormSubmitSymptoms from '../components/FormSubmitSymptoms';
+import DataSourceId from '../components/DataSourceId';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -134,6 +135,9 @@ function Settings(props) {
                 <GoogleCodeButton url={googleUrl} />
               ) : null}
               {googleCode && !googleAuth ? <Redirect to="/settings" /> : null}
+              {googleFit ? (
+                <DataSourceId token={token} profile={profile} />
+              ) : null}
               <div id="response"></div>
             </div>
           </AccordionDetails>
