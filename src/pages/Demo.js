@@ -24,7 +24,7 @@ export default function Demo() {
   return (
     <main>
       {authTokens ? (
-        <HomeCharts authTokens={authTokens} profile={profile} />
+        <HomeCharts authTokens={authTokens} profile={profile} demo="demo" />
       ) : (
         <div></div>
       )}
