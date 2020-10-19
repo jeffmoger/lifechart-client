@@ -69,6 +69,9 @@ export default function SideDrawer(props) {
   function logOut(event) {
     setAuthTokens();
     window.localStorage.removeItem('tokens');
+    window.localStorage.removeItem('dataSourceIds');
+    window.localStorage.removeItem('fitChartData');
+    window.localStorage.removeItem('itemChartData');
     event.preventDefault();
   }
 
