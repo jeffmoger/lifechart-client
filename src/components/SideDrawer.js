@@ -18,7 +18,8 @@ const useStyles = makeStyles({
 });
 
 const menuItems = [
-  ['Home', '/', true, true],
+  ['Home', '/', true, false],
+  ['My Charts', '/', false, true],
   ['Demo', '/demo', true, false],
   ['About', '/about', true, false],
   ['Register', '/register', true, false],
