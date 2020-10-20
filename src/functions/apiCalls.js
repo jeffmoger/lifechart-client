@@ -72,3 +72,23 @@ export const getDataSourceId = async (token) => {
     console.log(error);
   }
 };
+
+export async function createNewUser(email, password) {
+  try {
+    let res = await fetch(`${process.env.REACT_APP_API}/api/users/create`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: {
+          email: email,
+          password: password,
+        },
+      }),
+    });
+    return await res.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
