@@ -57,7 +57,7 @@ function generateEmptyData(dateRange, arr) {
 
 const HomeCharts = (props) => {
   const { token } = props.authTokens;
-  const { demo } = props;
+  const { demo, profile } = props;
   const [fitChart, setFitChart] = useState(
     localStorageDefault('fitChartData', '')
   );
@@ -85,6 +85,7 @@ const HomeCharts = (props) => {
   const [symptomList, setSymptomList] = useState([]);
   const [gadgets, setGadgets] = useState('');
   const [dataSourceIds, setDataSourceIds] = useState([]);
+  const [showItems, setShowItems] = useState(false);
 
   function previousDateRange() {
     setDateRange(newDateRange(dateRangeLength, dateRange));
@@ -114,10 +115,20 @@ const HomeCharts = (props) => {
 
   useEffect(() => {
     const dataSource = async () => {
-      await getDataSourceId(token).then((result) => setDataSourceIds(result));
+      await getDataSourceId(token).then((result) => {
+        //console.log(result);
+        let dataSourceIdArray = result.filter((item) => item.dataDetails);
+        //TODO: Replace if statement below with a proper check saved in profile
+        if (dataSourceIdArray.length === 0) {
+          setNutritionChart([]);
+          setCalorieChart([]);
+        }
+        setDataSourceIds(dataSourceIdArray);
+        setShowItems(true);
+      });
     };
-    dataSource();
-  }, [token]);
+    if (profile.googleFit) dataSource();
+  }, [profile.googleFit, token]);
 
   useEffect(() => {
     if (staleData && dataSourceIds.length > 0) {
@@ -187,9 +198,15 @@ const HomeCharts = (props) => {
     }
   }, [demo, fitChart, itemChart]);
 
+  useEffect(() => {
+    if (!profile.googleFit && itemChart) {
+      setShowItems(true);
+    }
+  }, [itemChart, profile.googleFit]);
+
   return (
     <div className="homeCharts">
-      {fitChart || itemChart ? (
+      {showItems ? (
         <>
           <DisplayDateRange
             dateRange={dateRange}
@@ -198,8 +215,10 @@ const HomeCharts = (props) => {
             nextDisabled={checkNextDisabled(dateRange)}
             previousDisabled={checkPreviousDisabled(fitChart, dateRange)}
           />
-          {calorieChart.length > 0 && <CalorieChart data={calorieChart} />}
-          {nutritionChart.length > 0 && (
+          {dataSourceIds.length > 0 && calorieChart.length > 0 && (
+            <CalorieChart data={calorieChart} />
+          )}
+          {dataSourceIds.length > 0 && nutritionChart.length > 0 && (
             <NutritionChart data={nutritionChart} />
           )}
           {moodChart.length > 0 && <MoodChart data={moodChart} />}
@@ -208,13 +227,6 @@ const HomeCharts = (props) => {
             <SymptomChart data={symptomChart} symptoms={symptomList} />
           )}
           {weightChart.length > 0 && <WeightChart data={weightChart} />}
-          <DisplayDateRange
-            dateRange={dateRange}
-            previousDateRange={previousDateRange}
-            nextDateRange={nextDateRange}
-            nextDisabled={checkNextDisabled(dateRange)}
-            previousDisabled={checkPreviousDisabled(fitChart, dateRange)}
-          />
           {gadgets && (
             <section className="gadgets">
               <div className="container">
