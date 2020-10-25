@@ -17,10 +17,10 @@ export default function SwitchLabels(props) {
             onChange={handleChange}
             name={props.name}
             color={props.color}
-            disabled={props.googleSwitch ? true : false}
+            disabled={props.disabled}
           />
         }
-        label={props.googleSwitch ? 'Connected to Google Fit' : props.label}
+        label={props.label}
       />
     </FormGroup>
   );
