@@ -16,6 +16,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FormSubmitProfile from '../components/FormSubmitProfile';
 import FormSubmitSymptoms from '../components/FormSubmitSymptoms';
 import DataSourceId from '../components/DataSourceId';
+import { getProfile } from '../functions/apiCalls';
+import { useAuth } from '../context/auth';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -36,25 +38,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Settings(props) {
+  const {
+    authTokens: { id, token, googleFit, dataSourceIds },
+  } = useAuth();
+  const authTokens = useAuth();
   const classes = useStyles();
-  const { id, token, googleFit } = JSON.parse(localStorage.getItem('tokens'));
   const stringValues = queryString.parse(props.location.search);
-
   const [googleUrl, setGoogleUrl] = useState('');
   const [googleCode, setGoogleCode] = useState('');
   const [googleAuth, setGoogleAuth] = useState('');
   const [googleSwitch, setGoogleSwitch] = useState(googleFit);
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [profile, setProfile] = useState('');
+  const [switchLabel, setSwitchLabel] = useState('Connect to Google Fit');
 
   useEffect(() => {
-    getProfile(id, token).then((result) => setProfile(result));
-  }, [id, token]);
+    getProfile(token).then((result) => setProfile(result));
+  }, [token]);
 
   useEffect(() => {
     if (!googleFit && !googleCode && !googleUrl && googleSwitch) {
       console.log('ready to call google code button');
+      setSwitchLabel('Connecting to Google Fit');
       getGoogleCode(id, token).then((response) => setGoogleUrl(response));
+    }
+    if (googleFit && googleSwitch) {
+      setSwitchLabel('Connected to Google Fit');
     }
   }, [id, token, googleFit, googleCode, googleUrl, googleSwitch]);
 
@@ -74,6 +83,10 @@ function Settings(props) {
       );
     }
   }, [googleCode, googleAuth, id, token]);
+
+  useEffect(() => {
+    console.log(authTokens);
+  }, [authTokens]);
 
   function handleSwitchChange(googleSwitch) {
     setGoogleSwitch(googleSwitch.googleSwitch);
@@ -95,13 +108,13 @@ function Settings(props) {
     <main>
       <div className={classes.root}>
         <Accordion
-          expanded={expanded === 'panel1'}
-          onChange={handleChange('panel1')}
+          expanded={expanded === 'panel-profile'}
+          onChange={handleChange('panel-profile')}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
+            aria-controls="panel-profile-content"
+            id="panel-profile-header"
           >
             <Typography className={classes.heading}>My Profile</Typography>
           </AccordionSummary>
@@ -111,21 +124,22 @@ function Settings(props) {
             ) : null}
           </AccordionDetails>
         </Accordion>
+
         <Accordion
-          expanded={expanded === 'panel2'}
-          onChange={handleChange('panel2')}
+          expanded={expanded === 'panel-googlesync'}
+          onChange={handleChange('panel-googlesync')}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2bh-content"
-            id="panel2bh-header"
+            aria-controls="panel-googlesync-content"
+            id="panel-googlesync-header"
           >
             <Typography className={classes.heading}>Google Sync</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.grid}>
               <Switch
-                label="Connect to Google Fit"
+                label={switchLabel}
                 color="primary"
                 name="googleSwitch"
                 googleSwitch={googleSwitch}
@@ -136,20 +150,25 @@ function Settings(props) {
               ) : null}
               {googleCode && !googleAuth ? <Redirect to="/settings" /> : null}
               {googleFit ? (
-                <DataSourceId token={token} profile={profile} />
+                <DataSourceId
+                  token={token}
+                  googleFit={googleFit}
+                  dataSourceIds={dataSourceIds}
+                />
               ) : null}
               <div id="response"></div>
             </div>
           </AccordionDetails>
         </Accordion>
+
         <Accordion
-          expanded={expanded === 'panel4'}
-          onChange={handleChange('panel4')}
+          expanded={expanded === 'panel-symptoms'}
+          onChange={handleChange('panel-symptoms')}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel4bh-content"
-            id="panel4bh-header"
+            aria-controls="panel-symptoms-content"
+            id="panel-symptoms-header"
           >
             <Typography className={classes.heading}>Symptoms</Typography>
           </AccordionSummary>
@@ -160,18 +179,6 @@ function Settings(props) {
       </div>
     </main>
   );
-}
-
-async function getProfile(id, token) {
-  const response = await fetch(`${process.env.REACT_APP_API}/api/users/read`, {
-    method: 'GET',
-    headers: {
-      'content-type': 'application/json',
-      authorization: 'Token ' + token,
-      id: id,
-    },
-  });
-  return response.json();
 }
 
 async function getGoogleCode(id, token) {

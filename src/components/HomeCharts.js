@@ -18,7 +18,11 @@ import NetCalorieBurn from './NetCalorieBurn';
 import DisplayDateRange from './DisplayDateRange';
 import SpeedDial from './SpeedDial';
 import Loader from './Loader';
-import { getSymptomList, getDataSourceId } from '../functions/apiCalls';
+import {
+  getSymptomList,
+  getDataSourceId,
+  getProfile,
+} from '../functions/apiCalls';
 
 import loadChartItemData from '../functions/loadChartItemData';
 import loadChartFitData from '../functions/loadChartFitData';
@@ -56,11 +60,15 @@ function generateEmptyData(dateRange, arr) {
 }
 
 const HomeCharts = (props) => {
-  const { token } = props.authTokens;
-  const { demo, profile } = props;
-  const [fitChart, setFitChart] = useState(
-    localStorageDefault('fitChartData', '')
-  );
+  const {
+    token,
+    googleFit,
+    dataSourceIds: profileDataSource,
+  } = props.authTokens;
+  const { demo } = props;
+  const [dataSourceIds, setDataSourceIds] = useState([]);
+  const [profile, setProfile] = useState('');
+  const [fitChart, setFitChart] = useState('');
   const [itemChart, setItemChart] = useState(
     localStorageDefault('itemChartData', '')
   );
@@ -84,7 +92,6 @@ const HomeCharts = (props) => {
   const [symptomChart, setSymptomChart] = useState([]);
   const [symptomList, setSymptomList] = useState([]);
   const [gadgets, setGadgets] = useState('');
-  const [dataSourceIds, setDataSourceIds] = useState([]);
   const [showItems, setShowItems] = useState(false);
 
   function previousDateRange() {
@@ -98,9 +105,32 @@ const HomeCharts = (props) => {
     setStaleItems(true);
   }
 
+  //useEffects_____________________________________________________________
+
   useEffect(() => {
+    console.log(profile);
+  }, [profile]);
+
+  useEffect(() => {
+    if (profileDataSource) {
+      if (profileDataSource.length > 0) {
+        setDataSourceIds(profileDataSource);
+        setFitChart(localStorageDefault('fitChartData', ''));
+      }
+    }
+  }, [profileDataSource]);
+
+  useEffect(() => {
+    console.log(lastFetch);
     setStaleData(checkLastFetched(1, lastFetch));
   }, [lastFetch]);
+
+  useEffect(() => {
+    const updateProfileState = async () => {
+      await getProfile(token).then((result) => setProfile(result));
+    };
+    if (!profile) updateProfileState();
+  }, [profile, token]);
 
   useEffect(() => {
     const symptoms = async (token) => {
@@ -112,23 +142,6 @@ const HomeCharts = (props) => {
     };
     symptoms(token);
   }, [token]);
-
-  useEffect(() => {
-    const dataSource = async () => {
-      await getDataSourceId(token).then((result) => {
-        //console.log(result);
-        let dataSourceIdArray = result.filter((item) => item.dataDetails);
-        //TODO: Replace if statement below with a proper check saved in profile
-        if (dataSourceIdArray.length === 0) {
-          setNutritionChart([]);
-          setCalorieChart([]);
-        }
-        setDataSourceIds(dataSourceIdArray);
-        setShowItems(true);
-      });
-    };
-    if (profile.googleFit) dataSource();
-  }, [profile.googleFit, token]);
 
   useEffect(() => {
     if (staleData && dataSourceIds.length > 0) {
@@ -144,9 +157,9 @@ const HomeCharts = (props) => {
             getDateRangeString(),
             getDataTypeNamesAsString(dataSourceIds)
           );
+          setLastFetch(new Date().getTime());
           setFitChart(loadChartFitData(fitData));
           setStaleData(false);
-          setLastFetch(new Date().getTime());
         })
         .catch((err) => console.log(err));
     }
@@ -171,9 +184,10 @@ const HomeCharts = (props) => {
 
   useEffect(() => {
     const getItems = async () => {
-      await getItemData(token, getDateRangeString()).then((result) =>
-        setItemChart(loadChartItemData(result))
-      );
+      await getItemData(token, getDateRangeString()).then((result) => {
+        //TODO: nonreplicable type error occurring in loadChartItemData
+        setItemChart(loadChartItemData(result));
+      });
     };
     if (staleItems) {
       getItems().then(() => setStaleItems(false));
@@ -199,10 +213,10 @@ const HomeCharts = (props) => {
   }, [demo, fitChart, itemChart]);
 
   useEffect(() => {
-    if (!profile.googleFit && itemChart) {
+    if (googleFit && itemChart) {
       setShowItems(true);
     }
-  }, [itemChart, profile.googleFit]);
+  }, [itemChart, googleFit]);
 
   return (
     <div className="homeCharts">
@@ -251,7 +265,7 @@ const HomeCharts = (props) => {
       )}
       <SpeedDial
         refreshAfterSubmit={refreshAfterSubmit}
-        profile={props.profile}
+        profile={profile}
         authTokens={props.authTokens}
       />
     </div>
