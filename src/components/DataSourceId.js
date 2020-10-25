@@ -10,7 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { getDataSourceId } from '../functions/apiCalls';
+import { getDataSourceId, saveProfile } from '../functions/apiCalls';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -20,14 +20,36 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DataSourceId(props) {
   const classes = useStyles();
-  const { token } = props;
+  const { token, googleFit, dataSourceIds: profileDataSource } = props;
   const [dataSources, setDataSources] = useState([]);
+
+  const saveDataSourcesToProfile = (dataSources, token) => {
+    let filteredDataSources = dataSources.filter((item) => item.dataDetails);
+    saveProfile(token, {
+      dataSourceIds: filteredDataSources,
+    });
+  };
 
   useEffect(() => {
     getDataSourceId(token).then((result) => {
       setDataSources(result);
     });
   }, [token]);
+
+  useEffect(() => {
+    if (dataSources.length > 0) {
+      if (profileDataSource) {
+        if (profileDataSource.length !== dataSources.length) {
+          saveDataSourcesToProfile(dataSources, token);
+        }
+      }
+      if (!profileDataSource) saveDataSourcesToProfile(dataSources, token);
+    }
+  }, [profileDataSource, dataSources, token]);
+
+  useEffect(() => {
+    console.log(dataSources);
+  }, [dataSources]);
 
   return (
     <TableContainer component={'div'}>
