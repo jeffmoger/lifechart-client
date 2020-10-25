@@ -34,13 +34,12 @@ export async function fetchAuthentication(email, password) {
   }
 }
 
-export async function getProfile(id, token) {
+export async function getProfile(token) {
   const r = await fetch(`${process.env.REACT_APP_API}/api/users/read`, {
     method: 'GET',
     headers: {
       'content-type': 'application/json',
       authorization: 'Token ' + token,
-      id: id,
     },
   });
   const response = await r.json();
@@ -90,5 +89,24 @@ export async function createNewUser(email, password) {
     return await res.json();
   } catch (error) {
     console.log(error);
+  }
+}
+
+export function saveProfile(token, body) {
+  try {
+    fetch(`${process.env.REACT_APP_API}/api/users/edit`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+        authorization: 'Token ' + token,
+      },
+      body: JSON.stringify(body),
+    }).then((response) => {
+      if (response.ok) {
+        console.log(response.status);
+      }
+    });
+  } catch (error) {
+    console.error(error);
   }
 }
