@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import { saveProfile } from '../functions/apiCalls';
 
 const useStyles = makeStyles((theme) => ({
   formRoot: {
@@ -49,7 +50,7 @@ export default function FormSubmitProfile(props) {
     event.preventDefault();
     let obj = { ...input };
     obj.weight = Number(input.weight).toFixed(1);
-    saveProfile(props.id, props.token, obj);
+    saveProfile(props.token, obj);
   }
   return (
     <form
@@ -110,23 +111,4 @@ export default function FormSubmitProfile(props) {
       </div>
     </form>
   );
-}
-
-async function saveProfile(id, token, body) {
-  await fetch(`${process.env.REACT_APP_API}/api/users/edit`, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json',
-      authorization: 'Token ' + token,
-      id: id,
-    },
-    body: JSON.stringify(body),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
 }
