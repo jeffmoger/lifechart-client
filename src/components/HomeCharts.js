@@ -18,11 +18,7 @@ import NetCalorieBurn from './NetCalorieBurn';
 import DisplayDateRange from './DisplayDateRange';
 import SpeedDial from './SpeedDial';
 import Loader from './Loader';
-import {
-  getSymptomList,
-  getDataSourceId,
-  getProfile,
-} from '../functions/apiCalls';
+import { getSymptomList, getProfile } from '../functions/apiCalls';
 
 import loadChartItemData from '../functions/loadChartItemData';
 import loadChartFitData from '../functions/loadChartFitData';
