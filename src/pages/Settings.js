@@ -41,7 +41,6 @@ function Settings(props) {
   const {
     authTokens: { id, token, googleFit, dataSourceIds },
   } = useAuth();
-  const authTokens = useAuth();
   const classes = useStyles();
   const stringValues = queryString.parse(props.location.search);
   const [googleUrl, setGoogleUrl] = useState('');
@@ -83,10 +82,6 @@ function Settings(props) {
       );
     }
   }, [googleCode, googleAuth, id, token]);
-
-  useEffect(() => {
-    console.log(authTokens);
-  }, [authTokens]);
 
   function handleSwitchChange(googleSwitch) {
     setGoogleSwitch(googleSwitch.googleSwitch);
@@ -211,7 +206,6 @@ async function getGoogleAuth(id, token, code, setGoogleSwitch, setGoogleCode) {
     });
     const response = await r.json();
     if (response.access_token) {
-      //sessionStorage.setItem("googleAuth", JSON.stringify(response));
       const tokens = JSON.parse(localStorage.getItem('tokens'));
       localStorage.setItem(
         'tokens',
