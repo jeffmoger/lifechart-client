@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DataSourceId(props) {
   const classes = useStyles();
-  const { token, googleFit, dataSourceIds: profileDataSource } = props;
+  const { token, dataSourceIds: profileDataSource } = props;
   const [dataSources, setDataSources] = useState([]);
 
   const saveDataSourcesToProfile = (dataSources, token) => {
