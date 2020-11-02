@@ -58,7 +58,7 @@ function App() {
             <Route path="/register" component={Register} />
             <Route path="/about" component={About} />
             <Route path="/demo" component={Demo} />
-            <Route path="/auth" component={Auth} />
+            <Route path="/auth/google/redirect" component={Auth} />
             <PrivateRoute path="/settings" component={Settings} />
           </Container>
         </Router>
