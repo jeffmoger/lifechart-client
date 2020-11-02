@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { GoogleLoginButton } from '../components/GoogleLoginButton';
 
 import { useAuth } from '../context/auth';
 
@@ -17,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     marginTop: 30,
+  },
+  googleDiv: {
+    margin: theme.spacing(2),
+  },
+  spacer: {
+    marginBottom: 70,
   },
 }));
 
@@ -37,14 +44,6 @@ const Login = (props) => {
       setGoogleURL(result);
     });
   }, []);
-
-  const GoogleLoginButton = (props) => {
-    return (
-      <Button variant="contained" type="button" href={props.url}>
-        Sign In with Google
-      </Button>
-    );
-  };
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -84,6 +83,14 @@ const Login = (props) => {
     return (
       <main>
         <div className={classes.root}>
+          {googleURL && (
+            <div className={classes.googleDiv}>
+              <h5>Sign in directly with Google.</h5>
+              <GoogleLoginButton url={googleURL} />
+              <div className={classes.spacer} />
+              <h5>Or login with your local account.</h5>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className={classes.root} noValidate>
             <TextField
               id="email"
@@ -114,7 +121,6 @@ const Login = (props) => {
               Login
             </Button>
           </form>
-          {googleURL && <GoogleLoginButton url={googleURL} />}
 
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity={severity}>
