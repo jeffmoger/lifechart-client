@@ -24,6 +24,7 @@ const menuItems = [
   ['About', '/about', true, false],
   ['Register', '/register', true, false],
   ['Settings', '/settings', false, true],
+  ['Auth', '/auth/google/redirect', true, false],
 ];
 
 const selectMenuItem = (menuItems, isAuth) => {
