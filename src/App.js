@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -15,6 +15,7 @@ import Register from './pages/Register';
 import About from './pages/About';
 import Demo from './pages/Demo';
 import Auth from './pages/Auth';
+import NotFound from './components/NotFound';
 import { AuthContext } from './context/auth';
 import AppBar from './components/AppBar';
 
@@ -53,13 +54,16 @@ function App() {
         <Router>
           <AppBar />
           <Container fixed>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/about" component={About} />
-            <Route path="/demo" component={Demo} />
-            <Route path="/auth/google/redirect" component={Auth} />
-            <PrivateRoute path="/settings" component={Settings} />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route path="/about" component={About} />
+              <Route path="/demo" component={Demo} />
+              <Route path="/auth/google/redirect" component={Auth} />
+              <PrivateRoute path="/settings" component={Settings} />
+              <Route component={NotFound} />
+            </Switch>
           </Container>
         </Router>
       </ThemeProvider>
