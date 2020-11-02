@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -30,6 +30,21 @@ const Login = (props) => {
   const { setAuthTokens } = useAuth();
   const [severity, setSeverity] = useState('');
   const [message, setMessage] = useState('');
+  const [googleURL, setGoogleURL] = useState('');
+
+  useEffect(() => {
+    google_login_url().then((result) => {
+      setGoogleURL(result);
+    });
+  }, []);
+
+  const GoogleLoginButton = (props) => {
+    return (
+      <Button variant="contained" type="button" href={props.url}>
+        Sign In with Google
+      </Button>
+    );
+  };
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -99,6 +114,8 @@ const Login = (props) => {
               Login
             </Button>
           </form>
+          {googleURL && <GoogleLoginButton url={googleURL} />}
+
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity={severity}>
               {message}
@@ -125,6 +142,21 @@ async function fetchAuthentication(email, password) {
           password: password,
         },
       }),
+    });
+    const response = await r.json();
+    return response;
+  } catch (err) {
+    return console.log(err);
+  }
+}
+
+async function google_login_url() {
+  try {
+    const r = await fetch(`${process.env.REACT_APP_API}/api/google_login_url`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
     });
     const response = await r.json();
     return response;

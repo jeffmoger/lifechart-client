@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import About from './pages/About';
 import Demo from './pages/Demo';
+import Auth from './pages/Auth';
 import { AuthContext } from './context/auth';
 import AppBar from './components/AppBar';
 
@@ -57,6 +58,7 @@ function App() {
             <Route path="/register" component={Register} />
             <Route path="/about" component={About} />
             <Route path="/demo" component={Demo} />
+            <Route path="/auth" component={Auth} />
             <PrivateRoute path="/settings" component={Settings} />
           </Container>
         </Router>
