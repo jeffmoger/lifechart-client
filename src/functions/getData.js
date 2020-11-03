@@ -13,6 +13,7 @@ export default async function getData(token, date_range, dataSourceIds) {
       }
     );
     const response = await r.json();
+    console.log(response);
     return response;
   } catch (err) {
     console.log(err);
