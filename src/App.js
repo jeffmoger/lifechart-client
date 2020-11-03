@@ -16,6 +16,8 @@ import About from './pages/About';
 import Demo from './pages/Demo';
 import Auth from './pages/Auth';
 import NotFound from './components/NotFound';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import { AuthContext } from './context/auth';
 import AppBar from './components/AppBar';
 
@@ -56,12 +58,14 @@ function App() {
           <Container fixed>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/login" component={Login} />
-              <Route path="/register" component={Register} />
-              <Route path="/about" component={About} />
-              <Route path="/demo" component={Demo} />
-              <Route path="/auth/google/redirect" component={Auth} />
-              <PrivateRoute path="/settings" component={Settings} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/privacy" component={Privacy} />
+              <Route exact path="/terms" component={Terms} />
+              <Route exact path="/demo" component={Demo} />
+              <Route exact path="/auth/google/redirect" component={Auth} />
+              <PrivateRoute exact path="/settings" component={Settings} />
               <Route component={NotFound} />
             </Switch>
           </Container>
