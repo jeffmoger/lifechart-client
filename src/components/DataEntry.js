@@ -15,8 +15,6 @@ import { nowMillis } from '../functions/dateFunctions';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const DEBUG = false;
-
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
     minHeight: 600,
@@ -58,12 +56,16 @@ export default function DataEntry({
   refreshAfterSubmit,
   profile,
   authTokens,
+  setSnackOpen,
+  setSnackMessage,
+  setSnackSeverity,
 }) {
   const classes = useStyles();
   const [values, setValues] = useState('');
   const [status, setStatus] = useState(0);
   const [disabled, setDisabled] = useState(true);
   const [note, setNote] = useState('');
+
   const { token } = authTokens;
 
   const theme = useTheme();
@@ -88,22 +90,9 @@ export default function DataEntry({
       refreshAfterSubmit();
       handleDialogClose();
       setStatus(0);
+      setSnackOpen(true);
     }
-  }, [handleDialogClose, refreshAfterSubmit, status]);
-
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
-
-  useEffect(() => {
-    if (DEBUG) {
-      console.log({
-        component: 'Data Entry',
-        status,
-        disabled,
-      });
-    }
-  });
+  }, [handleDialogClose, refreshAfterSubmit, setSnackOpen, status]);
 
   const handleClose = () => {
     handleDialogClose();
@@ -134,6 +123,8 @@ export default function DataEntry({
     if (pathname !== '/demo') {
       submitRecord(values, token, category, note).then((response) => {
         if (response.id) {
+          setSnackMessage('Saved Successfully!');
+          setSnackSeverity('success');
           if (category === 'Weight') {
             updateProfile(values);
           }
@@ -141,8 +132,9 @@ export default function DataEntry({
             setStatus(3);
           }, 500);
         } else {
-          //REMOVE THIS
-          alert(response);
+          setSnackMessage('Your entry was not saved');
+          setSnackSeverity('error');
+          setSnackOpen(true);
         }
       });
     }

@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 import CalorieChart from '../charts/CalorieChart';
-import { startToday, getDateRangeString } from '../functions/dateFunctions';
-import NutritionChart from '../charts/NutritionChart';
 import MoodChart from '../charts/MoodChart';
+import NutritionChart from '../charts/NutritionChart';
+import SleepChart from '../charts/SleepChart';
 import SymptomChart from '../charts/SymptomChart';
 import WeightChart from '../charts/WeightChart';
-import SleepChart from '../charts/SleepChart';
-import moveDataFromGoogle from '../functions/moveDataFromGoogle';
+
+import ActiveMinutes from './ActiveMinutes';
+import AverageCaloriesBurned from './AverageCaloriesBurned';
+import DisplayDateRange from './DisplayDateRange';
+import Loader from './Loader';
+import NetCalorieBurn from './NetCalorieBurn';
+import SpeedDial from './SpeedDial';
+import StepCount from './StepCount';
+
+import { getSymptomList, getProfile } from '../functions/apiCalls';
+import { startToday, getDateRangeString } from '../functions/dateFunctions';
 import newDateRange from '../functions/dateRange';
-import returnDateArray from '../functions/returnDateArray';
 import getData from '../functions/getData';
 import getItemData from '../functions/getItemData';
-import AverageCaloriesBurned from './AverageCaloriesBurned';
-import StepCount from './StepCount';
-import ActiveMinutes from './ActiveMinutes';
-import NetCalorieBurn from './NetCalorieBurn';
-import DisplayDateRange from './DisplayDateRange';
-import SpeedDial from './SpeedDial';
-import Loader from './Loader';
-import { getSymptomList, getProfile } from '../functions/apiCalls';
-
 import loadChartItemData from '../functions/loadChartItemData';
 import loadChartFitData from '../functions/loadChartFitData';
+import moveDataFromGoogle from '../functions/moveDataFromGoogle';
+import returnDateArray from '../functions/returnDateArray';
 
 const dateRangeLength = 15;
 
@@ -71,7 +75,9 @@ const HomeCharts = (props) => {
   const [staleData, setStaleData] = useState(false);
   const [staleItems, setStaleItems] = useState(true);
   const [lastFetch, setLastFetch] = useState('');
-  const [dateRange, setDateRange] = useState(newDateRange(dateRangeLength));
+  const [dateRange, setDateRange] = useState(() =>
+    newDateRange(dateRangeLength)
+  );
   const [calorieChart, setCalorieChart] = useState(() =>
     generateEmptyData(newDateRange(dateRangeLength), ['Consumed', 'Burned'])
   );
@@ -90,6 +96,10 @@ const HomeCharts = (props) => {
   const [gadgets, setGadgets] = useState('');
   const [showItems, setShowItems] = useState(false);
 
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState('');
+  const [message, setMessage] = useState('');
+
   function previousDateRange() {
     setDateRange(newDateRange(dateRangeLength, dateRange));
   }
@@ -101,11 +111,21 @@ const HomeCharts = (props) => {
     setStaleItems(true);
   }
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
   //useEffects_____________________________________________________________
 
-  useEffect(() => {
-    console.log(profile);
-  }, [profile]);
+  //useEffect(() => {
+  //  console.log(sleepChart);
+  //}, [sleepChart]);
 
   useEffect(() => {
     if (profileDataSource) {
@@ -117,7 +137,6 @@ const HomeCharts = (props) => {
   }, [profileDataSource]);
 
   useEffect(() => {
-    console.log(lastFetch);
     setStaleData(checkLastFetched(1, lastFetch));
   }, [lastFetch]);
 
@@ -259,10 +278,18 @@ const HomeCharts = (props) => {
       ) : (
         <Loader />
       )}
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={severity}>
+          {message}
+        </Alert>
+      </Snackbar>
       <SpeedDial
         refreshAfterSubmit={refreshAfterSubmit}
         profile={profile}
         authTokens={props.authTokens}
+        setSnackOpen={setOpen}
+        setSnackMessage={setMessage}
+        setSnackSeverity={setSeverity}
       />
     </div>
   );

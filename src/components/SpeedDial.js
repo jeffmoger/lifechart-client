@@ -49,6 +49,9 @@ export default function SpeedDialTooltipOpen({
   refreshAfterSubmit,
   authTokens,
   profile,
+  setSnackOpen,
+  setSnackMessage,
+  setSnackSeverity,
 }) {
   const classes = useStyles();
   const classesTooltip = useStylesTooltip();
@@ -91,6 +94,9 @@ export default function SpeedDialTooltipOpen({
           refreshAfterSubmit={refreshAfterSubmit}
           profile={profile}
           authTokens={authTokens}
+          setSnackOpen={setSnackOpen}
+          setSnackMessage={setSnackMessage}
+          setSnackSeverity={setSnackSeverity}
         />
       </Backdrop>
       <SpeedDial
