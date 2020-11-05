@@ -21,7 +21,7 @@ const menuItems = [
   ['Home', '/', true, false],
   ['My Charts', '/', false, true],
   ['Demo', '/demo', true, false],
-  ['About', '/about', true, false],
+  //['About', '/about', true, false],
   //['Register', '/register', true, false],
   ['Settings', '/settings', false, true],
 ];
