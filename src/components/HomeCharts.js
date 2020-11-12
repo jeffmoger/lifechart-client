@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 import CalorieChart from '../charts/CalorieChart';
 import MoodChart from '../charts/MoodChart';
@@ -8,14 +10,11 @@ import NutritionChart from '../charts/NutritionChart';
 import SleepChart from '../charts/SleepChart';
 import SymptomChart from '../charts/SymptomChart';
 import WeightChart from '../charts/WeightChart';
+import GadgetContainer from '../charts/GadgetContainer';
 
-import ActiveMinutes from './ActiveMinutes';
-import AverageCaloriesBurned from './AverageCaloriesBurned';
-import DisplayDateRange from './DisplayDateRange';
 import Loader from './Loader';
-import NetCalorieBurn from './NetCalorieBurn';
 import SpeedDial from './SpeedDial';
-import StepCount from './StepCount';
+import DisplayDateRange from './DisplayDateRange';
 
 import { getSymptomList, getProfile } from '../functions/apiCalls';
 import { startToday, getDateRangeString } from '../functions/dateFunctions';
@@ -28,6 +27,14 @@ import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import returnDateArray from '../functions/returnDateArray';
 
 const dateRangeLength = 15;
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginBottom: 20,
+    padding: 10,
+    background: () => (theme.palette.type === 'light' ? '#EEE' : '#424242'),
+  },
+}));
 
 function localStorageDefault(key, defaultValue) {
   const stickyData = localStorage.getItem(key);
@@ -66,6 +73,8 @@ const HomeCharts = (props) => {
     dataSourceIds: profileDataSource,
   } = props.authTokens;
   const { demo } = props;
+  const theme = useTheme();
+  const classes = useStyles();
   const [dataSourceIds, setDataSourceIds] = useState([]);
   const [profile, setProfile] = useState('');
   const [fitChart, setFitChart] = useState('');
@@ -123,9 +132,9 @@ const HomeCharts = (props) => {
 
   //useEffects_____________________________________________________________
 
-  //useEffect(() => {
-  //  console.log(sleepChart);
-  //}, [sleepChart]);
+  useEffect(() => {
+    console.log(theme);
+  }, [theme]);
 
   useEffect(() => {
     if (profileDataSource) {
@@ -172,9 +181,11 @@ const HomeCharts = (props) => {
             getDateRangeString(),
             getDataTypeNamesAsString(dataSourceIds)
           );
-          setLastFetch(new Date().getTime());
-          setFitChart(loadChartFitData(fitData));
-          setStaleData(false);
+          if (fitData) {
+            setLastFetch(new Date().getTime());
+            setFitChart(loadChartFitData(fitData));
+            setStaleData(false);
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -201,7 +212,11 @@ const HomeCharts = (props) => {
     const getItems = async () => {
       await getItemData(token, getDateRangeString()).then((result) => {
         //TODO: nonreplicable type error occurring in loadChartItemData
-        setItemChart(loadChartItemData(result));
+        if (Array.isArray(result)) setItemChart(loadChartItemData(result));
+        if (!Array.isArray(result)) {
+          console.log('Error: result is not an array');
+          console.log(`Result: ${result}`);
+        }
       });
     };
     if (staleItems) {
@@ -236,45 +251,55 @@ const HomeCharts = (props) => {
   return (
     <div className="homeCharts">
       {showItems ? (
-        <>
-          <DisplayDateRange
-            dateRange={dateRange}
-            previousDateRange={previousDateRange}
-            nextDateRange={nextDateRange}
-            nextDisabled={checkNextDisabled(dateRange)}
-            previousDisabled={checkPreviousDisabled(fitChart, dateRange)}
-          />
+        <div className={`${theme.type && theme.type + '-'}container`}>
+          <Paper component="div" className={classes.paper}>
+            <DisplayDateRange
+              dateRange={dateRange}
+              previousDateRange={previousDateRange}
+              nextDateRange={nextDateRange}
+              nextDisabled={checkNextDisabled(dateRange)}
+              previousDisabled={checkPreviousDisabled(fitChart, dateRange)}
+            />
+          </Paper>
+
           {dataSourceIds.length > 0 && calorieChart.length > 0 && (
-            <CalorieChart data={calorieChart} />
+            <Paper component="div" className={classes.paper}>
+              <CalorieChart data={calorieChart} palette={theme.palette} />
+            </Paper>
           )}
           {dataSourceIds.length > 0 && nutritionChart.length > 0 && (
-            <NutritionChart data={nutritionChart} />
+            <Paper component="div" className={classes.paper}>
+              <NutritionChart data={nutritionChart} palette={theme.palette} />
+            </Paper>
           )}
-          {moodChart.length > 0 && <MoodChart data={moodChart} />}
-          {sleepChart.length > 0 && <SleepChart data={sleepChart} />}
+          {moodChart.length > 0 && (
+            <Paper component="div" className={classes.paper}>
+              <MoodChart data={moodChart} palette={theme.palette} />
+            </Paper>
+          )}
+          {sleepChart.length > 0 && (
+            <Paper component="div" className={classes.paper}>
+              <SleepChart data={sleepChart} palette={theme.palette} />
+            </Paper>
+          )}
           {symptomList.length > 0 && symptomChart.length > 0 && (
-            <SymptomChart data={symptomChart} symptoms={symptomList} />
+            <Paper component="div" className={classes.paper}>
+              <SymptomChart
+                data={symptomChart}
+                symptoms={symptomList}
+                palette={theme.palette}
+              />
+            </Paper>
           )}
-          {weightChart.length > 0 && <WeightChart data={weightChart} />}
-          {gadgets && (
-            <section className="gadgets">
-              <div className="container">
-                <div>
-                  <AverageCaloriesBurned calorieScore={gadgets.calorieScore} />
-                </div>
-                <div>
-                  <NetCalorieBurn netCalorieBurn={gadgets.netCalorieBurn} />
-                </div>
-                <div>
-                  <StepCount stepCount={gadgets.stepCount} />
-                </div>
-                <div>
-                  <ActiveMinutes activeMinutes={gadgets.activeMinutes} />
-                </div>
-              </div>
-            </section>
+          {weightChart.length > 0 && (
+            <Paper component="div" className={classes.paper}>
+              <WeightChart data={weightChart} palette={theme.palette} />
+            </Paper>
           )}
-        </>
+          {1 == 2 && (
+            <GadgetContainer data={gadgets} theme={theme.palette.type} />
+          )}
+        </div>
       ) : (
         <Loader />
       )}
