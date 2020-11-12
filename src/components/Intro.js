@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    maxWidth: 960,
+    maxWidth: 650,
   },
   paper: {
     maxWidth: 400,
@@ -16,8 +16,15 @@ const useStyles = makeStyles((theme) => ({
     passing: 20,
   },
   link: {
-    color: '#998dbf',
-    textDecoration: 'none',
+    color: () =>
+      theme.palette.type === 'light'
+        ? theme.palette.secondary.dark
+        : theme.palette.secondary.main,
+    textDecoration: () =>
+      theme.palette.type === 'light' ? 'underline' : 'none',
+  },
+  hide: {
+    display: 'none',
   },
 }));
 
@@ -25,12 +32,16 @@ export default function Intro() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Typography variant="h5" component="h1" gutterBottom>
-        Welcome to LifeChart
+      <Typography
+        variant="h5"
+        component="h1"
+        className={classes.hide}
+        gutterBottom
+      >
+        LifeChart
       </Typography>
       <Typography variant="h6" component="h2" gutterBottom>
-        The smarter way to track and visualize all of your health and fitness
-        data.
+        The smart way to visualize your health and fitness data.
         <br />
       </Typography>
       <Typography variant="body1" gutterBottom>
