@@ -3,7 +3,7 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
   vertical: {
     height: 300,
     flexGrow: 1,
@@ -13,9 +13,9 @@ const useStyles = makeStyles({
     marginTop: 25,
     fontSize: '85%',
   },
-});
+}));
 
-const CustomSlider = withStyles({
+const CustomSlider = withStyles((theme) => ({
   root: {
     color: '#7c5cd6',
     height: 8,
@@ -26,7 +26,7 @@ const CustomSlider = withStyles({
   thumb: {
     height: 24,
     width: 24,
-    backgroundColor: '#111',
+    backgroundColor: () => (theme.palette.type === 'light' ? '#EEE' : '#111'),
     border: '4px solid currentColor',
     marginTop: -8,
     marginLeft: -12,
@@ -44,7 +44,10 @@ const CustomSlider = withStyles({
     fontSize: 16,
     '& *': {
       background: 'transparent',
-      color: '#b6add1',
+      color: () =>
+        theme.palette.type === 'light'
+          ? theme.palette.primary.main
+          : theme.palette.primary.light,
     },
   },
   markLabel: {
@@ -59,7 +62,7 @@ const CustomSlider = withStyles({
     borderRadius: 4,
   },
   mark: {
-    backgroundColor: '#111',
+    backgroundColor: () => (theme.palette.type === 'light' ? '#EEE' : '#111'),
     height: 1,
     width: 8,
     marginLeft: -4,
@@ -80,7 +83,7 @@ const CustomSlider = withStyles({
       marginBottom: -11,
     },
   },
-})(Slider);
+}))(Slider);
 
 export default function Sliders({
   handleSliderChange,
