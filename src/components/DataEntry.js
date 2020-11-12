@@ -20,12 +20,16 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 600,
     maxHeight: '80vh',
     minWidth: 400,
-    //backgroundColor: '#111111',
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    background: () =>
+      theme.palette.type === 'light'
+        ? 'rgba(255, 255, 255, 0.9)'
+        : 'rgba(0, 0, 0, 0.9)',
   },
   dialogPaper2: {
-    //backgroundColor: '#111111',
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    background: () =>
+      theme.palette.type === 'light'
+        ? 'rgba(255, 255, 255, 0.9)'
+        : 'rgba(0, 0, 0, 0.9)',
   },
   wrapper: {
     margin: theme.spacing(1),
@@ -60,6 +64,7 @@ export default function DataEntry({
   setSnackMessage,
   setSnackSeverity,
 }) {
+  const theme = useTheme();
   const classes = useStyles();
   const [values, setValues] = useState('');
   const [status, setStatus] = useState(0);
@@ -67,8 +72,6 @@ export default function DataEntry({
   const [note, setNote] = useState('');
 
   const { token } = authTokens;
-
-  const theme = useTheme();
 
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   let paperClass;

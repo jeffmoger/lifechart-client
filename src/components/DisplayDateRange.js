@@ -1,4 +1,5 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -21,9 +22,10 @@ const useStyles = makeStyles((theme) => ({
   },
   date: {
     textAlign: 'center',
-    color: '#CCC',
-    textShadow: '1px 1px black',
+    //color: '#CCC',
+    //textShadow: '1px 1px black',
     width: '250px',
+    marginTop: 5,
   },
   back: {
     textAlign: 'right',
@@ -63,7 +65,11 @@ export default function DisplayDateRange({
           <ArrowBackIosIcon />
         </IconButton>
       </div>
-      <div className={`${classes.item} ${classes.date}`}>{stringRange}</div>
+      <div className={`${classes.item} ${classes.date}`}>
+        <Typography variant="body2" align="center">
+          {stringRange}
+        </Typography>
+      </div>
       <div className={`${classes.item} ${classes.icon} ${classes.next}`}>
         <IconButton
           color="inherit"
