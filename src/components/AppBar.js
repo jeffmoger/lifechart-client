@@ -8,6 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SideDrawer from './SideDrawer';
 import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+import { Icon } from '@iconify/react';
+import yinYang from '@iconify-icons/mdi/yin-yang'; //
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,11 +25,15 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     marginTop: 50,
   },
+  container: {
+    maxWidth: 870,
+  },
 }));
 
 const anchor = 'left';
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar(props) {
+  const { toggleTheme } = props;
   const classes = useStyles();
   const [toggleState, setToggleState] = React.useState({
     top: false,
@@ -58,18 +65,28 @@ export default function ButtonAppBar() {
       <AppBar position="static" className={classes.root}>
         <Container fixed>
           <Toolbar>
+            <Box display="flex" flexGrow={1} className={classes.container}>
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer(anchor, true)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Link to="/">
+                <Logo logoProps={logoProps} className={classes.logo} />
+              </Link>
+            </Box>
+
             <IconButton
-              edge="start"
-              className={classes.menuButton}
               color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer(anchor, true)}
+              aria-label="theme"
+              onClick={toggleTheme}
             >
-              <MenuIcon />
+              <Icon icon={yinYang} width="20px" height="20px" />
             </IconButton>
-            <Link to="/">
-              <Logo logoProps={logoProps} className={classes.logo} />
-            </Link>
           </Toolbar>
         </Container>
       </AppBar>
