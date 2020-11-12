@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    maxWidth: 960,
   },
   paper: {
     maxWidth: 400,
@@ -27,7 +28,7 @@ export default function Intro() {
       <Typography variant="h5" component="h1" gutterBottom>
         Welcome to LifeChart
       </Typography>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" component="h2" gutterBottom>
         The smarter way to track and visualize all of your health and fitness
         data.
         <br />
