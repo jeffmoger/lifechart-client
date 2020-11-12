@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
   backdrop: {
     zIndex: 1,
-    color: '#fff',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    //color: '#fff',
+    //backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   dialog: {
     zIndex: 2,
@@ -107,6 +107,7 @@ export default function SpeedDialTooltipOpen({
         //onOpen={handleOpen}
         onClick={toggleOpen}
         open={open}
+        FabProps={{ color: 'primary' }}
       >
         {actions.map((action) => (
           <SpeedDialAction
