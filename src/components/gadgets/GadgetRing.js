@@ -26,7 +26,7 @@ const scoreColor = (score) => {
 
 export default function GadgetRing(props) {
   const [gadgetScore, setGadgetScore] = useState(0);
-  const { score, goal, label } = props.gadgetProps;
+  const { score, goal, label, color } = props.gadgetProps;
   const { countUp, update: hookUpdate } = useCountUp({
     end: score,
     duration: 1,
@@ -41,10 +41,10 @@ export default function GadgetRing(props) {
     hookUpdate(gadgetScore);
   }, [hookUpdate, gadgetScore]);
 
-  const size = 140;
+  const size = 90;
   const stroke = scoreColor(getPercent(score, goal));
-  const labelSize = 12;
-  const fontSize = 30;
+  const labelSize = 8;
+  const fontSize = 24;
   const strokeWidth = 6;
   const r = (size - strokeWidth * 2) / 2;
 
@@ -56,8 +56,8 @@ export default function GadgetRing(props) {
         x="50%"
         y="55%"
         textAnchor="middle"
-        fill="#FFFFFF"
-        fontFamily="'Quicksand'"
+        fill={color}
+        fontFamily="Roboto"
         fontSize={fontSize}
       >
         {countUp}
@@ -67,7 +67,7 @@ export default function GadgetRing(props) {
         y="67%"
         textAnchor="middle"
         fill="#999999"
-        fontFamily="'Quicksand'"
+        fontFamily="Roboto"
         fontSize={labelSize}
       >
         {label}
