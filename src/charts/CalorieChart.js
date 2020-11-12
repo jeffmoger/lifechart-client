@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import {
   ResponsiveContainer,
@@ -10,20 +11,7 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
-
-const wrapperStyle = {
-  backgroundColor: '#000000',
-  opacity: 0.8,
-  border: '1px solid #8884d8',
-  textShadow: '1px 1px black',
-};
-
-const palette = {
-  purple: {
-    burned: '#8884d8',
-    consumed: '#82ca9d',
-  },
-};
+import { chartColors } from '../functions/chartColors';
 
 const formatXAxis = (tickItem) => {
   return moment(tickItem).format('ddd D');
@@ -32,17 +20,16 @@ const formatToolTipLabel = (label) => {
   return moment(label).format('MMMM D, YYYY');
 };
 
-const theme = palette.purple;
-
 export default class CalorieChart extends PureComponent {
   render() {
     const calorieChart = this.props.data;
+    const colors = chartColors(this.props.palette);
+    const { calorieChart: theme, styles, type, wrapperStyle } = colors;
     return (
-      <div
-        className="chartContainer"
-        style={{ maxWidth: 960, height: 350, color: '#CCC' }}
-      >
-        <h4>Calories</h4>
+      <div className={`${type && type + '-'}chartContainer`}>
+        <Typography variant="h6" component="h2" align="center">
+          Calories Burned vs Consumed
+        </Typography>
         <ResponsiveContainer>
           <AreaChart
             width={730}
@@ -67,29 +54,32 @@ export default class CalorieChart extends PureComponent {
             </defs>
             <XAxis
               dataKey="date"
-              stroke="#CCC"
+              stroke={styles.axisX}
               axisLine={false}
               tickLine={false}
               mirror={false}
               tickFormatter={formatXAxis}
             />
             <YAxis
-              stroke="#CCC"
+              stroke={styles.axisY}
               axisLine={false}
               tickLine={false}
               orientation="left"
               width={35}
-              mirror={false}
+              mirror={true}
               interval="preserveEnd"
-              domain={[0, 2800]}
+              domain={[0, 2800]} //ToDo: get dynamic values
             />
 
-            <CartesianGrid strokeDasharray="1 3" stroke="#202020" />
+            <CartesianGrid
+              strokeDasharray="1 3"
+              stroke={styles.cartesianGrid}
+            />
             <Tooltip
               contentStyle={wrapperStyle}
               labelFormatter={formatToolTipLabel}
             />
-            <Legend verticalAlign="top" iconType="circle" height={36} />
+            <Legend verticalAlign="bottom" iconType="circle" height={36} />
             <Area
               type="monotone"
               dataKey="Burned"

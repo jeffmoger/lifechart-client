@@ -1,23 +1,18 @@
 import React, { PureComponent } from 'react';
+import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import {
   ResponsiveContainer,
   BarChart,
   Bar,
+  Legend,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ReferenceLine,
 } from 'recharts';
-
-const wrapperStyle = {
-  backgroundColor: '#000000',
-  opacity: 0.8,
-  border: '1px solid #8884d8',
-  textShadow: '1px 1px black',
-};
+import { chartColors } from '../functions/chartColors';
 
 const sleepTable = () => {
   let hours = 24;
@@ -114,11 +109,13 @@ export default class SleepChart extends PureComponent {
   render() {
     const sleepChart = this.props.data;
     const newData = formatSleep(sleepChart);
+    const colors = chartColors(this.props.palette);
+    const { sleepChart: theme, styles, type, wrapperStyle } = colors;
     return (
-      <div
-        className="chartContainer"
-        style={{ maxWidth: 960, height: 300, color: '#CCC' }}
-      >
+      <div className={`${type && type + '-'}chartContainer`}>
+        <Typography variant="h6" component="h2" align="center">
+          Sleep Patterns
+        </Typography>
         <ResponsiveContainer>
           <BarChart
             width={730}
@@ -127,10 +124,13 @@ export default class SleepChart extends PureComponent {
             syncId="anyId"
             margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
           >
-            <CartesianGrid strokeDasharray="1 3" stroke="#202020" />
+            <CartesianGrid
+              strokeDasharray="1 3"
+              stroke={styles.cartesianGrid}
+            />
             <XAxis
               dataKey="date"
-              stroke="#CCC"
+              stroke={styles.axisX}
               axisLine={false}
               tickLine={false}
               mirror={false}
@@ -139,28 +139,28 @@ export default class SleepChart extends PureComponent {
             <YAxis
               type="number"
               //scale="time"
-              stroke="#CCC"
+              stroke={styles.axisY}
               axisLine={false}
               tickLine={false}
               orientation="left"
               width={35}
-              mirror={false}
+              mirror={true}
               interval="preserveEnd"
               domain={[120, 'dataMax + 30']}
               tickFormatter={formatYAxis}
             />
             <Tooltip
               contentStyle={wrapperStyle}
-              cursor={{ fill: '#232323', stroke: '#222', strokeWidth: 0 }}
+              cursor={theme.toolTip.cursor}
               labelFormatter={formatToolTipLabel}
               formatter={formatToolTip}
             />
-            <Legend verticalAlign="top" iconType="circle" height={36} />
             <ReferenceLine y={240} stroke="#111111" strokeDasharray="3 3" />
             <ReferenceLine y={720} stroke="#111111" strokeDasharray="3 3" />
+            <Legend verticalAlign="bottom" iconType="circle" height={36} />
             <Bar
               dataKey="sleep"
-              fill="#8763e9"
+              fill={theme.sleep}
               fillOpacity={0.6}
               barSize={10}
               radius={[10, 10, 10, 10]}
