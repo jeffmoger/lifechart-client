@@ -8,5 +8,5 @@ export default function Privacy() {
         <p>We won't do dumb stuff</p>
       </main>
     </div>
-  )
+  );
 }
