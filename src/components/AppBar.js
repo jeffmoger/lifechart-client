@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 50,
   },
   container: {
-    maxWidth: 870,
+    //maxWidth: 870,
   },
 }));
 

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     //border: '1px solid #000',
-    maxWidth: '960px',
+    //maxWidth: '960px',
   },
   item: {
     //

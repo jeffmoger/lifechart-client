@@ -1,11 +1,10 @@
 main {
-  margin-top: 40px;
+  padding-top: 20px;
 }
 
 .chartContainer,
 .light-chartContainer,
 .dark-chartContainer {
-  max-width: 960px;
   height: 350px;
 }
 
@@ -66,7 +65,6 @@ p.calorieScore {
 }
 
 .gadgets {
-  max-width: 960px;
   margin-top: -5px;
   margin-bottom: 125px;
 }
@@ -79,7 +77,4 @@ p.calorieScore {
 .gadgets .gadget {
   font-size: 26px;
   margin: 10px 0;
-}
-.homeCharts {
-  max-width: 960px;
 }
