@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -10,20 +13,61 @@ import { GoogleLoginButton } from '../components/GoogleLoginButton';
 import { useAuth } from '../context/auth';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '35ch',
-    },
+  flexContainer: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+  },
+  wrap: {
+    flexWrap: 'wrap',
+  },
+  formFields: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  flexPaper: {
+    width: 400,
+    marginTop: 30,
+    marginLeft: 15,
+    marginRight: 15,
+  },
+  flexItem: {
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingBottom: 10,
+  },
+  textField: {
+    width: '100%',
   },
   submit: {
-    marginTop: 30,
+    width: '100%',
+    marginTop: 20,
+    marginBottom: 30,
   },
-  googleDiv: {
-    margin: theme.spacing(2),
+  paper: {
+    marginBottom: 20,
+    padding: 10,
+    background: () => (theme.palette.type === 'light' ? '#EEE' : '#424242'),
   },
-  spacer: {
-    marginBottom: 70,
+  googleLogin: {
+    padding: 30,
+  },
+  or: {
+    paddingTop: 20,
+    flexGrow: 1,
+    border: '1px solid #000',
+    textAlign: 'center',
+  },
+  h2: {
+    color: () => (theme.palette.type === 'light' ? '#444' : '#bbb'),
+    textShadow: () =>
+      theme.palette.type === 'light' ? 'none' : '1px 1px #000',
+    marginTop: 10,
+  },
+  smallprint: {
+    fontSize: 11,
+    marginLeft: 30,
+    marginRight: 30,
+    marginBottom: 30,
   },
 }));
 
@@ -81,54 +125,86 @@ const Login = (props) => {
 
   if (!isLoggedIn) {
     return (
-      <main>
-        <div className={classes.root}>
-          {googleURL && (
-            <div className={classes.googleDiv}>
-              <h5>Sign in directly with Google.</h5>
-              <GoogleLoginButton url={googleURL} />
-              <div className={classes.spacer} />
-              <h5>Or login with your local account.</h5>
+      <Container
+        fixed
+        component="div"
+        className={`${classes.flexContainer} ${classes.wrap}`}
+      >
+        <Paper component="div" className={`${classes.flexPaper}`}>
+          <Typography
+            variant="h6"
+            component="h2"
+            align="center"
+            className={`${classes.h2}`}
+          >
+            Sign in with Google
+          </Typography>
+          <div className={`${classes.googleLogin} ${classes.item}`}>
+            <GoogleLoginButton url={googleURL} />
+          </div>
+          <Typography variant="body2" className={classes.smallprint}>
+            Signing in with Google will authorize LifeChart to access your
+            fitness information stored with GoogleFit.
+          </Typography>
+        </Paper>
+        <Paper component="div" className={`${classes.flexPaper}`}>
+          <Typography
+            variant="h6"
+            component="h2"
+            align="center"
+            className={`${classes.h2}`}
+          >
+            Login
+          </Typography>
+          <form
+            onSubmit={handleSubmit}
+            noValidate
+            className={`${classes.formFields}`}
+          >
+            <div className={classes.flexItem}>
+              <TextField
+                id="email"
+                label="Email"
+                type="text"
+                autoComplete="username"
+                value={email}
+                className={classes.textField}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
             </div>
-          )}
-          <form onSubmit={handleSubmit} className={classes.root} noValidate>
-            <TextField
-              id="email"
-              label="Email"
-              type="text"
-              autoComplete="username"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            <TextField
-              id="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              className={classes.submit}
-            >
-              Login
-            </Button>
+            <div className={classes.flexItem}>
+              <TextField
+                id="password"
+                label="Password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                className={classes.textField}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </div>
+            <div className={classes.flexItem}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                className={classes.submit}
+              >
+                Login
+              </Button>
+            </div>
           </form>
-
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity={severity}>
-              {message}
-            </Alert>
-          </Snackbar>
-        </div>
-      </main>
+        </Paper>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity={severity}>
+            {message}
+          </Alert>
+        </Snackbar>
+      </Container>
     );
   } else {
     return <Redirect to={'/settings'} />;
