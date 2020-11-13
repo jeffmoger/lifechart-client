@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
   hide: {
     display: 'none',
   },
+  h2: {
+    marginBottom: 20,
+  },
+  p: {
+    marginBottom: 20,
+  },
 }));
 
 export default function Intro() {
@@ -40,19 +46,23 @@ export default function Intro() {
       >
         LifeChart
       </Typography>
-      <Typography variant="h6" component="h2" gutterBottom>
+      <Typography
+        variant="h6"
+        component="h2"
+        gutterBottom
+        className={classes.h2}
+      >
         The smart way to visualize your health and fitness data.
-        <br />
       </Typography>
-      <Typography variant="body1" gutterBottom>
+      <Typography variant="body1" className={classes.p} gutterBottom>
         Today, a large variety of specialized apps offer individual health,
         fitness and nutrition tracking capabilities that can provide insight and
         encourage healthy habits. The problem is that the data from each is
         siloed. There has not been a convenient way to consolidate all of this
         data in a way that lets us look for patterns and connections between all
         of our different categories of health.
-        <br />
-        <br />
+      </Typography>
+      <Typography variant="body1" className={classes.p} gutterBottom>
         LifeChart takes the data that you collect through wearables and
         nutrition tracking apps and consolidates it to form a baseline of health
         metrics upon which you can overlay additional tracking data, such as
@@ -60,8 +70,8 @@ export default function Intro() {
         you feel. The idea is to give you a more complete picture of how all of
         your outputs (activities) and inputs (nutrition) may be working together
         to affect your overall wellness.
-        <br />
-        <br />
+      </Typography>
+      <Typography variant="body1" className={classes.p} gutterBottom>
         We are currently in an early testing phase. If you are using Google Fit
         to track fitness data and a compatible nutrition tracking app, we invite
         you to{' '}
@@ -69,8 +79,8 @@ export default function Intro() {
           join our beta testing group
         </Link>{' '}
         today.
-        <br />
-        <br />
+      </Typography>
+      <Typography variant="body1" className={classes.p} gutterBottom>
         You may also find a demo page with sample data to get a sense of how{' '}
         <Link to="/demo" className={classes.link}>
           LifeChart works here
