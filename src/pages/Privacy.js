@@ -1,12 +1,10 @@
 import React from 'react';
+import PrivacyText from '../components/PrivacyText';
 
 export default function Privacy() {
   return (
-    <div>
-      <main>
-        <h3>Privacy</h3>
-        <p>We won't do dumb stuff</p>
-      </main>
-    </div>
+    <main className="terms">
+      <PrivacyText />
+    </main>
   );
 }
