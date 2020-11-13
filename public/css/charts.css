@@ -78,3 +78,18 @@ p.calorieScore {
   font-size: 26px;
   margin: 10px 0;
 }
+
+main.terms {
+  font-size: 1em;
+  padding: 40px 80px;
+}
+
+main.terms p {
+  line-height: 160%;
+}
+main.terms ul {
+  line-height: 190%;
+}
+main.terms .short {
+  font-weight: bold;
+}
