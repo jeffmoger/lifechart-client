@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import HomeCharts from '../components/HomeCharts';
 import { getDemoID, fetchAuthentication } from '../functions/apiCalls';
+import Loader from '../components/Loader';
 
 export default function Demo() {
   const [authTokens, setAuthTokens] = useState('');
@@ -18,7 +19,9 @@ export default function Demo() {
       {authTokens ? (
         <HomeCharts authTokens={authTokens} demo="demo" />
       ) : (
-        <div>-----</div>
+        <div>
+          <Loader />
+        </div>
       )}
     </main>
   );
