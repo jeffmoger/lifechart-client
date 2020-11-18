@@ -119,8 +119,8 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   margin-top: 20px;
   border-top: 1px solid #444;
   background-color: #333;
