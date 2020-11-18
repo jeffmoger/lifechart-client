@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,12 +9,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SideDrawer from './SideDrawer';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-import { Icon } from '@iconify/react';
-import yinYang from '@iconify-icons/mdi/yin-yang'; //
+import ToggleThemeColor from './ToggleThemeColor';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    width: '100%',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   logo: {
-    marginTop: 50,
+    //marginTop: 50,
   },
   container: {
     //maxWidth: 870,
@@ -35,7 +34,7 @@ const anchor = 'left';
 export default function ButtonAppBar(props) {
   const { toggleTheme } = props;
   const classes = useStyles();
-  const [toggleState, setToggleState] = React.useState({
+  const [toggleState, setToggleState] = useState({
     top: false,
     left: false,
     bottom: false,
@@ -56,16 +55,16 @@ export default function ButtonAppBar(props) {
   const logoProps = {
     lifeFill: '#FFFFFF',
     chartFill: '#82CA9D',
-    width: 130,
-    height: 40,
+    width: 130 * 1.3,
+    height: 40 * 1.3,
   };
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.root}>
-        <Container fixed>
+      <AppBar position="static">
+        <Container disableGutters>
           <Toolbar>
-            <Box display="flex" flexGrow={1} className={classes.container}>
+            <Box display="flex" flexGrow={1}>
               <IconButton
                 edge="start"
                 className={classes.menuButton}
@@ -79,14 +78,7 @@ export default function ButtonAppBar(props) {
                 <Logo logoProps={logoProps} className={classes.logo} />
               </Link>
             </Box>
-
-            <IconButton
-              color="inherit"
-              aria-label="theme"
-              onClick={toggleTheme}
-            >
-              <Icon icon={yinYang} width="20px" height="20px" />
-            </IconButton>
+            <ToggleThemeColor toggleTheme={toggleTheme} />
           </Toolbar>
         </Container>
       </AppBar>

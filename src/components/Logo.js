@@ -1,6 +1,6 @@
 import React from 'react';
 export default function Logo(props) {
-  const { lifeFill, chartFill, width, height } = props.logoProps;
+  const { lifeFill, chartFill, width = 785, height = 185 } = props.logoProps;
 
   return (
     <svg

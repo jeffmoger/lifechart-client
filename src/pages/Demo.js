@@ -18,7 +18,7 @@ export default function Demo() {
       {authTokens ? (
         <HomeCharts authTokens={authTokens} demo="demo" />
       ) : (
-        <div></div>
+        <div>-----</div>
       )}
     </main>
   );

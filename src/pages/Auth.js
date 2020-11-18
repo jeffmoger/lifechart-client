@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
 import queryString from 'query-string';
 
 import { useAuth } from '../context/auth';
@@ -34,7 +35,15 @@ export default function Auth(props) {
   }, [googleCode, setAuthTokens, status]);
 
   if (!isLoggedIn) {
-    return <div>Checking......</div>;
+    return (
+      <main>
+        <Container>
+          <div>
+            <p>Working.....</p>
+          </div>
+        </Container>
+      </main>
+    );
   } else {
     return <Redirect to={'/settings'} />;
   }

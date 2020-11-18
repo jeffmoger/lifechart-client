@@ -1,5 +1,10 @@
-import React, { useState, useMemo } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+  //BrowserRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+} from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -18,13 +23,24 @@ import NotFound from './components/NotFound';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import { AuthContext } from './context/auth';
+import MyCharts from './pages/MyCharts';
 import AppBar from './components/AppBar';
+import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const existingTokens = JSON.parse(localStorage.getItem('tokens'));
   const themePreference = JSON.parse(localStorage.getItem('prefersDarkMode'));
   const [authTokens, setAuthTokens] = useState(existingTokens);
   const [prefersDarkMode, setDarkMode] = useState(themePreference);
+  const [pageView, setPageView] = useState();
+
+  function usePathName() {
+    const location = useLocation();
+    useEffect(() => {
+      setPageView(location.pathname);
+    }, [location]);
+  }
 
   const setTokens = (data) => {
     localStorage.setItem('tokens', JSON.stringify(data));
@@ -62,31 +78,45 @@ function App() {
           contrastThreshold: 3,
           tonalOffset: 0.2,
         },
+        overrides: {
+          MuiCssBaseline: {
+            '@global': {
+              html: {
+                WebkitFontSmoothing: 'auto',
+              },
+            },
+          },
+        },
       }),
     [prefersDarkMode]
   );
+
+  usePathName();
 
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router>
-          <AppBar toggleTheme={toggleTheme} />
-          <Container fixed>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/privacy" component={Privacy} />
-              <Route exact path="/terms" component={Terms} />
-              <Route exact path="/demo" component={Demo} />
-              <Route exact path="/auth/google/redirect" component={Auth} />
-              <PrivateRoute exact path="/settings" component={Settings} />
-              <Route component={NotFound} />
-            </Switch>
-          </Container>
-        </Router>
+        <ScrollToTop />
+        <article>
+          {pageView !== '/' && <AppBar toggleTheme={toggleTheme} />}
+          <Switch>
+            <Route exact path="/">
+              <Home toggleTheme={toggleTheme} />
+            </Route>
+            <Route path="/charts" component={MyCharts} />
+            <Route path="/login" component={Login} />
+            <Route path="/privacy" component={Privacy} />
+            <Route path="/terms" component={Terms} />
+            <Route path="/register" component={Register} />
+            <Route path="/about" component={About} />
+            <Route path="/demo" component={Demo} />
+            <Route path="/auth/google/redirect" component={Auth} />
+            <PrivateRoute path="/settings" component={Settings} />
+            <Route component={NotFound} />
+          </Switch>
+          <Footer toggleTheme={toggleTheme} />
+        </article>
       </ThemeProvider>
     </AuthContext.Provider>
   );

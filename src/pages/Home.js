@@ -1,14 +1,33 @@
 import React from 'react';
-//import { Redirect } from 'react-router-dom';
-import { useAuth } from '../context/auth';
-import HomeCharts from '../components/HomeCharts';
+import Container from '@material-ui/core/Container';
+import Logo from '../components/Logo.js';
 import Intro from '../components/Intro';
+import { useTheme } from '@material-ui/core/styles';
 
-export default function Home() {
-  const { authTokens } = useAuth();
+const logoProps = (theme) => {
+  const type = theme.palette.type;
+  let lifeFill;
+  type === 'light' ? (lifeFill = '#5D4E8C') : (lifeFill = '#8884d8');
+  return {
+    lifeFill,
+    chartFill: '#82CA9D',
+    width: 390,
+    height: 120,
+  };
+};
+
+export default function Home(props) {
+  const theme = useTheme();
   return (
-    <main>
-      {authTokens ? <HomeCharts authTokens={authTokens} /> : <Intro />}
-    </main>
+    <>
+      <header>
+        <Container maxWidth="md">
+          <Logo logoProps={logoProps(theme)} />
+        </Container>
+      </header>
+      <main>
+        <Intro toggleTheme={props.toggleTheme} />
+      </main>
+    </>
   );
 }

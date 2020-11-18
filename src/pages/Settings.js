@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
 
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     width: '100%',
+    marginTop: 20,
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -101,7 +103,7 @@ function Settings(props) {
 
   return (
     <main>
-      <div className={classes.root}>
+      <Container className={classes.root}>
         <Accordion
           expanded={expanded === 'panel-profile'}
           onChange={handleChange('panel-profile')}
@@ -171,7 +173,7 @@ function Settings(props) {
             <FormSubmitSymptoms id={id} token={token} profile={profile} />
           </AccordionDetails>
         </Accordion>
-      </div>
+      </Container>
     </main>
   );
 }

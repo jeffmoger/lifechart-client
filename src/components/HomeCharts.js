@@ -3,6 +3,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 
 import CalorieChart from '../charts/CalorieChart';
 import MoodChart from '../charts/MoodChart';
@@ -249,7 +250,7 @@ const HomeCharts = (props) => {
   }, [itemChart, googleFit]);
 
   return (
-    <div className="homeCharts">
+    <Container component="div" className="homeCharts">
       {showItems ? (
         <div className={`${theme.type && theme.type + '-'}container`}>
           <Paper component="div" className={classes.paper}>
@@ -316,7 +317,7 @@ const HomeCharts = (props) => {
         setSnackMessage={setMessage}
         setSnackSeverity={setSeverity}
       />
-    </div>
+    </Container>
   );
 };
 

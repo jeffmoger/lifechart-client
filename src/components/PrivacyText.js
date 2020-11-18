@@ -44,7 +44,7 @@ export default function PrivacyText() {
 
       <h3>Personal information you disclose to us</h3>
 
-      <p class="short">
+      <p className="short">
         In Short: We collect personal information that you provide to us.
       </p>
 
@@ -87,7 +87,7 @@ export default function PrivacyText() {
 
       <h3>Information automatically collected</h3>
 
-      <p class="short">
+      <p className="short">
         In Short: Some information, such as your Internet Protocol (IP) address
         and/or browser and device characteristics, is collected automatically
         when you visit our Website.
@@ -152,7 +152,7 @@ export default function PrivacyText() {
 
       <h2>2. HOW DO WE USE YOUR INFORMATION?</h2>
 
-      <p class="short">
+      <p className="short">
         In Short: We process your information for purposes based on legitimate
         business interests, the fulfillment of our contract with you, compliance
         with our legal obligations, and/or your consent.
@@ -220,7 +220,7 @@ export default function PrivacyText() {
 
       <h2>3. WILL YOUR INFORMATION BE SHARED WITH ANYONE?</h2>
 
-      <p class="short">
+      <p className="short">
         In Short: We only share information with your consent, to comply with
         laws, to provide you with services, to protect your rights, or to
         fulfill business obligations.
@@ -279,7 +279,7 @@ export default function PrivacyText() {
 
       <h2>4. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?</h2>
 
-      <p class="short">
+      <p className="short">
         In Short: We may use cookies and other tracking technologies to collect
         and store your information.
       </p>
@@ -293,7 +293,7 @@ export default function PrivacyText() {
 
       <h2>5. HOW DO WE HANDLE YOUR SOCIAL LOGINS?</h2>
 
-      <p class="short">
+      <p className="short">
         In Short: If you choose to register or log in to our services using a
         social media account, we may have access to certain information about
         you.
@@ -323,7 +323,7 @@ export default function PrivacyText() {
 
       <h2>6. HOW LONG DO WE KEEP YOUR INFORMATION?</h2>
 
-      <p class="short">
+      <p className="short">
         In Short: We keep your information for as long as necessary to fulfill
         the purposes outlined in this privacy notice unless otherwise required
         by law.
@@ -349,7 +349,7 @@ export default function PrivacyText() {
 
       <h2>7. HOW DO WE KEEP YOUR INFORMATION SAFE?</h2>
 
-      <p class="short">
+      <p className="short">
         In Short: We aim to protect your personal information through a system
         of organizational and technical security measures.
       </p>
@@ -370,7 +370,7 @@ export default function PrivacyText() {
 
       <h2>8. DO WE COLLECT INFORMATION FROM MINORS?</h2>
 
-      <p class="short">
+      <p className="short">
         In Short: We do not knowingly collect data from or market to children
         under 18 years of age.
       </p>
@@ -389,7 +389,7 @@ export default function PrivacyText() {
 
       <h2>9. WHAT ARE YOUR PRIVACY RIGHTS?</h2>
 
-      <p class="short">
+      <p className="short">
         In Short: In some regions, such as the European Economic Area, you have
         rights that allow you greater access to and control over your personal
         information. You may review, change, or terminate your account at any
@@ -495,7 +495,7 @@ export default function PrivacyText() {
 
       <h2>11. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?</h2>
 
-      <p class="short">
+      <p className="short">
         In Short: Yes, if you are a resident of California, you are granted
         specific rights regarding access to your personal information.
       </p>
@@ -525,7 +525,7 @@ export default function PrivacyText() {
       </p>
 
       <h2>12. DO WE MAKE UPDATES TO THIS NOTICE?</h2>
-      <p class="short">
+      <p className="short">
         In Short: Yes, we will update this notice as necessary to stay compliant
         with relevant laws.
       </p>

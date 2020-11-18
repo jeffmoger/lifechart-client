@@ -15,7 +15,7 @@ import { useAuth } from '../context/auth';
 const useStyles = makeStyles((theme) => ({
   flexContainer: {
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-evenly',
   },
   wrap: {
     flexWrap: 'wrap',
@@ -125,86 +125,84 @@ const Login = (props) => {
 
   if (!isLoggedIn) {
     return (
-      <Container
-        fixed
-        component="div"
-        className={`${classes.flexContainer} ${classes.wrap}`}
-      >
-        <Paper component="div" className={`${classes.flexPaper}`}>
-          <Typography
-            variant="h6"
-            component="h2"
-            align="center"
-            className={`${classes.h2}`}
-          >
-            Sign in with Google
-          </Typography>
-          <div className={`${classes.googleLogin} ${classes.item}`}>
-            <GoogleLoginButton url={googleURL} />
-          </div>
-          <Typography variant="body2" className={classes.smallprint}>
-            Signing in with Google will authorize LifeChart to access your
-            fitness information stored with GoogleFit.
-          </Typography>
-        </Paper>
-        <Paper component="div" className={`${classes.flexPaper}`}>
-          <Typography
-            variant="h6"
-            component="h2"
-            align="center"
-            className={`${classes.h2}`}
-          >
-            Login
-          </Typography>
-          <form
-            onSubmit={handleSubmit}
-            noValidate
-            className={`${classes.formFields}`}
-          >
-            <div className={classes.flexItem}>
-              <TextField
-                id="email"
-                label="Email"
-                type="text"
-                autoComplete="username"
-                value={email}
-                className={classes.textField}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
+      <main>
+        <Container className={`${classes.flexContainer} ${classes.wrap}`}>
+          <Paper component="div" className={`${classes.flexPaper}`}>
+            <Typography
+              variant="h6"
+              component="h2"
+              align="center"
+              className={`${classes.h2}`}
+            >
+              Sign in with Google
+            </Typography>
+            <div className={`${classes.googleLogin} ${classes.item}`}>
+              <GoogleLoginButton url={googleURL} />
             </div>
-            <div className={classes.flexItem}>
-              <TextField
-                id="password"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                className={classes.textField}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-            </div>
-            <div className={classes.flexItem}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                className={classes.submit}
-              >
-                Login
-              </Button>
-            </div>
-          </form>
-        </Paper>
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity={severity}>
-            {message}
-          </Alert>
-        </Snackbar>
-      </Container>
+            <Typography variant="body2" className={classes.smallprint}>
+              Signing in with Google will authorize LifeChart to access your
+              fitness information stored with GoogleFit.
+            </Typography>
+          </Paper>
+          <Paper component="div" className={`${classes.flexPaper}`}>
+            <Typography
+              variant="h6"
+              component="h2"
+              align="center"
+              className={`${classes.h2}`}
+            >
+              Login
+            </Typography>
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className={`${classes.formFields}`}
+            >
+              <div className={classes.flexItem}>
+                <TextField
+                  id="email"
+                  label="Email"
+                  type="text"
+                  autoComplete="username"
+                  value={email}
+                  className={classes.textField}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+              </div>
+              <div className={classes.flexItem}>
+                <TextField
+                  id="password"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  value={password}
+                  className={classes.textField}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+              </div>
+              <div className={classes.flexItem}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  className={classes.submit}
+                >
+                  Login
+                </Button>
+              </div>
+            </form>
+          </Paper>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={severity}>
+              {message}
+            </Alert>
+          </Snackbar>
+        </Container>
+      </main>
     );
   } else {
     return <Redirect to={'/settings'} />;
