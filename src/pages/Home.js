@@ -43,7 +43,7 @@ const headProps = (type) => {
     },
     dark: {
       start: 'rgb(48, 48, 48)',
-      end: 'rgb(64, 64, 64)',
+      end: 'rgb(36, 36, 36)',
     },
   };
   if (type === 'light') return [theme.light.start, theme.light.end];
@@ -57,8 +57,8 @@ const logoProps = (theme) => {
   return {
     lifeFill,
     chartFill: '#82CA9D',
-    width: 390 / 1.2,
-    height: 120 / 1.2,
+    width: 390 / 1.5,
+    height: 120 / 1.5,
   };
 };
 

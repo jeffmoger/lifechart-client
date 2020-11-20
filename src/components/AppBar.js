@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Logo from './Logo.js';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,6 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SideDrawer from './SideDrawer';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import MenuDesktop from './MenuDesktop';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,12 +21,6 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  },
-  logo: {
-    //marginTop: 50,
-  },
-  container: {
-    //maxWidth: 870,
   },
 }));
 
@@ -38,6 +34,8 @@ export default function ButtonAppBar(props) {
     bottom: false,
     right: false,
   });
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -63,27 +61,33 @@ export default function ButtonAppBar(props) {
         <Container disableGutters maxWidth="md">
           <Toolbar>
             <Box display="flex" flexGrow={1}>
-              <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="menu"
-                onClick={toggleDrawer(anchor, true)}
-              >
-                <MenuIcon />
-              </IconButton>
+              {matches ? null : (
+                <IconButton
+                  edge="start"
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="menu"
+                  onClick={toggleDrawer(anchor, true)}
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
+
               <Link to="/">
                 <Logo logoProps={logoProps} className={classes.logo} />
               </Link>
             </Box>
+            {matches && <MenuDesktop />}
           </Toolbar>
         </Container>
       </AppBar>
-      <SideDrawer
-        anchor={anchor}
-        toggleState={toggleState}
-        toggleDrawer={toggleDrawer}
-      />
+      {matches ? null : (
+        <SideDrawer
+          anchor={anchor}
+          toggleState={toggleState}
+          toggleDrawer={toggleDrawer}
+        />
+      )}
     </div>
   );
 }
