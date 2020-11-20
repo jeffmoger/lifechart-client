@@ -9,7 +9,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SideDrawer from './SideDrawer';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
-import ToggleThemeColor from './ToggleThemeColor';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 const anchor = 'left';
 
 export default function ButtonAppBar(props) {
-  const { toggleTheme } = props;
   const classes = useStyles();
   const [toggleState, setToggleState] = useState({
     top: false,
@@ -78,7 +76,6 @@ export default function ButtonAppBar(props) {
                 <Logo logoProps={logoProps} className={classes.logo} />
               </Link>
             </Box>
-            <ToggleThemeColor toggleTheme={toggleTheme} />
           </Toolbar>
         </Container>
       </AppBar>
