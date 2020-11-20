@@ -78,7 +78,6 @@ p.calorieScore {
 main.terms,
 main.privacy {
   font-size: 1em;
-  padding: 40px 80px;
 }
 
 main.terms p,
@@ -132,4 +131,10 @@ footer div {
 
 div.homeCharts {
   margin-top: 20px;
+}
+
+div.homechart-light,
+div.homechart-dark {
+  height: 50px;
+  overflow: hidden;
 }
