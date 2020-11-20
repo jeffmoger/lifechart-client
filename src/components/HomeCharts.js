@@ -250,7 +250,7 @@ const HomeCharts = (props) => {
   }, [itemChart, googleFit]);
 
   return (
-    <Container component="div" className="homeCharts">
+    <Container maxWidth="md" component="div" className="homeCharts">
       {showItems ? (
         <div className={`${theme.type && theme.type + '-'}container`}>
           <Paper component="div" className={classes.paper}>

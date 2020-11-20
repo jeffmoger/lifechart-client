@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     //color: () => (theme.palette.type === 'light' ? '#5D4E8C' : '#8884d8'),
   },
+  longtext: {
+    height: 1000,
+  },
 }));
 
 const headProps = (type) => {
@@ -211,7 +214,11 @@ export default function Home(props) {
               The smart way to chart your health and fitness data
             </Typography>
           </Fade>
-          {showText && <Intro toggleTheme={props.toggleTheme} fade={true} />}
+          {showText ? (
+            <Intro toggleTheme={props.toggleTheme} fade={true} />
+          ) : (
+            <div className={classes.longtext} />
+          )}
         </Container>
       </main>
     </>

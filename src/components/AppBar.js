@@ -60,7 +60,7 @@ export default function ButtonAppBar(props) {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Container disableGutters>
+        <Container disableGutters maxWidth="md">
           <Toolbar>
             <Box display="flex" flexGrow={1}>
               <IconButton

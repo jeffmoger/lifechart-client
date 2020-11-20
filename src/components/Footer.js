@@ -24,8 +24,8 @@ export default function Footer(props) {
   return (
     <footer className={classes.footer}>
       <div>
-        <Link to="/about" className={classes.link}>
-          about
+        <Link to="/" className={classes.link}>
+          home
         </Link>
       </div>
       <div>

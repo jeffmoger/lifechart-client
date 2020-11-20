@@ -76,20 +76,24 @@ p.calorieScore {
 }
 
 main.terms,
-main.privacy {
-  font-size: 1em;
+main.privacy,
+main.about {
+  font-size: 1.3em;
 }
 
 main.terms p,
-main.privacy p {
+main.privacy p,
+main.about p {
   line-height: 160%;
 }
 main.terms ul,
-main.privacy ul {
+main.privacy ul,
+main.about ul {
   line-height: 190%;
 }
 main.terms .short,
-main.privacy .short {
+main.privacy .short,
+main.about .short {
   font-weight: bold;
 }
 
@@ -126,7 +130,7 @@ footer {
 }
 
 footer div {
-  width: 100px;
+  padding: 0px 15px;
 }
 
 div.homeCharts {

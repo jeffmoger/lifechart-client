@@ -103,7 +103,7 @@ function Settings(props) {
 
   return (
     <main>
-      <Container className={classes.root}>
+      <Container className={classes.root} maxWidth="md">
         <Accordion
           expanded={expanded === 'panel-profile'}
           onChange={handleChange('panel-profile')}

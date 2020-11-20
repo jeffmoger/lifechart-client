@@ -5,7 +5,7 @@ import TermsText from '../components/TermsText';
 export default function Terms() {
   return (
     <main className="terms">
-      <Container>
+      <Container maxWidth="md">
         <TermsText />
       </Container>
     </main>

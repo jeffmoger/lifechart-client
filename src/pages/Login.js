@@ -126,7 +126,10 @@ const Login = (props) => {
   if (!isLoggedIn) {
     return (
       <main>
-        <Container className={`${classes.flexContainer} ${classes.wrap}`}>
+        <Container
+          className={`${classes.flexContainer} ${classes.wrap}`}
+          maxWidth="md"
+        >
           <Paper component="div" className={`${classes.flexPaper}`}>
             <Typography
               variant="h6"
