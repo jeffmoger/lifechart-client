@@ -24,6 +24,19 @@ export default function Footer(props) {
   return (
     <footer className={classes.footer}>
       <div>
+        <Link to="/about" className={classes.link}>
+          about
+        </Link>
+      </div>
+      <div>
+        <Link to="/demo" className={classes.link}>
+          demo
+        </Link>
+      </div>
+      <div>
+        <ToggleThemeColor size="20" toggleTheme={toggleTheme} />
+      </div>
+      <div>
         <Link to="/privacy" className={classes.link}>
           privacy
         </Link>
@@ -32,9 +45,6 @@ export default function Footer(props) {
         <Link to="/terms" className={classes.link}>
           terms
         </Link>
-      </div>
-      <div>
-        <ToggleThemeColor size="20" toggleTheme={toggleTheme} />
       </div>
     </footer>
   );
