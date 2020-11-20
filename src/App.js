@@ -74,6 +74,9 @@ function App() {
           success: {
             main: '#4caf50',
           },
+          background: {
+            default: () => (prefersDarkMode ? '#303030' : 'rgb(220, 220, 220)'),
+          },
           type: prefersDarkMode ? 'dark' : 'light',
           contrastThreshold: 3,
           tonalOffset: 0.2,
@@ -98,7 +101,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <ScrollToTop />
-        <article>
+        <article className={theme.palette.type}>
           {pageView !== '/' && <AppBar toggleTheme={toggleTheme} />}
           <Switch>
             <Route exact path="/">
