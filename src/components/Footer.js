@@ -24,22 +24,12 @@ export default function Footer(props) {
   return (
     <footer className={classes.footer}>
       <div>
-        <Link to="/" className={classes.link}>
-          home
-        </Link>
-      </div>
-      <div>
-        <Link to="/demo" className={classes.link}>
-          demo
+        <Link to="/privacy" className={classes.link}>
+          privacy
         </Link>
       </div>
       <div>
         <ToggleThemeColor size="20" toggleTheme={toggleTheme} />
-      </div>
-      <div>
-        <Link to="/privacy" className={classes.link}>
-          privacy
-        </Link>
       </div>
       <div>
         <Link to="/terms" className={classes.link}>
