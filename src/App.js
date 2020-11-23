@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  //BrowserRouter as Router,
-  Route,
-  Switch,
-  useLocation,
-} from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
 
 import './App.css';
 
@@ -105,7 +99,7 @@ function App() {
           {pageView !== '/' && <AppBar toggleTheme={toggleTheme} />}
           <Switch>
             <Route exact path="/">
-              <Home toggleTheme={toggleTheme} />
+              <Home />
             </Route>
             <Route path="/charts" component={MyCharts} />
             <Route path="/login" component={Login} />
