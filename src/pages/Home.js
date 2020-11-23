@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Logo from '../components/Logo.js';
+import Box from '@material-ui/core/Container';
+import Toolbar from '@material-ui/core/Toolbar';
+import Logo from '../components/Logo';
 import Intro from '../components/Intro';
+import MenuHomepage from '../components/MenuHomepage';
 import ChartForHomePage from '../charts/ChartForHomePage';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Fade from '@material-ui/core/Fade';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    marginTop: 10,
-    marginBottom: -30,
-  },
-  container: {
-    //paddingTop: 20,
-    //marginBottom: -20,
+    marginTop: -20,
+    marginBottom: -20,
   },
   link: {
     color: () =>
@@ -57,8 +56,8 @@ const logoProps = (theme) => {
   return {
     lifeFill,
     chartFill: '#82CA9D',
-    width: 390 / 1.5,
-    height: 120 / 1.5,
+    width: 390 / 1.8,
+    height: 120 / 1.8,
   };
 };
 
@@ -99,6 +98,7 @@ const generateData = (min, max) => {
 export default function Home(props) {
   const classes = useStyles();
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const [data, setData] = useState(() => generateData(1, 1));
   const [showText, setShowText] = useState(false);
   const [textFlag, setTextFlag] = useState(false);
@@ -148,8 +148,8 @@ export default function Home(props) {
 
           const start = rgbStartArr[0];
           const end = rgbEndArr[0];
-          console.log(`start: ${start}`);
-          console.log(`end: ${end}`);
+          //console.log(`start: ${start}`);
+          //console.log(`end: ${end}`);
           let newRGB;
 
           if (start < end) {
@@ -163,14 +163,14 @@ export default function Home(props) {
           }
           if (start > end) {
             let sleepLength = Math.round(500 / (start - end));
-            console.log(`sleep: ${sleepLength}`);
+            //console.log(`sleep: ${sleepLength}`);
             for (let i = start; i >= end; i--) {
               await sleep(sleepLength);
               newRGB = `rgb(${i}, ${i}, ${i})`;
               setHeadColor(newRGB);
             }
           }
-          console.log(`newRGB: ${newRGB}`);
+          //console.log(`newRGB: ${newRGB}`);
         };
         fadeIn();
       }, 1000);
@@ -190,9 +190,13 @@ export default function Home(props) {
   return (
     <>
       <header style={{ textAlign: 'left', backgroundColor: headColor }}>
+        <Container maxWidth="md" style={{ height: 30 }}>
+          {showText && <MenuHomepage />}
+        </Container>
         <Container maxWidth="md" className={classes.logo}>
           <Logo logoProps={logoProps(theme)} />
         </Container>
+
         <div
           className={`homechart-${theme.palette.type}`}
           style={{ backgroundColor: headColor }}
