@@ -58,8 +58,8 @@ export default function ButtonAppBar(props) {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Container disableGutters maxWidth="md">
-          <Toolbar>
+        <Container maxWidth="md">
+          <Toolbar disableGutters>
             <Box display="flex" flexGrow={1}>
               {matches ? null : (
                 <IconButton
