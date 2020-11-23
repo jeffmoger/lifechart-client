@@ -10,11 +10,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   div: {
-    marginLeft: 20,
+    marginRight: 20,
   },
   link: {
     color: '#FFFFFF',
     textDecoration: 'none',
+    fontSize: '90%',
   },
 }));
 
