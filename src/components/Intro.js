@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Fade from '@material-ui/core/Fade';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,6 +30,15 @@ const useStyles = makeStyles((theme) => ({
   p: {
     marginBottom: 20,
   },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    marginTop: 30,
+    marginBottom: 30,
+  },
+  button: {
+    width: 200,
+  },
 }));
 export default function Intro(props) {
   const classes = useStyles();
@@ -54,6 +64,26 @@ export default function Intro(props) {
           inputs (nutrition, sleep, activity) work together to affect and shape
           the way you feel.
         </Typography>
+        <div className={classes.buttonContainer}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            component={Link}
+            to="/demo"
+            className={classes.button}
+          >
+            Demo Charts
+          </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            component={Link}
+            to="/login"
+            className={classes.button}
+          >
+            Sign In
+          </Button>
+        </div>
         <div style={{ display: '' }}>
           <Typography variant="h5" component="h2" className={classes.slogan}>
             Benefits
