@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Container';
-import Toolbar from '@material-ui/core/Toolbar';
 import Logo from '../components/Logo';
 import Intro from '../components/Intro';
 import MenuHomepage from '../components/MenuHomepage';
 import ChartForHomePage from '../charts/ChartForHomePage';
 import Typography from '@material-ui/core/Typography';
 import Fade from '@material-ui/core/Fade';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -98,7 +95,6 @@ const generateData = (min, max) => {
 export default function Home(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const [data, setData] = useState(() => generateData(1, 1));
   const [showText, setShowText] = useState(false);
   const [textFlag, setTextFlag] = useState(false);
