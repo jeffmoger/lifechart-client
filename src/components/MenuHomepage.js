@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
   },
   itemGroupOn: {
     marginTop: 5,
-    transition: 'margin-top .5s',
+    transition: 'margin-top .2s',
+    transitionTimingTunction: 'ease-out',
   },
 
   linktop: {
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '90%',
     fontWeight: 400,
     marginRight: 10,
+    '&:hover, &:focus': {
+      color: '#5D4E8C',
+    },
   },
 }));
 
