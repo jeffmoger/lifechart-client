@@ -64,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
   },
   smallprint: {
-    fontSize: 11,
     marginLeft: 30,
     marginRight: 30,
     marginBottom: 30,
