@@ -20,8 +20,9 @@ const useStyles = makeStyles((theme) => ({
   hide: {
     display: 'none',
   },
+  slogan: { marginBottom: 20, marginTop: 20 },
   h2: {
-    marginBottom: 10,
+    marginBottom: 5,
     color: () =>
       theme.palette.type === 'light'
         ? theme.palette.secondary.dark
@@ -35,9 +36,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-evenly',
     marginTop: 30,
     marginBottom: 30,
+    flexWrap: 'wrap',
   },
   button: {
     width: 200,
+    margin: 20,
   },
 }));
 export default function Intro(props) {
@@ -46,44 +49,41 @@ export default function Intro(props) {
     <Fade in={true} timeout={3000}>
       <div>
         <Typography variant="body1" className={classes.p}>
-          LifeChart is a personal health and fitness tracking and charting app
-          for visualizing all of your health and fitness data from a single
-          dashboard. Many specialized apps offer individual health, fitness and
-          nutrition tracking capabilities that can provide excellent insights
-          and encourage healthy habits. Unfortunately, when this data remains
-          siloed, it loses much of its potential value.
+          LifeChart is a personal health and fitness app that helps you track
+          and visualize your health data from a single dashboard. While many
+          apps offer fitness and nutrition tracking, LifeChart was designed to
+          complement your existing data by combining it with additional data
+          entry tools for tracking mood, symptoms and other categories of
+          wellness. By bringing all of your health information into one place,
+          our aim is to give you a fuller picture of how all of your inputs
+          (nutrition, sleep, activity) work together to affect and shape the way
+          you feel.
         </Typography>
         <Typography variant="body1" className={classes.p}>
-          LifeChart connects to your Google Fitness data and adds an additional
-          layer of tracking for mood and other user defined categories. With the
-          ability to see all of your information in one place, LifeChart’s
-          custom chart creation and rich data visualizations can help you
-          identify patterns and connections, offer actionable insight, and
-          encourage a more holistic understanding of your overall well being.
-          Our goal is to give you a more complete picture of how all of your
-          inputs (nutrition, sleep, activity) work together to affect and shape
-          the way you feel.
+          With intuitive data entry, custom chart creation and rich data
+          visualizations, LifeChart can help you identify patterns and
+          connections, offer actionable insight, and encourage a more holistic
+          understanding of your overall well being.
         </Typography>
-        <div className={classes.buttonContainer}>
-          <Button
-            variant="outlined"
-            color="inherit"
-            component={Link}
-            to="/demo"
-            className={classes.button}
-          >
-            Demo Charts
-          </Button>
-          <Button
-            variant="outlined"
-            color="inherit"
-            component={Link}
-            to="/login"
-            className={classes.button}
-          >
-            Sign In
-          </Button>
-        </div>
+        <Typography variant="h5" component="h2" className={classes.slogan}>
+          How does it work?
+        </Typography>
+        <Typography variant="body1" className={classes.p}>
+          LifeChart starts by connecting to Google Fitness to fetch your fitness
+          and nutrition data. If you are tracking nutrition through a compatible
+          third party nutrition app that is synced with Google Fit, LifeChart
+          will use your fitness and nutrition information to provide the
+          background information upon which you can layer mood or specific
+          symptoms that you want to track.
+        </Typography>
+        <Typography variant="body1" className={classes.p}>
+          When you log in to LifeChart with your Google ID, you are creating an
+          account with us, and giving permission to sync your fitness,
+          nutrition, and body metric data with us. We use your data to build
+          charts and visualizations that can provide insights into your health
+          habits and help you get more value out of your data. We do not sell
+          advertising, and we do not sell or share your data with third parties.
+        </Typography>
         <div style={{ display: '' }}>
           <Typography variant="h5" component="h2" className={classes.slogan}>
             Benefits
@@ -142,7 +142,7 @@ export default function Intro(props) {
             from the community to make our platform more useful.
           </Typography>
 
-          <Typography variant="h6" component="h2" className={classes.h2}>
+          <Typography variant="h5" component="h2" className={classes.slogan}>
             Getting Started
           </Typography>
           <Typography variant="body1" className={classes.p}>
@@ -161,6 +161,26 @@ export default function Intro(props) {
             </Link>
             .
           </Typography>
+          <div className={classes.buttonContainer}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              component={Link}
+              to="/demo"
+              className={classes.button}
+            >
+              Demo Charts
+            </Button>
+            <Button
+              variant="outlined"
+              color="inherit"
+              component={Link}
+              to="/login"
+              className={classes.button}
+            >
+              Sign In
+            </Button>
+          </div>
         </div>
       </div>
     </Fade>
