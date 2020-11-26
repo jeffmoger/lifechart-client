@@ -69,24 +69,53 @@ export default function Intro(props) {
           How does it work?
         </Typography>
         <Typography variant="body1" className={classes.p}>
-          LifeChart starts by connecting to Google Fitness to fetch your fitness
-          and nutrition data. If you are tracking nutrition through a compatible
-          third party nutrition app that is synced with Google Fit, LifeChart
-          will use your fitness and nutrition information to provide the
-          background information upon which you can layer mood or specific
-          symptoms that you want to track.
+          LifeChart starts by connecting to your Google Fitness account and
+          syncing with your active fitness data. If you are tracking nutrition
+          through a compatible third party app that syncs with Google Fit, we
+          use your data to create charts and visualizations that go beyond what
+          the Google Fit app presently displays. It is within the context of
+          this ‘background’ information that you can use LifeChart to track
+          specific symptoms, moods, or other events that may have an impact on
+          your health.
         </Typography>
         <Typography variant="body1" className={classes.p}>
           When you log in to LifeChart with your Google ID, you are creating an
           account with us, and giving permission to sync your fitness,
-          nutrition, and body metric data with us. We use your data to build
-          charts and visualizations that can provide insights into your health
-          habits and help you get more value out of your data. We do not sell
-          advertising, and we do not sell or share your data with third parties.
+          nutrition, and body metric data with LifeChart. Where appropriate we
+          will save any data you create with us back to your Google Fit account.
+          We will never sell or share your data, and you can delete your account
+          along with all data stored with LifeChart at any time.
         </Typography>
+        <Typography variant="body1" className={classes.p}>
+          LifeChart is still in early development and has many features on its
+          roadmap that have not been released. We hope you get value out of
+          LifeChart in its current state, but we would also encourage you to
+          join our beta testing group, and help shape our future direction.
+          Details are on the signup page.
+        </Typography>
+        <div className={classes.buttonContainer}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            component={Link}
+            to="/demo"
+            className={classes.button}
+          >
+            Sample Charts
+          </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            component={Link}
+            to="/login"
+            className={classes.button}
+          >
+            Sign In
+          </Button>
+        </div>
         <div style={{ display: '' }}>
           <Typography variant="h5" component="h2" className={classes.slogan}>
-            Benefits
+            Features and Benefits
           </Typography>
           <Typography variant="h6" component="h3" className={classes.h2}>
             Weight Loss / Management
@@ -161,26 +190,6 @@ export default function Intro(props) {
             </Link>
             .
           </Typography>
-          <div className={classes.buttonContainer}>
-            <Button
-              variant="outlined"
-              color="inherit"
-              component={Link}
-              to="/demo"
-              className={classes.button}
-            >
-              Demo Charts
-            </Button>
-            <Button
-              variant="outlined"
-              color="inherit"
-              component={Link}
-              to="/login"
-              className={classes.button}
-            >
-              Sign In
-            </Button>
-          </div>
         </div>
       </div>
     </Fade>
