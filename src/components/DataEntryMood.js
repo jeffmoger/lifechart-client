@@ -18,17 +18,13 @@ const sliders = [
     value: 0,
   },
   {
-    name: 'Irritability',
-    value: 0,
-  },
-  {
-    name: 'Mood',
+    name: 'Pleasantness',
     value: 0,
   },
 ];
 
 const marks = () => {
-  const marks = [0, 1, 2, 3, 4, 5];
+  const marks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return marks.map((item) => {
     return { value: item };
   });
@@ -52,7 +48,7 @@ export default function DataEntryMood({ handleSliderChange, setValues }) {
             name={slider.name}
             marks={marks()}
             min={0}
-            max={5}
+            max={10}
             step={1}
             handleSliderChange={handleSliderChange}
             defaultValue={slider.value}

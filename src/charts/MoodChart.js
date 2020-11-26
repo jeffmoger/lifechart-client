@@ -58,7 +58,7 @@ export default class MoodChart extends PureComponent {
               width={35}
               mirror={true}
               interval="preserveEnd"
-              domain={[0, 5]}
+              domain={[0, 10]}
             />
             <Tooltip
               contentStyle={wrapperStyle}
@@ -76,14 +76,7 @@ export default class MoodChart extends PureComponent {
             <Line
               connectNulls
               type="monotone"
-              dataKey="Irritability"
-              stroke={theme.irritability}
-              dot={false}
-            />
-            <Line
-              connectNulls
-              type="monotone"
-              dataKey="Mood"
+              dataKey="Pleasantness"
               stroke={theme.mood}
               dot={{ fill: theme.energy }}
               activeDot={{ r: 8 }}
