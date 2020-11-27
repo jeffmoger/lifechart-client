@@ -7,13 +7,15 @@ import {
   labelHour,
   labelFormat,
 } from '../functions/dateFunctions';
+import DateTimePicker from './DateTimePicker';
 
 const useStyles = makeStyles({
   container: {
     display: 'flex',
     justifyContent: 'center',
     maxWidth: '400px',
-    marginTop: 50,
+    marginTop: 40,
+    marginBottom: 100,
   },
 });
 
@@ -82,10 +84,17 @@ function valueLabelFormat(value) {
   return labelFormat(value);
 }
 
-export default function DataEntryWeight({ handleSliderChange, setValues }) {
+export default function DataEntryWeight({
+  handleSliderChange,
+  setValues,
+  setTimestamp,
+  timestamp,
+}) {
   const classes = useStyles();
-  const [start, stop, step, marks] = rangeSleep(startSleep());
-  const [wakeStart, wakeStop, wakeStep, wakeMarks] = rangeWake(startWake());
+  const [start, stop, step, marks] = rangeSleep(startSleep(timestamp / 1000));
+  const [wakeStart, wakeStop, wakeStep, wakeMarks] = rangeWake(
+    startWake(timestamp / 1000)
+  );
 
   useEffect(() => {
     setValues(makeDefaultValues(start, wakeStart));
@@ -122,6 +131,7 @@ export default function DataEntryWeight({ handleSliderChange, setValues }) {
           valueLabelFormat={valueLabelFormat}
         />
       </div>
+      <DateTimePicker setTimestamp={setTimestamp} disableTime={true} />
     </div>
   );
 }

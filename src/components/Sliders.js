@@ -5,13 +5,12 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
   vertical: {
-    height: 300,
+    height: 280,
     flexGrow: 1,
     textAlign: 'center',
   },
   groupName: {
-    marginTop: 25,
-    fontSize: '85%',
+    marginTop: 20,
   },
 }));
 

@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   notes: {
     width: '100%',
+    marginBottom: 50,
   },
   sliderDiv: {
     width: 300,

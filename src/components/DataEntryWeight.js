@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Sliders from './Sliders';
+import DateTimePicker from './DateTimePicker';
 
 const useStyles = makeStyles({
   container: {
@@ -9,6 +10,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     maxWidth: '400px',
     marginTop: 50,
+    marginBottom: 100,
   },
 });
 
@@ -23,6 +25,7 @@ export default function DataEntryWeight({
   handleSliderChange,
   profile,
   setValues,
+  setTimestamp,
 }) {
   const classes = useStyles();
   const { weight: savedWeight } = profile;
@@ -82,6 +85,7 @@ export default function DataEntryWeight({
           valueLabelFormat={valueLabelFormat}
         />
       </div>
+      <DateTimePicker setTimestamp={setTimestamp} />
     </div>
   );
 }

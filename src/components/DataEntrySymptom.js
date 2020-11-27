@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DisplaySymptomSelect from './DisplaySymptomSelect';
 import { getSymptomList } from '../functions/apiCalls';
+import DateTimePicker from './DateTimePicker';
 
 export default function DataEntrySymptom({
   authTokens,
@@ -8,6 +9,7 @@ export default function DataEntrySymptom({
   setValues,
   setDisabled,
   setNote,
+  setTimestamp,
 }) {
   const { id, token } = authTokens;
   const [displayList, setDisplayList] = useState([]);
@@ -64,6 +66,7 @@ export default function DataEntrySymptom({
         handleNotes={handleNotes}
         symptom={symptom}
       />
+      <DateTimePicker setTimestamp={setTimestamp} />
     </div>
   );
 }

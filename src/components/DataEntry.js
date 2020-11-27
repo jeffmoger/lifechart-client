@@ -11,14 +11,13 @@ import DataEntryMood from './DataEntryMood';
 import DataEntryWeight from './DataEntryWeight';
 import DataEntrySleep from './DataEntrySleep';
 import DataEntrySymptom from './DataEntrySymptom';
-import { nowMillis } from '../functions/dateFunctions';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   dialogPaper: {
-    minHeight: 600,
-    maxHeight: '80vh',
+    minHeight: 680,
+    maxHeight: '90vh',
     minWidth: 400,
     background: () =>
       theme.palette.type === 'light'
@@ -70,6 +69,7 @@ export default function DataEntry({
   const [status, setStatus] = useState(0);
   const [disabled, setDisabled] = useState(true);
   const [note, setNote] = useState('');
+  const [timestamp, setTimestamp] = useState('');
 
   const { token } = authTokens;
 
@@ -87,6 +87,10 @@ export default function DataEntry({
     setValues(newArray);
     setDisabled(false);
   };
+
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
 
   useEffect(() => {
     if (status === 3) {
@@ -124,22 +128,24 @@ export default function DataEntry({
       setStatus(3);
     }
     if (pathname !== '/demo') {
-      submitRecord(values, token, category, note).then((response) => {
-        if (response.id) {
-          setSnackMessage('Saved Successfully!');
-          setSnackSeverity('success');
-          if (category === 'Weight') {
-            updateProfile(values);
+      submitRecord(values, token, category, note, timestamp).then(
+        (response) => {
+          if (response.id) {
+            setSnackMessage('Saved Successfully!');
+            setSnackSeverity('success');
+            if (category === 'Weight') {
+              updateProfile(values);
+            }
+            setTimeout(function () {
+              setStatus(3);
+            }, 500);
+          } else {
+            setSnackMessage('Your entry was not saved');
+            setSnackSeverity('error');
+            setSnackOpen(true);
           }
-          setTimeout(function () {
-            setStatus(3);
-          }, 500);
-        } else {
-          setSnackMessage('Your entry was not saved');
-          setSnackSeverity('error');
-          setSnackOpen(true);
         }
-      });
+      );
     }
   }
 
@@ -161,6 +167,7 @@ export default function DataEntry({
               <DataEntryMood
                 handleSliderChange={handleSliderChange}
                 setValues={setValues}
+                setTimestamp={setTimestamp}
               />
             ) : null}
             {category === 'Weight' && status <= 1 ? (
@@ -168,12 +175,15 @@ export default function DataEntry({
                 handleSliderChange={handleSliderChange}
                 profile={profile}
                 setValues={setValues}
+                setTimestamp={setTimestamp}
               />
             ) : null}
             {category === 'Sleep' && status <= 1 ? (
               <DataEntrySleep
                 handleSliderChange={handleSliderChange}
                 setValues={setValues}
+                setTimestamp={setTimestamp}
+                timestamp={timestamp}
               />
             ) : null}
             {category === 'Symptom' && status <= 1 ? (
@@ -183,6 +193,7 @@ export default function DataEntry({
                 setValues={setValues}
                 setDisabled={setDisabled}
                 setNote={setNote}
+                setTimestamp={setTimestamp}
               />
             ) : null}
             {status === 2 ? (
@@ -217,7 +228,7 @@ export default function DataEntry({
   );
 }
 
-async function submitRecord(state, token, category, note) {
+async function submitRecord(state, token, category, note, timestamp) {
   const dataTypeName = `lifechart.${category.toLowerCase()}.item`;
   try {
     const r = await fetch(`${process.env.REACT_APP_API}/api/items/create`, {
@@ -229,14 +240,15 @@ async function submitRecord(state, token, category, note) {
       body: JSON.stringify({
         item: {
           dataTypeName: dataTypeName,
-          startTimeMillis: nowMillis(),
-          endTimeMillis: nowMillis(),
+          startTimeMillis: timestamp,
+          endTimeMillis: timestamp,
           value: structureJSON(state),
           note: note,
         },
       }),
     });
     const response = await r.json();
+    console.log(response);
     return response;
   } catch (err) {
     return err;

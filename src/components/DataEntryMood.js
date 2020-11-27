@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Sliders from './Sliders';
+import DateTimePicker from './DateTimePicker';
 
 const useStyles = makeStyles({
-  container: {
+  sliderContainer: {
     display: 'flex',
     justifyContent: 'center',
     maxWidth: '400px',
-    marginTop: 50,
+    marginTop: 40,
+    marginBottom: 100,
   },
 });
 
@@ -30,18 +32,20 @@ const marks = () => {
   });
 };
 
-export default function DataEntryMood({ handleSliderChange, setValues }) {
+export default function DataEntryMood(props) {
+  const { handleSliderChange, setValues, setTimestamp } = props;
   const classes = useStyles();
+
   useEffect(() => {
     setValues(sliders);
   }, [setValues]);
 
   return (
     <div>
-      <Typography id="energy-slider" variant="h5" align="center" gutterBottom>
+      <Typography id="energy-slider" variant="h5" align="center">
         How do you feel?
       </Typography>
-      <div className={classes.container}>
+      <div className={classes.sliderContainer}>
         {sliders.map((slider) => (
           <Sliders
             key={slider.name}
@@ -56,6 +60,7 @@ export default function DataEntryMood({ handleSliderChange, setValues }) {
           />
         ))}
       </div>
+      <DateTimePicker setTimestamp={setTimestamp} />
     </div>
   );
 }
