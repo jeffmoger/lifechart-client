@@ -123,6 +123,19 @@ function Settings(props) {
         </Accordion>
 
         <Accordion
+          expanded={expanded === 'panel-goals'}
+          onChange={handleChange('panel-goals')}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel-goals-content"
+            id="panel-goals-header"
+          >
+            <Typography className={classes.heading}>Goals</Typography>
+          </AccordionSummary>
+        </Accordion>
+
+        <Accordion
           expanded={expanded === 'panel-googlesync'}
           onChange={handleChange('panel-googlesync')}
         >
