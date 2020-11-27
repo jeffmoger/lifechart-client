@@ -26,7 +26,10 @@ function App() {
   const existingTokens = JSON.parse(localStorage.getItem('tokens'));
   const themePreference = JSON.parse(localStorage.getItem('prefersDarkMode'));
   const [authTokens, setAuthTokens] = useState(existingTokens);
-  const [prefersDarkMode, setDarkMode] = useState(themePreference);
+  const [prefersDarkMode, setDarkMode] = useState(() => {
+    if (themePreference) return themePreference;
+    if (!themePreference) return true;
+  });
   const [pageView, setPageView] = useState();
 
   function usePathName() {
@@ -68,20 +71,9 @@ function App() {
           success: {
             main: '#4caf50',
           },
-          background: {
-            default: () => (prefersDarkMode ? '#303030' : 'rgb(220, 220, 220)'),
-          },
           type: prefersDarkMode ? 'dark' : 'light',
-          contrastThreshold: 3,
-          tonalOffset: 0.2,
-        },
-        overrides: {
-          MuiCssBaseline: {
-            '@global': {
-              html: {
-                WebkitFontSmoothing: 'auto',
-              },
-            },
+          background: {
+            default: prefersDarkMode ? '#303030' : '#dcdcdc',
           },
         },
       }),
