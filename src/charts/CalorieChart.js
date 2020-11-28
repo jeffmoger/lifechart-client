@@ -60,17 +60,6 @@ export default class CalorieChart extends PureComponent {
               mirror={false}
               tickFormatter={formatXAxis}
             />
-            <YAxis
-              stroke={styles.axisY}
-              axisLine={false}
-              tickLine={false}
-              orientation="left"
-              width={35}
-              mirror={true}
-              interval="preserveEnd"
-              domain={[0, 2800]} //ToDo: get dynamic values
-            />
-
             <CartesianGrid
               strokeDasharray="1 3"
               stroke={styles.cartesianGrid}
@@ -80,6 +69,16 @@ export default class CalorieChart extends PureComponent {
               labelFormatter={formatToolTipLabel}
             />
             <Legend verticalAlign="bottom" iconType="circle" height={36} />
+            <YAxis
+              stroke={styles.axisY}
+              axisLine={false}
+              tickLine={false}
+              orientation="left"
+              width={35}
+              mirror={true}
+              //interval="preserveEnd"
+              domain={[0, (dataMax) => Math.round(dataMax / 100) * 100 + 200]}
+            />
             <Area
               type="monotone"
               dataKey="Burned"

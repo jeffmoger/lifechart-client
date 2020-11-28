@@ -51,6 +51,12 @@ export default class NutritionChart extends PureComponent {
               mirror={false}
               tickFormatter={formatXAxis}
             />
+            <Tooltip
+              contentStyle={wrapperStyle}
+              cursor={theme.toolTip.cursor}
+              labelFormatter={formatToolTipLabel}
+            />
+            <Legend verticalAlign="bottom" iconType="circle" height={36} />
             <YAxis
               stroke={styles.axisY}
               axisLine={false}
@@ -58,15 +64,9 @@ export default class NutritionChart extends PureComponent {
               orientation="left"
               width={35}
               mirror={true}
-              interval="preserveEnd"
-              domain={[0, 2800]}
+              //interval={0}
+              domain={[0, (dataMax) => Math.round(dataMax / 100) * 100 + 200]}
             />
-            <Tooltip
-              contentStyle={wrapperStyle}
-              cursor={theme.toolTip.cursor}
-              labelFormatter={formatToolTipLabel}
-            />
-            <Legend verticalAlign="bottom" iconType="circle" height={36} />
             <Bar
               dataKey="Protein"
               stackId="a"

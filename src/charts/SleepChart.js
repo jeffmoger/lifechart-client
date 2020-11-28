@@ -136,6 +136,22 @@ export default class SleepChart extends PureComponent {
               mirror={false}
               tickFormatter={formatXAxis}
             />
+            <ReferenceLine y={240} stroke="#333333" />
+            <ReferenceLine y={720} stroke="#333333" />
+            <Tooltip
+              contentStyle={wrapperStyle}
+              cursor={theme.toolTip.cursor}
+              labelFormatter={formatToolTipLabel}
+              formatter={formatToolTip}
+            />
+            <Legend verticalAlign="bottom" iconType="circle" height={36} />
+            <Bar
+              dataKey="sleep"
+              fill={theme.sleep}
+              fillOpacity={0.6}
+              barSize={10}
+              radius={[10, 10, 10, 10]}
+            />
             <YAxis
               type="number"
               //scale="time"
@@ -145,25 +161,10 @@ export default class SleepChart extends PureComponent {
               orientation="left"
               width={35}
               mirror={true}
-              interval="preserveEnd"
+              //interval={0}
+              ticks={[240, 720]}
               domain={[120, 'dataMax + 30']}
               tickFormatter={formatYAxis}
-            />
-            <Tooltip
-              contentStyle={wrapperStyle}
-              cursor={theme.toolTip.cursor}
-              labelFormatter={formatToolTipLabel}
-              formatter={formatToolTip}
-            />
-            <ReferenceLine y={240} stroke="#111111" strokeDasharray="3 3" />
-            <ReferenceLine y={720} stroke="#111111" strokeDasharray="3 3" />
-            <Legend verticalAlign="bottom" iconType="circle" height={36} />
-            <Bar
-              dataKey="sleep"
-              fill={theme.sleep}
-              fillOpacity={0.6}
-              barSize={10}
-              radius={[10, 10, 10, 10]}
             />
           </BarChart>
         </ResponsiveContainer>

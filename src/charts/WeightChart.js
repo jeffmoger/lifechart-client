@@ -20,6 +20,10 @@ const formatToolTipLabel = (label) => {
   return moment(label).format('MMMM D, YYYY');
 };
 
+const formatYAxis = (tickItem) => {
+  return tickItem + ' kg';
+};
+
 export default class WeightChart extends PureComponent {
   render() {
     const weightChart = this.props.data;
@@ -57,8 +61,11 @@ export default class WeightChart extends PureComponent {
               orientation="left"
               width={35}
               mirror={true}
-              interval="preserveEnd"
-              domain={[72, 78]}
+              interval="preserveStart"
+              domain={[
+                (dataMin) => Math.round(dataMin) - 6,
+                (dataMax) => Math.round(dataMax) + 6,
+              ]}
             />
             <Tooltip
               contentStyle={wrapperStyle}
