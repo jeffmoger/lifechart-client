@@ -28,7 +28,6 @@ export default function Auth(props) {
         if (response.user) {
           setAuthTokens(response.user);
           setLoggedIn(true);
-          console.log(response);
         }
       });
     }
@@ -63,6 +62,6 @@ async function google_login_auth(code) {
     );
     return await r.json();
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 }

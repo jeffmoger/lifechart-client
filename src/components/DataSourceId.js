@@ -47,10 +47,6 @@ export default function DataSourceId(props) {
     }
   }, [profileDataSource, dataSources, token]);
 
-  useEffect(() => {
-    console.log(dataSources);
-  }, [dataSources]);
-
   return (
     <TableContainer component={'div'}>
       {dataSources.length > 0 ? (

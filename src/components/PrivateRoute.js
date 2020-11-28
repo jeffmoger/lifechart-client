@@ -4,10 +4,6 @@ import { useAuth } from '../context/auth';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const isAuthenticated = useAuth();
-
-  if (isAuthenticated.authTokens) console.log('isAuthenticated');
-  if (!isAuthenticated.authTokens) console.log('Not authenticated');
-
   return (
     <Route
       {...rest}

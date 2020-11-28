@@ -101,10 +101,6 @@ export function saveProfile(token, body) {
         authorization: 'Token ' + token,
       },
       body: JSON.stringify(body),
-    }).then((response) => {
-      if (response.ok) {
-        console.log(response.status);
-      }
     });
   } catch (error) {
     console.error(error);

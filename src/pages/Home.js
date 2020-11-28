@@ -105,7 +105,6 @@ export default function Home(props) {
   );
 
   useEffect(() => {
-    console.log(`TYPE: ${theme.palette.type}`);
     setHeadColor(initHeadColor(theme.palette.type));
     setHeadArr(headProps(theme.palette.type));
   }, [theme.palette.type]);

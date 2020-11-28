@@ -134,10 +134,6 @@ const HomeCharts = (props) => {
   //useEffects_____________________________________________________________
 
   useEffect(() => {
-    console.log(theme);
-  }, [theme]);
-
-  useEffect(() => {
     if (profileDataSource) {
       if (profileDataSource.length > 0) {
         setDataSourceIds(profileDataSource);

@@ -89,10 +89,6 @@ export default function DataEntry({
   };
 
   useEffect(() => {
-    console.log(values);
-  }, [values]);
-
-  useEffect(() => {
     if (status === 3) {
       refreshAfterSubmit();
       handleDialogClose();
@@ -248,7 +244,6 @@ async function submitRecord(state, token, category, note, timestamp) {
       }),
     });
     const response = await r.json();
-    console.log(response);
     return response;
   } catch (err) {
     return err;
