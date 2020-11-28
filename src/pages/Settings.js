@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import FormSubmitProfile from '../components/FormSubmitProfile';
+import FormSubmitGoals from '../components/FormSubmitGoals';
 import FormSubmitSymptoms from '../components/FormSubmitSymptoms';
 import DataSourceId from '../components/DataSourceId';
 import { getProfile } from '../functions/apiCalls';
@@ -133,6 +134,11 @@ function Settings(props) {
           >
             <Typography className={classes.heading}>Goals</Typography>
           </AccordionSummary>
+          <AccordionDetails>
+            {profile ? (
+              <FormSubmitGoals id={id} token={token} profile={profile} />
+            ) : null}
+          </AccordionDetails>
         </Accordion>
 
         <Accordion
