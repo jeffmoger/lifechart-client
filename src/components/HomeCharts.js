@@ -11,7 +11,9 @@ import NutritionChart from '../charts/NutritionChart';
 import SleepChart from '../charts/SleepChart';
 import SymptomChart from '../charts/SymptomChart';
 import WeightChart from '../charts/WeightChart';
-import GadgetContainer from '../charts/GadgetContainer';
+
+import AverageCaloriesBurned from '../components/gadgets/AverageCaloriesBurned';
+import NetCalorieBurn from '../components/gadgets/NetCalorieBurn';
 
 import Loader from './Loader';
 import SpeedDial from './SpeedDial';
@@ -32,10 +34,28 @@ const dateRangeLength = 15;
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginBottom: 20,
-    padding: 10,
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingLeft: 5,
+    paddingRight: 5,
     background: () => (theme.palette.type === 'light' ? '#EEE' : '#424242'),
   },
+  gadgetWrap: {
+    height: 100,
+    paddingTop: 15,
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
 }));
+
+const gadgetColor = (theme) => {
+  if (theme === 'dark') {
+    return '#EEEEEE';
+  } else {
+    return '#444444';
+  }
+};
 
 function localStorageDefault(key, defaultValue) {
   const stickyData = localStorage.getItem(key);
@@ -246,6 +266,9 @@ const HomeCharts = (props) => {
       setShowItems(true);
     }
   }, [itemChart, googleFit]);
+  useEffect(() => {
+    //console.log(gadgets);
+  }, [gadgets]);
 
   return (
     <Container maxWidth="md" component="div" className="homeCharts">
@@ -264,6 +287,16 @@ const HomeCharts = (props) => {
           {dataSourceIds.length > 0 && calorieChart.length > 0 && (
             <Paper component="div" className={classes.paper}>
               <CalorieChart data={calorieChart} palette={theme.palette} />
+              <div className={classes.gadgetWrap}>
+                <AverageCaloriesBurned
+                  calorieScore={gadgets.calorieScore}
+                  color={gadgetColor(theme.palette.type)}
+                />
+                <NetCalorieBurn
+                  netCalorieBurn={gadgets.netCalorieBurn}
+                  color={gadgetColor(theme.palette.type)}
+                />
+              </div>
             </Paper>
           )}
           {dataSourceIds.length > 0 && nutritionChart.length > 0 && (
@@ -294,9 +327,6 @@ const HomeCharts = (props) => {
             <Paper component="div" className={classes.paper}>
               <WeightChart data={weightChart} palette={theme.palette} />
             </Paper>
-          )}
-          {1 == 2 && (
-            <GadgetContainer data={gadgets} theme={theme.palette.type} />
           )}
         </div>
       ) : (
