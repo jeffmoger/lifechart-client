@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useCountUp } from 'react-countup';
 
 const getPercent = (score, goal) => {
@@ -25,8 +25,7 @@ const scoreColor = (score) => {
 };
 
 export default function GadgetRing(props) {
-  const [gadgetScore, setGadgetScore] = useState(0);
-  const { score, goal, label, color } = props.gadgetProps;
+  const { score, goal, label, color } = props;
   const { countUp, update: hookUpdate } = useCountUp({
     end: score,
     duration: 1,
@@ -34,12 +33,8 @@ export default function GadgetRing(props) {
   });
 
   useEffect(() => {
-    setGadgetScore(score);
-  }, [score]);
-
-  useEffect(() => {
-    hookUpdate(gadgetScore);
-  }, [hookUpdate, gadgetScore]);
+    hookUpdate(score);
+  }, [hookUpdate, score]);
 
   const size = 90;
   const stroke = scoreColor(getPercent(score, goal));

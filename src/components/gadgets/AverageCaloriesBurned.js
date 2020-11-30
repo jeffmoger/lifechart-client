@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import GadgetRing from './GadgetRing';
 
 const AverageCaloriesBurned = (props) => {
   const { calorieScore, color } = props;
-  const gadgetProps = {
-    score: calorieScore,
-    goal: 500,
-    label: 'Daily Average',
-    color,
-  };
+  const label = '3 Day Average';
+  const goal = 500;
+
+  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    setScore(calorieScore);
+  }, [calorieScore]);
 
   return (
     <div>
-      <GadgetRing gadgetProps={gadgetProps} />
+      <GadgetRing score={score} color={color} goal={goal} label={label} />
     </div>
   );
 };
