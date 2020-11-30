@@ -20,10 +20,6 @@ const formatToolTipLabel = (label) => {
   return moment(label).format('MMMM D, YYYY');
 };
 
-const formatYAxis = (tickItem) => {
-  return tickItem + ' kg';
-};
-
 export default class WeightChart extends PureComponent {
   render() {
     const weightChart = this.props.data;
@@ -37,10 +33,9 @@ export default class WeightChart extends PureComponent {
         <ResponsiveContainer>
           <LineChart
             width={730}
-            height={300}
             data={weightChart}
             syncId="anyId"
-            margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
+            margin={{ top: 0, right: 5, left: 5, bottom: 20 }}
           >
             <CartesianGrid
               strokeDasharray="1 3"
@@ -72,7 +67,6 @@ export default class WeightChart extends PureComponent {
               cursor={theme.toolTip.cursor}
               labelFormatter={formatToolTipLabel}
             />
-            <Legend verticalAlign="bottom" iconType="circle" height={36} />
             <Line
               connectNulls
               type="monotone"

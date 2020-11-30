@@ -42,7 +42,7 @@ export default class SymptomChart extends PureComponent {
             height={300}
             data={data}
             syncId="anyId"
-            margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
+            margin={{ top: 0, right: 5, left: 5, bottom: 20 }}
           >
             <CartesianGrid
               strokeDasharray="1 3"
@@ -71,7 +71,7 @@ export default class SymptomChart extends PureComponent {
               cursor={theme.toolTip.cursor}
               labelFormatter={formatToolTipLabel}
             />
-            <Legend verticalAlign="bottom" iconType="circle" height={36} />
+            <Legend verticalAlign="top" iconType="circle" height={30} />
             {symptoms.map((symptom, index) => (
               <Line
                 key={symptom.symptom}

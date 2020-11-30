@@ -119,10 +119,9 @@ export default class SleepChart extends PureComponent {
         <ResponsiveContainer>
           <BarChart
             width={730}
-            height={300}
             data={newData}
             syncId="anyId"
-            margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
+            margin={{ top: 0, right: 5, left: 5, bottom: 20 }}
           >
             <CartesianGrid
               strokeDasharray="1 3"
@@ -144,7 +143,6 @@ export default class SleepChart extends PureComponent {
               labelFormatter={formatToolTipLabel}
               formatter={formatToolTip}
             />
-            <Legend verticalAlign="bottom" iconType="circle" height={36} />
             <Bar
               dataKey="sleep"
               fill={theme.sleep}
