@@ -28,15 +28,14 @@ export default class CalorieChart extends PureComponent {
     return (
       <div className={`${type && type + '-'}chartContainer`}>
         <Typography variant="h6" component="h2" align="center">
-          Calories Burned vs Consumed
+          Calories
         </Typography>
         <ResponsiveContainer>
           <AreaChart
             width={730}
-            height={350}
             data={calorieChart}
             syncId="anyId"
-            margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
+            margin={{ top: 0, right: 5, left: 5, bottom: 20 }}
           >
             <defs>
               <linearGradient id="colorBurned" x1="0" y1="0" x2="0" y2="1">
@@ -68,7 +67,7 @@ export default class CalorieChart extends PureComponent {
               contentStyle={wrapperStyle}
               labelFormatter={formatToolTipLabel}
             />
-            <Legend verticalAlign="bottom" iconType="circle" height={36} />
+            <Legend verticalAlign="top" iconType="circle" height={30} />
             <YAxis
               stroke={styles.axisY}
               axisLine={false}
