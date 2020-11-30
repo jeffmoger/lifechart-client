@@ -61,13 +61,11 @@ p.calorieScore {
 }
 
 .gadgets {
-  margin-top: -5px;
-  margin-bottom: 125px;
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 .gadgets .container {
-  display: grid;
-  grid-template-columns: 80px 80px 80px 80px;
-  grid-gap: 10px;
+  display: flex;
   justify-content: space-evenly;
 }
 .gadgets .gadget {
