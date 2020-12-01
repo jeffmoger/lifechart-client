@@ -1,5 +1,4 @@
-import moment from 'moment';
-import { startToday, startOfDay } from './dateFunctions';
+import { startToday } from './dateFunctions';
 import dateRange from './dateRange';
 import returnDateArray from './returnDateArray';
 
@@ -16,31 +15,20 @@ export default function loadChartFitData(fitData) {
 
   let nutrition,
     nutritionCalories,
+    nutritionSugar,
     nutritionProtein,
     nutritionCarbs,
     nutritionFat;
   if (data['nutrition']) {
     nutrition = data['nutrition'].arrays.Nutrition;
     nutritionCalories = nutrition.filter((item) => item.key === 'calories');
-    //nutritionSugar = nutrition.filter((item) => item.key === 'sugar');
+    nutritionSugar = nutrition.filter((item) => item.key === 'sugar');
     nutritionProtein = nutrition.filter((item) => item.key === 'protein');
     nutritionCarbs = nutrition.filter((item) => item.key === 'carbs_total');
     nutritionFat = nutrition.filter((item) => item.key === 'fat_total');
   }
 
-  const calorieScore =
-    subtract(
-      returnArrayByDate(caloriesBurned, 3, false).map(amount).reduce(sum),
-      returnArrayByDate(nutritionCalories, 3, false).map(amount).reduce(sum)
-    ) / 3;
-  const netCalorieBurn = subtract(
-    returnArrayByDate(caloriesBurned, 13, false).map(amount).reduce(sum),
-    returnArrayByDate(nutritionCalories, 13, false).map(amount).reduce(sum)
-  );
-  const fitChartData = {
-    calorieScore,
-    netCalorieBurn,
-  };
+  const fitChartData = {};
   const dateArray = returnDateArray(dateRange(60, endDate));
   const chartDataArray = [];
   const chartNutritionArray = [];
@@ -51,12 +39,14 @@ export default function loadChartFitData(fitData) {
     let np = nutritionProtein.find((item) => item.date === date);
     let nc = nutritionCarbs.find((item) => item.date === date);
     let nf = nutritionFat.find((item) => item.date === date);
+    let ns = nutritionSugar.find((item) => item.date === date);
 
     cb ? (cb = cb.value) : (cb = 0);
     cc ? (cc = cc.value) : (cc = 0);
     np ? (np = np.value * 4) : (np = 0);
     nc ? (nc = nc.value * 4) : (nc = 0);
     nf ? (nf = nf.value * 9) : (nf = 0);
+    ns ? (ns = ns.value) : (ns = 0);
 
     if (date <= startToday()) {
       chartDataArray.push({
@@ -72,6 +62,7 @@ export default function loadChartFitData(fitData) {
         Protein: np,
         Fat: nf,
         Carbs: nc,
+        Sugar: ns,
       });
     }
   });
@@ -92,30 +83,7 @@ export default function loadChartFitData(fitData) {
   return fitChartData;
 }
 
-function amount(item) {
-  return item.value;
-}
-
-function sum(prev, next) {
-  return prev + next;
-}
-
-function subtract(num1, num2) {
-  return num1 - num2;
-}
-
 function getLatestValue(arr, date) {
   const latest = arr.find((value) => value.date === parseInt(date));
   if (latest) return latest.value;
-}
-
-function returnArrayByDate(arr, days, includeToday) {
-  let subtractEnd = 1;
-  includeToday ? (subtractEnd = 0) : (subtractEnd = 1);
-  const start = startOfDay(moment().subtract(days, 'days'));
-  const end = startOfDay(moment().subtract(subtractEnd, 'days'));
-  const newArr = arr.filter((item) => {
-    return item.date >= start && item.date <= end;
-  });
-  return newArr;
 }
