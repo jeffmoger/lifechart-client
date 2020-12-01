@@ -12,8 +12,7 @@ import SleepChart from '../charts/SleepChart';
 import SymptomChart from '../charts/SymptomChart';
 import WeightChart from '../charts/WeightChart';
 
-import AverageCaloriesBurned from '../components/gadgets/AverageCaloriesBurned';
-import NetCalorieBurn from '../components/gadgets/NetCalorieBurn';
+import GadgetCalories from '../components/gadgets/GadgetCalories';
 
 import Loader from './Loader';
 import SpeedDial from './SpeedDial';
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     marginBottom: 20,
     paddingTop: 10,
-    paddingBottom: 20,
+    paddingBottom: 10,
     paddingLeft: 5,
     paddingRight: 5,
     background: () => (theme.palette.type === 'light' ? '#EEE' : '#424242'),
@@ -123,7 +122,6 @@ const HomeCharts = (props) => {
   const [weightChart, setWeightChart] = useState([]);
   const [symptomChart, setSymptomChart] = useState([]);
   const [symptomList, setSymptomList] = useState([]);
-  const [gadgets, setGadgets] = useState('');
   const [showItems, setShowItems] = useState(false);
 
   const [open, setOpen] = useState(false);
@@ -212,18 +210,10 @@ const HomeCharts = (props) => {
 
   useEffect(() => {
     if (fitChart) {
-      const {
-        calorieChart,
-        nutritionChart,
-        calorieScore,
-        netCalorieBurn,
-        stepCount,
-        activeMinutes,
-      } = fitChart;
+      const { calorieChart, nutritionChart } = fitChart;
       const [start, end] = dateRange;
       setCalorieChart(selectChartDataByRange(calorieChart, start, end));
       setNutritionChart(selectChartDataByRange(nutritionChart, start, end));
-      setGadgets({ calorieScore, netCalorieBurn, stepCount, activeMinutes });
     }
   }, [fitChart, dateRange]);
 
@@ -266,9 +256,6 @@ const HomeCharts = (props) => {
       setShowItems(true);
     }
   }, [itemChart, googleFit]);
-  useEffect(() => {
-    //console.log(gadgets);
-  }, [gadgets]);
 
   return (
     <Container maxWidth="md" component="div" className="homeCharts">
@@ -288,13 +275,32 @@ const HomeCharts = (props) => {
             <Paper component="div" className={classes.paper}>
               <CalorieChart data={calorieChart} palette={theme.palette} />
               <div className={classes.gadgetWrap}>
-                <AverageCaloriesBurned
-                  calorieScore={gadgets.calorieScore}
+                <GadgetCalories
+                  data={fitChart.calorieChart}
                   color={gadgetColor(theme.palette.type)}
+                  label="3 Day Average"
+                  goal={500}
+                  days={3}
+                  includeToday={false}
+                  type="average"
                 />
-                <NetCalorieBurn
-                  netCalorieBurn={gadgets.netCalorieBurn}
+                <GadgetCalories
+                  data={fitChart.calorieChart}
                   color={gadgetColor(theme.palette.type)}
+                  label="14 Day Average"
+                  goal={500}
+                  days={14}
+                  includeToday={false}
+                  type="average"
+                />
+                <GadgetCalories
+                  data={fitChart.calorieChart}
+                  color={gadgetColor(theme.palette.type)}
+                  label="14 Day Total"
+                  goal={500 * 14}
+                  days={14}
+                  includeToday={false}
+                  type="total"
                 />
               </div>
             </Paper>
