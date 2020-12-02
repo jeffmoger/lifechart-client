@@ -3,8 +3,9 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import {
   ResponsiveContainer,
-  BarChart,
+  ComposedChart,
   Bar,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -32,7 +33,7 @@ export default class NutritionChart extends PureComponent {
           Caloric Breakdown
         </Typography>
         <ResponsiveContainer>
-          <BarChart
+          <ComposedChart
             width={730}
             data={nutritionChart}
             syncId="anyId"
@@ -66,6 +67,15 @@ export default class NutritionChart extends PureComponent {
               //interval={0}
               domain={[0, (dataMax) => Math.round(dataMax / 100) * 100 + 200]}
             />
+            <YAxis
+              yAxisId="right"
+              stroke={styles.axisY}
+              axisLine={false}
+              tickLine={false}
+              orientation="right"
+              width={35}
+              mirror={true}
+            />
             <Bar
               dataKey="Protein"
               stackId="a"
@@ -80,7 +90,14 @@ export default class NutritionChart extends PureComponent {
               fill={theme.carbs}
               fillOpacity={0.6}
             />
-          </BarChart>
+            <Line
+              yAxisId="right"
+              type="monotone"
+              dataKey="Sugar"
+              stroke="#f5c73d"
+              dot={false}
+            />
+          </ComposedChart>
         </ResponsiveContainer>
       </div>
     );
