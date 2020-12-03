@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import { useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import CalorieChart from '../charts/CalorieChart';
@@ -11,12 +10,12 @@ import NutritionChart from '../charts/NutritionChart';
 import SleepChart from '../charts/SleepChart';
 import SymptomChart from '../charts/SymptomChart';
 import WeightChart from '../charts/WeightChart';
+import ChartWrap from '../charts/ChartWrap';
 
 import GadgetCalories from '../components/gadgets/GadgetCalories';
 
 import Loader from './Loader';
 import SpeedDial from './SpeedDial';
-import DisplayDateRange from './DisplayDateRange';
 
 import { getSymptomList, getProfile } from '../functions/apiCalls';
 import { startToday, getDateRangeString } from '../functions/dateFunctions';
@@ -29,24 +28,6 @@ import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import returnDateArray from '../functions/returnDateArray';
 
 const dateRangeLength = 15;
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginBottom: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 5,
-    paddingRight: 5,
-    background: () => (theme.palette.type === 'light' ? '#EEE' : '#424242'),
-  },
-  gadgetWrap: {
-    height: 100,
-    paddingTop: 15,
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-}));
 
 const gadgetColor = (theme) => {
   if (theme === 'dark') {
@@ -94,7 +75,6 @@ const HomeCharts = (props) => {
   } = props.authTokens;
   const { demo } = props;
   const theme = useTheme();
-  const classes = useStyles();
   const [dataSourceIds, setDataSourceIds] = useState([]);
   const [profile, setProfile] = useState('');
   const [fitChart, setFitChart] = useState('');
@@ -257,84 +237,77 @@ const HomeCharts = (props) => {
     }
   }, [itemChart, googleFit]);
 
+  const functionObj = {
+    dateRange,
+    previousDateRange,
+    nextDateRange,
+    nextDisabled: checkNextDisabled(dateRange),
+    previousDisabled: checkPreviousDisabled(fitChart, dateRange),
+  };
+
   return (
     <Container maxWidth="md" component="div" className="homeCharts">
       {showItems ? (
-        <div className={`${theme.type && theme.type + '-'}container`}>
-          <Paper component="div" className={classes.paper}>
-            <DisplayDateRange
-              dateRange={dateRange}
-              previousDateRange={previousDateRange}
-              nextDateRange={nextDateRange}
-              nextDisabled={checkNextDisabled(dateRange)}
-              previousDisabled={checkPreviousDisabled(fitChart, dateRange)}
-            />
-          </Paper>
-
+        <>
           {dataSourceIds.length > 0 && calorieChart.length > 0 && (
-            <Paper component="div" className={classes.paper}>
-              <CalorieChart data={calorieChart} palette={theme.palette} />
-              <div className={classes.gadgetWrap}>
+            <ChartWrap
+              title="Calories"
+              chart={
+                <CalorieChart data={calorieChart} palette={theme.palette} />
+              }
+              functions={functionObj}
+              gadgets={
                 <GadgetCalories
                   data={fitChart.calorieChart}
                   color={gadgetColor(theme.palette.type)}
-                  label="3 Day Average"
-                  goal={500}
-                  days={3}
-                  includeToday={false}
-                  type="average"
                 />
-                <GadgetCalories
-                  data={fitChart.calorieChart}
-                  color={gadgetColor(theme.palette.type)}
-                  label="14 Day Average"
-                  goal={500}
-                  days={14}
-                  includeToday={false}
-                  type="average"
-                />
-                <GadgetCalories
-                  data={fitChart.calorieChart}
-                  color={gadgetColor(theme.palette.type)}
-                  label="14 Day Total"
-                  goal={500 * 14}
-                  days={14}
-                  includeToday={false}
-                  type="total"
-                />
-              </div>
-            </Paper>
+              }
+            />
           )}
           {dataSourceIds.length > 0 && nutritionChart.length > 0 && (
-            <Paper component="div" className={classes.paper}>
-              <NutritionChart data={nutritionChart} palette={theme.palette} />
-            </Paper>
+            <ChartWrap
+              title="Caloric Breakdown"
+              chart={
+                <NutritionChart data={nutritionChart} palette={theme.palette} />
+              }
+              functions={functionObj}
+            />
           )}
           {moodChart.length > 0 && (
-            <Paper component="div" className={classes.paper}>
-              <MoodChart data={moodChart} palette={theme.palette} />
-            </Paper>
+            <ChartWrap
+              title="Mood"
+              chart={<MoodChart data={moodChart} palette={theme.palette} />}
+              functions={functionObj}
+            />
           )}
           {sleepChart.length > 0 && (
-            <Paper component="div" className={classes.paper}>
-              <SleepChart data={sleepChart} palette={theme.palette} />
-            </Paper>
+            <ChartWrap
+              title="Sleep"
+              chart={<SleepChart data={sleepChart} palette={theme.palette} />}
+              functions={functionObj}
+            />
           )}
           {symptomList.length > 0 && symptomChart.length > 0 && (
-            <Paper component="div" className={classes.paper}>
-              <SymptomChart
-                data={symptomChart}
-                symptoms={symptomList}
-                palette={theme.palette}
-              />
-            </Paper>
+            <ChartWrap
+              title="Symptoms"
+              chart={
+                <SymptomChart
+                  data={symptomChart}
+                  symptoms={symptomList}
+                  palette={theme.palette}
+                />
+              }
+              functions={functionObj}
+            />
           )}
           {weightChart.length > 0 && (
-            <Paper component="div" className={classes.paper}>
-              <WeightChart data={weightChart} palette={theme.palette} />
-            </Paper>
+            <ChartWrap
+              title="Weight"
+              chart={<WeightChart data={weightChart} palette={theme.palette} />}
+              functions={functionObj}
+            />
           )}
-        </div>
+        </>
       ) : (
         <Loader />
       )}
