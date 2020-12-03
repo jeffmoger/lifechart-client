@@ -1,9 +1,3 @@
-.chartContainer,
-.light-chartContainer,
-.dark-chartContainer {
-  height: 350px;
-}
-
 .light-chartContainer .recharts-default-tooltip {
   background-color: #999;
   opacity: 0.8;
