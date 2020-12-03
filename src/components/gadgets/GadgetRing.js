@@ -36,7 +36,7 @@ export default function GadgetRing(props) {
     hookUpdate(score);
   }, [hookUpdate, score]);
 
-  const size = 90;
+  const size = 100;
   const stroke = scoreColor(getPercent(score, goal));
   const labelSize = 8;
   const fontSize = 24;
