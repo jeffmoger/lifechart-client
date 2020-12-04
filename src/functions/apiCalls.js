@@ -46,6 +46,18 @@ export async function getProfile(token) {
   return response;
 }
 
+export async function removeProfile(token) {
+  const r = await fetch(`${process.env.REACT_APP_API}/api/users/delete`, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+      authorization: 'Token ' + token,
+    },
+  });
+  const response = await r.json();
+  return response;
+}
+
 export async function getDemoID() {
   const r = await fetch(`${process.env.REACT_APP_API}/api/demo/id`, {
     method: 'GET',
