@@ -17,6 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FormSubmitProfile from '../components/FormSubmitProfile';
 import FormSubmitGoals from '../components/FormSubmitGoals';
 import FormSubmitSymptoms from '../components/FormSubmitSymptoms';
+import DeleteAccount from '../components/DeleteAccount';
 import DataSourceId from '../components/DataSourceId';
 import { getProfile } from '../functions/apiCalls';
 import { useAuth } from '../context/auth';
@@ -37,6 +38,13 @@ const useStyles = makeStyles((theme) => ({
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
+  },
+  detailsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  deleteContainer: {
+    marginTop: 40,
   },
 }));
 
@@ -118,7 +126,12 @@ function Settings(props) {
           </AccordionSummary>
           <AccordionDetails>
             {profile ? (
-              <FormSubmitProfile id={id} token={token} profile={profile} />
+              <div className={classes.detailsContainer}>
+                <FormSubmitProfile id={id} token={token} profile={profile} />
+                <div className={classes.deleteContainer}>
+                  <DeleteAccount token={token} />
+                </div>
+              </div>
             ) : null}
           </AccordionDetails>
         </Accordion>
