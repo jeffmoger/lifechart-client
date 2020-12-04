@@ -78,7 +78,9 @@ export const getDataSourceId = async (token) => {
         authorization: 'Token ' + token,
       },
     });
-    return await res.json();
+    if (res.ok) {
+      return res.json();
+    }
   } catch (error) {
     console.log(error);
   }
@@ -118,3 +120,19 @@ export function saveProfile(token, body) {
     console.error(error);
   }
 }
+
+export async function google_login_url() {
+  try {
+    const r = await fetch(`${process.env.REACT_APP_API}/api/google_login_url`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+    const response = await r.json();
+    return response;
+  } catch (err) {
+    return console.log(err);
+  }
+}
+
