@@ -64,8 +64,7 @@ export default class MoodChart extends PureComponent {
             type="monotone"
             dataKey="Pleasantness"
             stroke={theme.mood}
-            dot={{ fill: theme.energy }}
-            activeDot={{ r: 8 }}
+            dot={false}
           />
         </LineChart>
       </ResponsiveContainer>
