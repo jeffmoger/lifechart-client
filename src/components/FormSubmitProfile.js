@@ -53,45 +53,47 @@ export default function FormSubmitProfile(props) {
     saveProfile(props.token, obj);
   }
   return (
-    <form
-      onSubmit={submitSaveProfile}
-      className={classes.formRoot}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField
-        id="first_name"
-        label="First Name"
-        value={input.first_name}
-        onChange={handleInputChange}
-      />
-      <TextField
-        id="family_name"
-        label="Last Name"
-        value={input.family_name}
-        onChange={handleInputChange}
-      />
-      <br />
-      <TextField
-        id="email"
-        label="Email"
-        value={input.email}
-        onChange={handleInputChange}
-      />
-      <br />
-      <TextField
-        id="weight"
-        label="Weight"
-        value={input.weight}
-        type="number"
-        step="0.1"
-        onChange={handleInputChange}
-      />
-      <div className={classes.buttonDiv}>
-        <Button variant="contained" color="primary" type="submit">
-          Submit
-        </Button>
-      </div>
-    </form>
+    <div>
+      <form
+        onSubmit={submitSaveProfile}
+        className={classes.formRoot}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          id="first_name"
+          label="First Name"
+          value={input.first_name}
+          onChange={handleInputChange}
+        />
+        <TextField
+          id="family_name"
+          label="Last Name"
+          value={input.family_name}
+          onChange={handleInputChange}
+        />
+        <br />
+        <TextField
+          id="email"
+          label="Email"
+          value={input.email}
+          onChange={handleInputChange}
+        />
+        <br />
+        <TextField
+          id="weight"
+          label="Weight"
+          value={input.weight}
+          type="number"
+          step="0.1"
+          onChange={handleInputChange}
+        />
+        <div className={classes.buttonDiv}>
+          <Button variant="contained" color="primary" type="submit">
+            Submit
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 }
