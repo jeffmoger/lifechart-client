@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { GoogleLoginButton } from '../components/GoogleLoginButton';
+import { fetchAuthentication, google_login_url } from '../functions/apiCalls';
 
 import { useAuth } from '../context/auth';
 
@@ -210,41 +211,5 @@ const Login = (props) => {
     return <Redirect to={'/settings'} />;
   }
 };
-
-async function fetchAuthentication(email, password) {
-  try {
-    const r = await fetch(`${process.env.REACT_APP_API}/api/users/login`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        user: {
-          email: email,
-          password: password,
-        },
-      }),
-    });
-    const response = await r.json();
-    return response;
-  } catch (err) {
-    return console.log(err);
-  }
-}
-
-async function google_login_url() {
-  try {
-    const r = await fetch(`${process.env.REACT_APP_API}/api/google_login_url`, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-      },
-    });
-    const response = await r.json();
-    return response;
-  } catch (err) {
-    return console.log(err);
-  }
-}
 
 export default Login;
