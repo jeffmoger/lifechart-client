@@ -26,6 +26,7 @@ export default function Auth(props) {
       getUser().then((response) => {
         setStatus(1);
         if (response.user) {
+          //console.log(response);
           setAuthTokens(response.user);
           setLoggedIn(true);
         }
@@ -62,6 +63,6 @@ async function google_login_auth(code) {
     );
     return await r.json();
   } catch (err) {
-    //console.log(err);
+    console.log(err);
   }
 }
