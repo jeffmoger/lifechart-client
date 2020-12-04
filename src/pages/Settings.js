@@ -167,17 +167,20 @@ function Settings(props) {
           </AccordionSummary>
           <AccordionDetails>
             <div className={classes.grid}>
-              <Switch
-                label={switchLabel}
-                color="primary"
-                name="googleSwitch"
-                googleSwitch={googleSwitch}
-                onSwitchChange={handleSwitchChange}
-              />
+              {!googleFit && (
+                <Switch
+                  label={switchLabel}
+                  color="primary"
+                  name="googleSwitch"
+                  googleSwitch={googleSwitch}
+                  onSwitchChange={handleSwitchChange}
+                />
+              )}
+
               {!googleFit && !googleCode && googleUrl && googleSwitch ? (
                 <GoogleCodeButton url={googleUrl} />
               ) : null}
-              {googleCode && !googleAuth ? <Redirect to="/settings" /> : null}
+
               {googleFit ? (
                 <DataSourceId
                   token={token}
