@@ -121,6 +121,8 @@ export default function DataEntry({
     //Temporarily to identify if using Demo
     let pathname = window.location.pathname;
     if (pathname === '/demo') {
+      setSnackMessage('Items will not be saved in Demo mode');
+      setSnackSeverity('info');
       setStatus(3);
     }
     if (pathname !== '/demo') {
