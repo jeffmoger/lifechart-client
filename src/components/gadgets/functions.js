@@ -1,5 +1,42 @@
 import moment from 'moment';
 
+export const createGadget = (data, days, includeToday, type, name) => {
+  switch (true) {
+    case name === 'calorieGadgets':
+      return createCalorieGadget(data, days, includeToday, type);
+    case name === 'sleepGadgets':
+      return createSleepGadget(data, days, includeToday, type);
+    default:
+      return null;
+  }
+};
+
+const createSleepGadget = (data, days, includeToday, type) => {
+  const arr = returnArrayByDate(data, days, includeToday);
+  const time = arr
+    .map((sleep) => {
+      if (sleep.Wake && sleep.Sleep) {
+        return sleep.Wake - sleep.Sleep;
+      } else {
+        return 0;
+      }
+    })
+    .filter((item) => item > 0);
+  const totalMinutes = time.reduce(sum) / time.length / 60;
+  const minutes = totalMinutes % 60;
+  const hours = (totalMinutes - minutes) / 60;
+  const scoreArr = [hours, Math.round(minutes)];
+  return totalMinutes;
+};
+
+const getTimeSlept = (value) => {
+  let [start, end] = value;
+  let totalMinutes = end - start;
+  let minutes = totalMinutes % 60;
+  let hours = (totalMinutes - minutes) / 60;
+  return `${hours} hrs, ${minutes} mins`;
+};
+
 const startOfDay = (date) => {
   const start = moment(date).startOf('day');
   return parseInt(moment(start).format('x'), 10);
@@ -7,11 +44,6 @@ const startOfDay = (date) => {
 
 function sumArray(array, days, includeToday) {
   return returnArrayByDate(array, days, includeToday).map(amount).reduce(sum);
-}
-
-function compareLength(arr1, arr2) {
-  if (arr1.length === arr2.length) return arr1.length;
-  return -1;
 }
 
 function returnArrayByDate(arr, days, includeToday) {
@@ -61,7 +93,7 @@ function getScore(minuend, subtrahend, days, includeToday, type) {
   }
 }
 
-export const createCalorieGadget = (data, days, includeToday, type) => {
+const createCalorieGadget = (data, days, includeToday, type) => {
   const { Burned, Consumed } = separateArrays(data, ['Burned', 'Consumed']);
   return getScore(Burned, Consumed, days, includeToday, type);
 };

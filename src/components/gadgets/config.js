@@ -1,4 +1,15 @@
-export const calorieGadgets = [
+export const gadgetConfig = (name) => {
+  switch (true) {
+    case name === 'calorieGadgets':
+      return calorieGadgets;
+    case name === 'sleepGadgets':
+      return sleepGadgets;
+    default:
+      return null;
+  }
+};
+
+const calorieGadgets = [
   {
     name: 'dailyAverage3',
     label: '3 Day Average',
@@ -6,6 +17,7 @@ export const calorieGadgets = [
     days: 3,
     includeToday: false,
     type: 'average',
+    active: true,
   },
   {
     name: 'dailyAverage14',
@@ -14,13 +26,67 @@ export const calorieGadgets = [
     days: 14,
     includeToday: false,
     type: 'average',
+    active: true,
   },
   {
     name: 'total14',
-    label: '14 Day Total',
-    goal: 7000,
-    days: 14,
+    label: '60 Day Average',
+    goal: 500,
+    days: 60,
+    includeToday: false,
+    type: 'average',
+    active: true,
+  },
+  {
+    name: 'total60',
+    label: '60 Day Total',
+    goal: 500 * 60,
+    days: 60,
     includeToday: false,
     type: 'total',
+    active: true,
+  },
+];
+
+const sleepGadgets = [
+  {
+    name: 'sleep3',
+    label: '3 Day Average',
+    goal: 480,
+    days: 3,
+    includeToday: false,
+    disableCountUp: true,
+    type: 'average',
+    active: true,
+  },
+  {
+    name: 'sleep14',
+    label: '14 Day Average',
+    goal: 480,
+    days: 14,
+    includeToday: false,
+    disableCountUp: true,
+    type: 'average',
+    active: true,
+  },
+  {
+    name: 'sleep60',
+    label: '60 Day Average',
+    goal: 480,
+    days: 60,
+    includeToday: false,
+    disableCountUp: true,
+    type: 'average',
+    active: true,
+  },
+  {
+    name: 'total60',
+    label: '60 Day Total',
+    goal: 500 * 60,
+    days: 60,
+    includeToday: false,
+    disableCountUp: true,
+    type: 'time_defict',
+    active: false,
   },
 ];
