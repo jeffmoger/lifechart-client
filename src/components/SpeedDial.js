@@ -39,9 +39,9 @@ const useStylesTooltip = makeStyles((theme) => ({
 }));
 
 const actions = [
+  { icon: <Icon icon={scaleBathroom} height={20} />, name: 'Weight' },
   { icon: <Icon icon={healthCross} height={20} />, name: 'Symptom' },
   { icon: <Icon icon={bellSleep} height={20} />, name: 'Sleep' },
-  { icon: <Icon icon={scaleBathroom} height={20} />, name: 'Weight' },
   { icon: <Icon icon={dramaMasks} height={20} />, name: 'Mood' },
 ];
 
