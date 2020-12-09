@@ -53,10 +53,6 @@ export default function DataEntrySymptom({
     setValues([symptom]);
   }, [symptom, setValues]);
 
-  useEffect(() => {
-    console.log(symptom);
-  }, [symptom]);
-
   return (
     <div>
       <DisplaySymptomSelect
