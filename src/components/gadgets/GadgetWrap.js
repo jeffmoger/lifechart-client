@@ -26,6 +26,7 @@ const GadgetWrap = (props) => {
             gadget.days,
             gadget.includeToday,
             gadget.type,
+            gadget.goal,
             name
           )
         )
@@ -40,11 +41,10 @@ const GadgetWrap = (props) => {
         ? gadgetList.map((gadget, index) => (
             <div key={gadget.name}>
               <GadgetDetails
-                score={score[index]}
-                goal={gadget.goal}
+                scoreArr={score[index]}
                 label={gadget.label}
                 days={gadget.days}
-                disableCountUp={gadget.disableCountUp}
+                name={name}
               />
             </div>
           ))

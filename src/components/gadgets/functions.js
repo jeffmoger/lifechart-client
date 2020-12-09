@@ -1,17 +1,22 @@
 import moment from 'moment';
 
-export const createGadget = (data, days, includeToday, type, name) => {
+export const createGadget = (data, days, includeToday, type, goal, name) => {
   switch (true) {
     case name === 'calorieGadgets':
-      return createCalorieGadget(data, days, includeToday, type);
+      return createCalorieGadget(data, days, includeToday, type, goal);
     case name === 'sleepGadgets':
-      return createSleepGadget(data, days, includeToday, type);
+      return createSleepGadget(data, days, includeToday, type, goal);
     default:
       return null;
   }
 };
 
-const createSleepGadget = (data, days, includeToday, type) => {
+const createCalorieGadget = (data, days, includeToday, type, goal) => {
+  const { Burned, Consumed } = separateArrays(data, ['Burned', 'Consumed']);
+  return [getScore(Burned, Consumed, days, includeToday, type), goal];
+};
+
+const createSleepGadget = (data, days, includeToday, type, goal) => {
   const arr = returnArrayByDate(data, days, includeToday);
   const time = arr
     .map((sleep) => {
@@ -22,19 +27,8 @@ const createSleepGadget = (data, days, includeToday, type) => {
       }
     })
     .filter((item) => item > 0);
-  const totalMinutes = time.reduce(sum) / time.length / 60;
-  const minutes = totalMinutes % 60;
-  const hours = (totalMinutes - minutes) / 60;
-  const scoreArr = [hours, Math.round(minutes)];
-  return totalMinutes;
-};
-
-const getTimeSlept = (value) => {
-  let [start, end] = value;
-  let totalMinutes = end - start;
-  let minutes = totalMinutes % 60;
-  let hours = (totalMinutes - minutes) / 60;
-  return `${hours} hrs, ${minutes} mins`;
+  if (type === 'average') return [time.reduce(sum) / time.length / 60, goal];
+  if (type === 'total') return [time.reduce(sum) / 60, goal * time.length];
 };
 
 const startOfDay = (date) => {
@@ -92,8 +86,3 @@ function getScore(minuend, subtrahend, days, includeToday, type) {
     if (type === 'average') return total / days;
   }
 }
-
-const createCalorieGadget = (data, days, includeToday, type) => {
-  const { Burned, Consumed } = separateArrays(data, ['Burned', 'Consumed']);
-  return getScore(Burned, Consumed, days, includeToday, type);
-};

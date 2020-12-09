@@ -31,21 +31,6 @@ const getPercent = (score, goal) => {
   return (score / goal) * 100;
 };
 
-const scoreColor = (score) => {
-  switch (true) {
-    case score >= 80:
-      return '#99eb47';
-    case score >= 40:
-      return '#e6e64c';
-    case score >= 0:
-      return '#eb9947';
-    case score < 0:
-      return '#eb4747';
-    default:
-      return '#7e78e2';
-  }
-};
-
 const gadgetColor = (theme) => {
   const themeType = theme.palette.type;
   return {
@@ -57,39 +42,58 @@ const gadgetColor = (theme) => {
 export default function GadgetDetails(props) {
   const theme = useTheme();
   const classes = useStyles();
-  const { score, goal, label, disableCountUp } = props;
+  const { scoreArr, label, name } = props;
+  const [score, goal] = scoreArr;
   const { countUp, update: hookUpdate } = useCountUp({
     end: score,
     duration: 1,
     delay: 0,
   });
   const [sleepTime, setSleepTime] = useState('');
+  const [scoreRange, setScoreRange] = useState({
+    green: 80,
+    yellow: 40,
+    orange: 0,
+    red: 0,
+  });
+
+  const scoreColor = (score) => {
+    switch (true) {
+      case score >= scoreRange.green:
+        return '#99eb47';
+      case score >= scoreRange.yellow:
+        return '#e6e64c';
+      case score >= scoreRange.orange:
+        return '#eb9947';
+      case score < scoreRange.red:
+        return '#eb4747';
+      default:
+        return '#7e78e2';
+    }
+  };
 
   useEffect(() => {
-    if (!disableCountUp) hookUpdate(score);
-  }, [disableCountUp, hookUpdate, score]);
+    if (name !== 'sleepGadgets') hookUpdate(score);
+  }, [name, hookUpdate, score]);
 
   useEffect(() => {
-    if (disableCountUp) {
+    if (name === 'sleepGadgets') {
+      setScoreRange({ green: 100, yellow: 90, orange: 85, red: 85 });
       const minutes = score % 60;
       const hours = (score - minutes) / 60;
       setSleepTime(`${hours}h ${Math.round(minutes)}m`);
     }
-  }, [disableCountUp, score]);
+  }, [name, score]);
 
   useEffect(() => {
-    if (disableCountUp) console.log(score);
-  }, [disableCountUp, score]);
+    if (name === 'sleepGadgets') console.log(score);
+  }, [name, score]);
 
   const size = 55;
   const stroke = scoreColor(getPercent(score, goal));
   const fontSize = 16;
   const strokeWidth = 2;
   const r = (size - strokeWidth * 2) / 2;
-  //const timeLabel = (days) => {
-  //  if (days === 1) return days + ' Day';
-  //  if (days > 1) return days + ' Days';
-  //};
   const colors = gadgetColor(theme);
 
   return (
@@ -105,7 +109,7 @@ export default function GadgetDetails(props) {
             fill={colors.countUp}
             fontSize={fontSize}
           >
-            {disableCountUp ? sleepTime : countUp}
+            {name === 'sleepGadgets' ? sleepTime : countUp}
           </text>
           <g>
             <circle
