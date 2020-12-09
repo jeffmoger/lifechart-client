@@ -54,7 +54,8 @@ function App() {
       createMuiTheme({
         palette: {
           primary: {
-            main: '#5D4E8C',
+            //main: '#5D4E8C',
+            main: '#7c6cac',
           },
           secondary: {
             main: '#82ca9d',
