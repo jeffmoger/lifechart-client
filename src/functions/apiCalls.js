@@ -135,4 +135,3 @@ export async function google_login_url() {
     return console.log(err);
   }
 }
-
