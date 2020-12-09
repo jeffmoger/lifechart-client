@@ -12,7 +12,7 @@ import SymptomChart from '../charts/SymptomChart';
 import WeightChart from '../charts/WeightChart';
 import ChartWrap from '../charts/ChartWrap';
 
-import GadgetCalories from '../components/gadgets/GadgetCalories';
+import GadgetWrap from './gadgets/GadgetWrap';
 
 import Loader from './Loader';
 import SpeedDial from './SpeedDial';
@@ -28,14 +28,6 @@ import moveDataFromGoogle from '../functions/moveDataFromGoogle';
 import returnDateArray from '../functions/returnDateArray';
 
 const dateRangeLength = 15;
-
-const gadgetColor = (theme) => {
-  if (theme === 'dark') {
-    return '#EEEEEE';
-  } else {
-    return '#444444';
-  }
-};
 
 function localStorageDefault(key, defaultValue) {
   const stickyData = localStorage.getItem(key);
@@ -237,6 +229,8 @@ const HomeCharts = (props) => {
     }
   }, [itemChart, googleFit]);
 
+  useEffect(() => console.log(sleepChart), [sleepChart]);
+
   const functionObj = {
     dateRange,
     previousDateRange,
@@ -257,9 +251,9 @@ const HomeCharts = (props) => {
               }
               functions={functionObj}
               gadgets={
-                <GadgetCalories
+                <GadgetWrap
                   data={fitChart.calorieChart}
-                  color={gadgetColor(theme.palette.type)}
+                  name="calorieGadgets"
                 />
               }
             />
@@ -285,6 +279,9 @@ const HomeCharts = (props) => {
               title="Sleep"
               chart={<SleepChart data={sleepChart} palette={theme.palette} />}
               functions={functionObj}
+              gadgets={
+                <GadgetWrap data={itemChart.sleepChart} name="sleepGadgets" />
+              }
             />
           )}
           {symptomList.length > 0 && symptomChart.length > 0 && (

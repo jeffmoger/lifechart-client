@@ -35,12 +35,9 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 10,
   },
   gadgetWrap: {
-    height: 100,
-    paddingTop: 15,
-    paddingBottom: 15,
     display: 'flex',
     justifyContent: 'space-evenly',
-    alignItems: 'center',
+    flexWrap: 'wrap',
   },
 }));
 
