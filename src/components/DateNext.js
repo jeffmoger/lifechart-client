@@ -9,7 +9,7 @@ export default function DateNext({ nextDateRange, nextDisabled }) {
   };
   return (
     <IconButton
-      color="inherit"
+      color="primary"
       aria-label="next"
       onClick={handleClickForward}
       disabled={nextDisabled}

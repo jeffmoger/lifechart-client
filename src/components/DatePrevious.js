@@ -9,7 +9,7 @@ export default function DatePrevious({ previousDateRange, previousDisabled }) {
   };
   return (
     <IconButton
-      color="inherit"
+      color="primary"
       aria-label="previous"
       onClick={handleClickBack}
       disabled={previousDisabled}
