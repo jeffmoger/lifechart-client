@@ -10,7 +10,7 @@
 .dark-chartContainer tspan {
   font-size: 0.75em;
   color: #666;
-  text-shadow: 1px 1px black;
+  text-shadow: 1px 1px #333;
 }
 
 .dark-chartContainer h2 {
