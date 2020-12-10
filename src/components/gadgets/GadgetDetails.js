@@ -89,10 +89,6 @@ export default function GadgetDetails(props) {
     }
   }, [name, score]);
 
-  useEffect(() => {
-    if (name === 'sleepGadgets') console.log(score);
-  }, [name, score]);
-
   const size = 55;
   const stroke = scoreColor(getPercent(score, goal));
   const fontSize = 16;

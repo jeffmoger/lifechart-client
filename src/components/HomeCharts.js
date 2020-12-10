@@ -229,7 +229,7 @@ const HomeCharts = (props) => {
     }
   }, [itemChart, googleFit]);
 
-  useEffect(() => console.log(sleepChart), [sleepChart]);
+  //useEffect(() => console.log(sleepChart), [sleepChart]);
 
   const functionObj = {
     dateRange,
