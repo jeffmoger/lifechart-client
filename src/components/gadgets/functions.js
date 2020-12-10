@@ -28,7 +28,7 @@ const createSleepGadget = (data, days, includeToday, type, goal) => {
     })
     .filter((item) => item > 0);
   if (type === 'average') return [time.reduce(sum) / time.length / 60, goal];
-  if (type === 'total') return [time.reduce(sum) / 60, goal * time.length];
+  if (type === 'total') return [time.reduce(sum) / 60 - goal * time.length, 0];
 };
 
 const startOfDay = (date) => {

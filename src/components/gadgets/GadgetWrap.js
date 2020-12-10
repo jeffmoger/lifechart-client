@@ -44,6 +44,7 @@ const GadgetWrap = (props) => {
                 scoreArr={score[index]}
                 label={gadget.label}
                 days={gadget.days}
+                type={gadget.type}
                 name={name}
               />
             </div>

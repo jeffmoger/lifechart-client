@@ -52,7 +52,7 @@ const sleepGadgets = [
   {
     name: 'sleep3',
     label: '3 Day Average',
-    goal: 510,
+    goal: 480,
     days: 3,
     includeToday: false,
     type: 'average',
@@ -61,7 +61,7 @@ const sleepGadgets = [
   {
     name: 'sleep14',
     label: '14 Day Average',
-    goal: 510,
+    goal: 480,
     days: 14,
     includeToday: false,
     type: 'average',
@@ -70,7 +70,7 @@ const sleepGadgets = [
   {
     name: 'sleep60',
     label: '60 Day Average',
-    goal: 510,
+    goal: 480,
     days: 60,
     includeToday: false,
     type: 'average',
@@ -78,9 +78,9 @@ const sleepGadgets = [
   },
   {
     name: 'total60',
-    label: '60 Day Total',
-    goal: 510,
-    days: 60,
+    label: '7 Day +/-',
+    goal: 480,
+    days: 7,
     includeToday: false,
     type: 'total',
     active: true,

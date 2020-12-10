@@ -28,7 +28,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const getPercent = (score, goal) => {
-  return (score / goal) * 100;
+  if (goal > 0) return (score / goal) * 100;
+  if (goal === 0) {
+    if (score >= 0) return 100;
+    return score;
+  }
 };
 
 const gadgetColor = (theme) => {
@@ -42,7 +46,7 @@ const gadgetColor = (theme) => {
 export default function GadgetDetails(props) {
   const theme = useTheme();
   const classes = useStyles();
-  const { scoreArr, label, name } = props;
+  const { scoreArr, label, type, name } = props;
   const [score, goal] = scoreArr;
   const { countUp, update: hookUpdate } = useCountUp({
     end: score,
@@ -79,8 +83,8 @@ export default function GadgetDetails(props) {
   useEffect(() => {
     if (name === 'sleepGadgets') {
       setScoreRange({ green: 100, yellow: 90, orange: 85, red: 85 });
-      const minutes = score % 60;
-      const hours = (score - minutes) / 60;
+      const minutes = Math.abs(score) % 60;
+      const hours = (Math.abs(score) - minutes) / 60;
       setSleepTime(`${hours}h ${Math.round(minutes)}m`);
     }
   }, [name, score]);
