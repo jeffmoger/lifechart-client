@@ -15,6 +15,7 @@ import MenuDesktop from './MenuDesktop';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    backgroundColor: '#5D4E8C',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -57,7 +58,7 @@ export default function ButtonAppBar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="transparent">
         <Container maxWidth="md">
           <Toolbar disableGutters>
             <Box display="flex" flexGrow={1}>
