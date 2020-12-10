@@ -58,33 +58,31 @@ export default function ButtonAppBar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" color="transparent">
-        <div className={classes.root}>
-          <Container maxWidth="md">
-            <Toolbar disableGutters>
-              <Box display="flex" flexGrow={1}>
-                {matches ? null : (
-                  <IconButton
-                    edge="start"
-                    className={classes.menuButton}
-                    color="inherit"
-                    aria-label="menu"
-                    onClick={toggleDrawer(anchor, true)}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                )}
+      <AppBar position="static" color="transparent">
+        <Container maxWidth="md">
+          <Toolbar disableGutters>
+            <Box display="flex" flexGrow={1}>
+              {matches ? null : (
+                <IconButton
+                  edge="start"
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="menu"
+                  onClick={toggleDrawer(anchor, true)}
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
 
-                <div className={classes.logo}>
-                  <Link to="/">
-                    <Logo logoProps={logoProps} />
-                  </Link>
-                </div>
-              </Box>
-              {matches && <MenuDesktop />}
-            </Toolbar>
-          </Container>
-        </div>
+              <div className={classes.logo}>
+                <Link to="/">
+                  <Logo logoProps={logoProps} />
+                </Link>
+              </div>
+            </Box>
+            {matches && <MenuDesktop />}
+          </Toolbar>
+        </Container>
       </AppBar>
       {matches ? null : (
         <SideDrawer
