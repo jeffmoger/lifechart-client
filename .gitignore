@@ -28,3 +28,5 @@ yarn-error.log*
 
 NOTES.js
 src/pages/about.txt
+
+public/images/screenshots
