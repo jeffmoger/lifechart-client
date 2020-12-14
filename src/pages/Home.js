@@ -12,10 +12,9 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    marginTop: -20,
-    marginBottom: -20,
     display: 'flex',
     alignItems: 'center',
+    marginTop: 20,
   },
   smart: {
     color: theme.palette.primary.light,
@@ -214,28 +213,23 @@ export default function Home(props) {
 
   return (
     <>
-      <header style={{ textAlign: 'left', backgroundColor: headColor }}>
-        <Container maxWidth="md" style={{ height: 30 }}>
-          {showText && <MenuHomepage />}
-        </Container>
+      <header style={{ backgroundColor: headColor }}>
         <Container maxWidth="md" className={classes.logo}>
           <div style={{ flexGrow: 1 }}>
             <Logo logoProps={logoProps(theme)} />
           </div>
-          <div style={{ width: 120, marginRight: 20 }}>
-            {signin && (
-              <Fade in={signin} timeout={1000}>
-                <Button
-                  component={Link}
-                  to="/login"
-                  className={classes.button}
-                  size="small"
-                >
-                  Sign In
-                </Button>
-              </Fade>
-            )}
-          </div>
+          {signin && (
+            <Fade in={signin} timeout={1000}>
+              <Button
+                component={Link}
+                to="/login"
+                className={classes.button}
+                size="small"
+              >
+                Sign In
+              </Button>
+            </Fade>
+          )}
         </Container>
         <div
           className={`homechart-${theme.palette.type}`}
