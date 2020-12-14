@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Logo from '../components/Logo';
 import Intro from '../components/Intro';
@@ -7,11 +8,17 @@ import MenuHomepage from '../components/MenuHomepage';
 import ChartForHomePage from '../charts/ChartForHomePage';
 import Typography from '@material-ui/core/Typography';
 import Fade from '@material-ui/core/Fade';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
     marginTop: -20,
     marginBottom: -20,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  smart: {
+    color: theme.palette.primary.light,
   },
   link: {
     color: () =>
@@ -24,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
   slogan: {
     marginBottom: 20,
     marginTop: 20,
-    //color: () => (theme.palette.type === 'light' ? '#5D4E8C' : '#8884d8'),
   },
   longtext: {
     height: 1000,
@@ -53,8 +59,8 @@ const logoProps = (theme) => {
   return {
     lifeFill,
     chartFill: '#82CA9D',
-    width: 390 / 1.8,
-    height: 120 / 1.8,
+    width: 390 / 2.1,
+    height: 120 / 2.1,
   };
 };
 
@@ -63,7 +69,10 @@ const chartProps = (theme) => {
   let fill;
   let stroke;
   type === 'light' ? (fill = '#dcdcdc') : (fill = '#303030');
-  type === 'light' ? (stroke = '#5D4E8C') : (stroke = '#8884d8');
+  //type === 'light' ? (stroke = '#5D4E8C') : (stroke = '#8884d8');
+  type === 'light'
+    ? (stroke = '#5D4E8C')
+    : (stroke = theme.palette.primary.light);
   return {
     stroke,
     fill,
@@ -99,6 +108,7 @@ export default function Home(props) {
   const [showText, setShowText] = useState(false);
   const [textFlag, setTextFlag] = useState(false);
   const [subtitle, setSubtitle] = useState(false);
+  const [signin, setSignin] = useState(false);
   const [headArr, setHeadArr] = useState(() => headProps(theme.palette.type));
   const [headColor, setHeadColor] = useState(() =>
     initHeadColor(theme.palette.type)
@@ -107,13 +117,36 @@ export default function Home(props) {
   useEffect(() => {
     setHeadColor(initHeadColor(theme.palette.type));
     setHeadArr(headProps(theme.palette.type));
+    setTextFlag(true);
   }, [theme.palette.type]);
+  useEffect(() => {
+    if (textFlag) {
+      const timer = setTimeout(() => {
+        setSubtitle(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [textFlag]);
+  useEffect(() => {
+    if (subtitle) {
+      const timer = setTimeout(() => {
+        setShowText(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [subtitle]);
+  useEffect(() => {
+    if (showText) {
+      const timer = setTimeout(() => {
+        setSignin(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [showText]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setData(generateData(2, 10));
-      setSubtitle(true);
-      setTextFlag(true);
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -121,8 +154,6 @@ export default function Home(props) {
   useEffect(() => {
     if (textFlag) {
       const timer = setTimeout(() => {
-        setShowText(true);
-
         const sleep = (milliseconds) => {
           return new Promise((resolve) => setTimeout(resolve, milliseconds));
         };
@@ -165,7 +196,6 @@ export default function Home(props) {
               setHeadColor(newRGB);
             }
           }
-          //console.log(`newRGB: ${newRGB}`);
         };
         fadeIn();
       }, 1000);
@@ -189,9 +219,24 @@ export default function Home(props) {
           {showText && <MenuHomepage />}
         </Container>
         <Container maxWidth="md" className={classes.logo}>
-          <Logo logoProps={logoProps(theme)} />
+          <div style={{ flexGrow: 1 }}>
+            <Logo logoProps={logoProps(theme)} />
+          </div>
+          <div style={{ width: 120, marginRight: 20 }}>
+            {signin && (
+              <Fade in={signin} timeout={1000}>
+                <Button
+                  component={Link}
+                  to="/login"
+                  className={classes.button}
+                  size="small"
+                >
+                  Sign In
+                </Button>
+              </Fade>
+            )}
+          </div>
         </Container>
-
         <div
           className={`homechart-${theme.palette.type}`}
           style={{ backgroundColor: headColor }}
@@ -202,7 +247,7 @@ export default function Home(props) {
 
       <main className={`homechart-${theme.palette.type}`}>
         <Container maxWidth="md">
-          <Fade in={subtitle} timeout={2000}>
+          <Fade in={subtitle} timeout={1000}>
             <Typography
               variant="h5"
               component="h2"
@@ -210,11 +255,16 @@ export default function Home(props) {
               className={classes.slogan}
               align="left"
             >
-              The smart way to chart your health and fitness data
+              The <span className={classes.smart}>smart</span> way to chart your
+              health and fitness data
             </Typography>
           </Fade>
+        </Container>
+        <Container maxWidth={false} disableGutters>
           {showText ? (
-            <Intro toggleTheme={props.toggleTheme} fade={true} />
+            <>
+              <Intro toggleTheme={props.toggleTheme} fade={true} />
+            </>
           ) : (
             <div className={classes.longtext} />
           )}

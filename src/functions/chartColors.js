@@ -12,8 +12,8 @@ export const chartColors = (palette) => {
       carbs: 'hsl(143, 49%, 85%)',
       toolTip: {
         cursor: {
-          fill: '#333',
-          stroke: '#222',
+          fill: '#333333',
+          stroke: '#222222',
           strokeWidth: 0,
         },
       },
@@ -35,8 +35,8 @@ export const chartColors = (palette) => {
       sleep: 'rgb(152, 141, 255)',
       toolTip: {
         cursor: {
-          fill: '#333',
-          stroke: '#222',
+          fill: '#333333',
+          stroke: '#222222',
           strokeWidth: 0,
         },
       },
