@@ -75,10 +75,13 @@ export default function Intro(props) {
           you feel.
         </Typography>
         <Typography variant="body1" className={classes.p}>
-          With intuitive data entry, custom chart creation and rich data
-          visualizations, LifeChart can help you identify patterns and
-          connections, offer actionable insight, and encourage a more holistic
-          understanding of your overall well being.
+          With intuitive data entry, custom chart creation and{' '}
+          <Link to="/demo" className={classes.link}>
+            rich data visualizations
+          </Link>
+          , LifeChart can help you identify patterns and connections, offer
+          actionable insight, and encourage a more holistic understanding of
+          your overall well being.
         </Typography>
         <Typography variant="h5" component="h2" className={classes.slogan}>
           How does it work?
