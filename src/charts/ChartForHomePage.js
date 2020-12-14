@@ -22,7 +22,7 @@ export default class ChartForHomePage extends PureComponent {
             type="monotone"
             dataKey="a"
             stroke={stroke}
-            strokeWidth="3"
+            strokeWidth="2"
             dot={false}
             fillOpacity={1}
             fill="url(#a)"
