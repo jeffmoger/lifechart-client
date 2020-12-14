@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import { useAuth } from '../context/auth';
 
 const useStyles = makeStyles((theme) => ({
@@ -8,14 +9,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-  },
-  div: {
-    marginRight: 20,
-  },
-  link: {
-    color: '#FFFFFF',
-    textDecoration: 'none',
-    fontSize: '90%',
   },
 }));
 
@@ -35,41 +28,32 @@ export default function MenuDesktop(props) {
   const MenuAuth = () => {
     return (
       <>
-        <div className={classes.div}>
-          <Link to="/charts" className={classes.link}>
-            My Charts
-          </Link>
-        </div>
-        <div className={classes.div}>
-          <Link to="/settings" className={classes.link}>
-            Settings
-          </Link>
-        </div>
-        <div className={classes.div}>
-          <Link
-            to="/login"
-            className={classes.link}
-            onClick={isAuthenticated.authTokens ? logOut : null}
-          >
-            Logout
-          </Link>
-        </div>
+        <Button component={Link} to="/charts" size="small">
+          My Charts
+        </Button>
+        <Button component={Link} to="/settings" size="small">
+          Settings
+        </Button>
+        <Button
+          component={Link}
+          to="/login"
+          onClick={isAuthenticated.authTokens ? logOut : null}
+          size="small"
+        >
+          Logout
+        </Button>
       </>
     );
   };
   const MenuNoAuth = () => {
     return (
       <>
-        <div className={classes.div}>
-          <Link to="/demo" className={classes.link}>
-            Demo
-          </Link>
-        </div>
-        <div className={classes.div}>
-          <Link to="/login" className={classes.link}>
-            Login
-          </Link>
-        </div>
+        <Button component={Link} to="/demo" size="small">
+          Demo
+        </Button>
+        <Button component={Link} to="/login" size="small">
+          Login
+        </Button>
       </>
     );
   };
