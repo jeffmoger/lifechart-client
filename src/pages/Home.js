@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     marginTop: 20,
+    marginBottom: -15,
   },
   smart: {
     color: theme.palette.primary.light,
