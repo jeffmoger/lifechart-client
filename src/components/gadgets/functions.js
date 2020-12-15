@@ -38,7 +38,9 @@ const startOfDay = (date) => {
 };
 
 function sumArray(array, days, includeToday) {
-  return returnArrayByDate(array, days, includeToday).map(amount).reduce(sum);
+  return returnArrayByDate(array, days, includeToday)
+    .map(amount)
+    .reduce(sum, 0);
 }
 
 function returnArrayByDate(arr, days, includeToday) {
