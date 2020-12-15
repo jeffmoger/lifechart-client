@@ -82,7 +82,6 @@ export default function GadgetDetails(props) {
 
   useEffect(() => {
     if (name === 'sleepGadgets') {
-      console.log(score);
       if (isNaN(score)) {
         setSleepTime('N/A');
       } else {
