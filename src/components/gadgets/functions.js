@@ -54,17 +54,9 @@ function returnArrayByDate(arr, days, includeToday) {
   return newArr;
 }
 
-function amount(item) {
-  return item.value;
-}
-
-function sum(prev, next) {
-  return prev + next;
-}
-
-function subtract(num1, num2) {
-  return num1 - num2;
-}
+export const amount = (item) => item.value;
+export const sum = (prev, next) => prev + next;
+export const subtract = (num1, num2) => num1 - num2;
 
 function separateArrays(data, properties = []) {
   const obj = {};
