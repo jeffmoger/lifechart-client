@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 
 import Button from '@material-ui/core/Button';

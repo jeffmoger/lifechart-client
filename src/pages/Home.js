@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Logo from '../components/Logo';
 import Intro from '../components/Intro';
-import MenuHomepage from '../components/MenuHomepage';
 import ChartForHomePage from '../charts/ChartForHomePage';
 import Typography from '@material-ui/core/Typography';
 import Fade from '@material-ui/core/Fade';
