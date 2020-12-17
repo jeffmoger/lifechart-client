@@ -15,6 +15,30 @@ const useStyles = makeStyles((theme) => ({
     float: 'right',
     margin: 20,
     marginTop: 4,
+    width: 365,
+    padding: 10,
+  },
+  scroll: {
+    width: 368,
+    height: 550,
+    overflowX: 'hidden',
+    overflowY: 'scroll',
+    scrollbarWidth: 'thin',
+    scrollbarColor: `${theme.palette.primary.main} rgba(0,0,0,0.00)`,
+    '&::-webkit-scrollbar': {
+      width: '0.5em',
+    },
+    '&::-webkit-scrollbar-track': {
+      borderRadius: 4,
+      marginLeft: 10,
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.palette.primary.main,
+      borderRadius: 4,
+    },
+    '&::-webkit-scrollbar-thumb:hover': {
+      backgroundColor: theme.palette.primary.light,
+    },
   },
   paper: {
     padding: 20,
@@ -83,7 +107,19 @@ export default function Intro(props) {
           actionable insight, and encourage a more holistic understanding of
           your overall well being.
         </Typography>
-        <Typography variant="h5" component="h2" className={classes.slogan}>
+        <Paper className={classes.screenshots}>
+          <div className={classes.scroll}>
+            <div className={classes.img}>
+              <img src="/images/full_length.png" alt="ss" />
+            </div>
+          </div>
+        </Paper>
+        <Typography
+          variant="h5"
+          component="h2"
+          width="345px"
+          className={classes.slogan}
+        >
           How does it work?
         </Typography>
         <Typography variant="body1" className={classes.p}>
