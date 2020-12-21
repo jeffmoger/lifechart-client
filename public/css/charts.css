@@ -70,13 +70,25 @@ p.calorieScore {
 main.terms,
 main.privacy,
 main.about {
-  font-size: 1.3em;
+  font-size: 1.1em;
+}
+
+main.terms h2,
+main.privacy h2,
+main.about h2 {
+  font-weight: 500;
+}
+main.terms h3,
+main.privacy h3,
+main.about h3 {
+  font-weight: 500;
 }
 
 main.terms p,
 main.privacy p,
 main.about p {
   line-height: 160%;
+  font-weight: 400;
 }
 main.terms ul,
 main.privacy ul,
@@ -86,7 +98,8 @@ main.about ul {
 main.terms .short,
 main.privacy .short,
 main.about .short {
-  font-weight: bold;
+  font-weight: 400;
+  color: #8884d8;
 }
 
 html,
