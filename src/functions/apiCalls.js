@@ -78,7 +78,6 @@ export const getDataSourceId = async (token) => {
         authorization: 'Token ' + token,
       },
     });
-    console.log(res);
     if (res.ok) {
       return res.json();
     }

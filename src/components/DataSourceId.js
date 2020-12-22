@@ -51,7 +51,6 @@ export default function DataSourceId(props) {
 
   useEffect(() => {
     getDataSourceId(token).then((result) => {
-      console.log(result);
       if (result) setDataSources(result);
       if (!result) setNewAuth(true);
     });
