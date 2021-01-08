@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const getPercent = (score, goal) => {
   if (goal > 0) return (score / goal) * 100;
   if (goal === 0) {
-    if (score >= 0) return 100;
+    if (score > 0) return 100;
     return score;
   }
 };
@@ -72,7 +72,7 @@ export default function GadgetDetails(props) {
       case score < scoreRange.red:
         return '#eb4747';
       default:
-        return '#7e78e2';
+        return '#adadad';
     }
   };
 
@@ -92,6 +92,14 @@ export default function GadgetDetails(props) {
       }
     }
   }, [name, score]);
+
+  useEffect(() => {
+    if (name === 'sleepGadgets') {
+      console.log(`score : ${score}`);
+      console.log(`goal : ${goal}`);
+      console.log(getPercent(score, goal));
+    }
+  }, [name, score, goal]);
 
   const size = 55;
   const stroke = scoreColor(getPercent(score, goal));
